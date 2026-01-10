@@ -97,52 +97,52 @@ Landing Page → CTA Click → Pay-Intent Modal → Commitment Form → Confirma
 
 #### Hero Section
 
-- [ ] Headline: "Get more Tinder matches by fixing your profile — without changing who you are"
-- [ ] Subheadline: "A one-off Tinder profile optimization for men who already look 'fine' but get inconsistent results."
-- [ ] Primary CTA button: "Optimize my profile" with $29 price visible
-- [ ] Micro-copy below CTA: "Takes 5 minutes · One-time payment · Results in 24–48h"
+- [x] Headline: "Get more Tinder matches by fixing your profile — without changing who you are"
+- [x] Subheadline: "A one-off Tinder profile optimization for men who already look 'fine' but get inconsistent results."
+- [x] Primary CTA button: "Optimize my profile" with $29 price visible
+- [x] Micro-copy below CTA: "Takes 5 minutes · One-time payment · Results in 24–48h"
 
 #### Problem Section
 
-- [ ] Section headline: "Your profile isn't bad. It just doesn't convert."
-- [ ] Bullet points:
-  - [ ] "Some matches, but inconsistent"
-  - [ ] "Unsure which photos help or hurt"
-  - [ ] "Bio doesn't start conversations"
-  - [ ] "Generic advice hasn't helped"
+- [x] Section headline: "Your profile isn't bad. It just doesn't convert."
+- [x] Bullet points:
+  - [x] "Some matches, but inconsistent"
+  - [x] "Unsure which photos help or hurt"
+  - [x] "Bio doesn't start conversations"
+  - [x] "Generic advice hasn't helped"
 
 #### What You Get Section
 
-- [ ] Section headline: "What You Get"
-- [ ] Deliverables list:
-  - [ ] Photo ranking (keep / replace / remove)
-  - [ ] Best 3–4 photos selected
-  - [ ] Rewritten bio
-  - [ ] Improved prompts
-  - [ ] Goal-based optimization
+- [x] Section headline: "What You Get"
+- [x] Deliverables list:
+  - [x] Photo ranking (keep / replace / remove)
+  - [x] Best 3–4 photos selected
+  - [x] Rewritten bio
+  - [x] Improved prompts
+  - [x] Goal-based optimization
 
 #### How It Works Section
 
-- [ ] Section headline: "How It Works"
-- [ ] 3-step process:
-  - [ ] Step 1: "Upload your Tinder profile"
-  - [ ] Step 2: "Choose your dating goal"
-  - [ ] Step 3: "Receive optimization in 24–48h"
+- [x] Section headline: "How It Works"
+- [x] 3-step process:
+  - [x] Step 1: "Upload your Tinder profile"
+  - [x] Step 2: "Choose your dating goal"
+  - [x] Step 3: "Receive optimization in 24–48h"
 
 #### Pricing Section
 
-- [ ] Display price prominently: "$29"
-- [ ] Label: "One-time profile optimization"
-- [ ] Secondary CTA button (same as hero)
+- [x] Display price prominently: "$29"
+- [x] Label: "One-time profile optimization"
+- [x] Secondary CTA button (same as hero)
 
 ### 3.2 Design Requirements
 
-- [ ] Single-page layout (no navigation)
-- [ ] Mobile-first responsive design
-- [ ] Page load < 2 seconds on mobile
-- [ ] Clean, minimal aesthetic
-- [ ] High contrast CTA buttons
-- [ ] No stock photos or fake testimonials
+- [x] Single-page layout (no navigation)
+- [x] Mobile-first responsive design
+- [x] Page load < 2 seconds on mobile
+- [x] Clean, minimal aesthetic
+- [x] High contrast CTA buttons
+- [x] No stock photos or fake testimonials
 
 ---
 
@@ -150,55 +150,55 @@ Landing Page → CTA Click → Pay-Intent Modal → Commitment Form → Confirma
 
 ### 4.1 Modal Trigger
 
-- [ ] Opens on CTA button click
-- [ ] Modal overlay (darkened background)
-- [ ] Click outside or X button to close
-- [ ] Prevent body scroll when open
+- [x] Opens on CTA button click
+- [x] Modal overlay (darkened background)
+- [x] Click outside or X button to close
+- [x] Prevent body scroll when open
 
 ### 4.2 Pay-Intent Screen (Step 1 of Modal)
 
 **Content:**
 
-- [ ] Headline: "Early access — payment not collected yet"
-- [ ] Body text:
+- [x] Headline: "Early access — payment not collected yet"
+- [x] Body text:
   - "One-off Tinder profile optimization"
   - "Price: $29"
   - "Delivery: ~3 weeks"
-- [ ] Primary button: "Yes, I intend to pay $29"
-- [ ] Secondary button: "No, not interested"
+- [x] Primary button: "Yes, I intend to pay $29"
+- [x] Secondary button: "No, not interested"
 
 **Behavior:**
 
-- [ ] "Yes" button → advance to Commitment Form
-- [ ] "No" button → close modal, no data stored
-- [ ] Track button clicks as analytics events
+- [x] "Yes" button → advance to Commitment Form
+- [x] "No" button → close modal, no data stored
+- [x] Track button clicks as analytics events
 
 ### 4.3 Commitment Form (Step 2 of Modal)
 
 **Required Fields:**
 
-- [ ] Email address input
-  - [ ] Email format validation
-  - [ ] Required field
-- [ ] Checkbox: "I'm willing to pay $29 for a one-off Tinder profile optimization when available."
-  - [ ] Required (must be checked to submit)
-- [ ] Free-text textarea: "What's the main thing not working in your Tinder profile right now?"
-  - [ ] Required field
-  - [ ] Minimum 10 characters
+- [x] Email address input
+  - [x] Email format validation
+  - [x] Required field
+- [x] Checkbox: "I'm willing to pay $29 for a one-off Tinder profile optimization when available."
+  - [x] Required (must be checked to submit)
+- [x] Free-text textarea: "What's the main thing not working in your Tinder profile right now?"
+  - [x] Required field
+  - [x] Minimum 10 characters
 
 **Submit Button:**
 
-- [ ] Disabled until all fields valid
-- [ ] Loading state during submission
-- [ ] Error handling for failed submissions
+- [x] Disabled until all fields valid
+- [x] Loading state during submission
+- [x] Error handling for failed submissions
 
 ### 4.4 Confirmation Screen (Step 3 of Modal)
 
 **Content:**
 
-- [ ] Headline: "You're on the list"
-- [ ] Body: "You're on the early access list. If we move forward, you'll hear from us first. If not, nothing happens."
-- [ ] Close button or auto-close after 5 seconds
+- [x] Headline: "You're on the list"
+- [x] Body: "You're on the early access list. If we move forward, you'll hear from us first. If not, nothing happens."
+- [x] Close button or auto-close after 5 seconds
 
 ---
 
@@ -293,31 +293,31 @@ page_view → cta_click → intent_yes → form_submit
 
 ### Phase 1: Project Setup
 
-- [ ] Initialize Next.js project with Tailwind
-- [ ] Set up project structure
-- [ ] Configure environment variables
-- [ ] Set up SQLite or Supabase connection
+- [x] Initialize Next.js project with Tailwind
+- [x] Set up project structure
+- [x] Configure environment variables
+- [x] Set up SQLite or Supabase connection
 
 ### Phase 2: Landing Page
 
-- [ ] Create page layout component
-- [ ] Build Hero section with CTA
-- [ ] Build Problem section
-- [ ] Build What You Get section
-- [ ] Build How It Works section
-- [ ] Build Pricing section
-- [ ] Add responsive styles
-- [ ] Test on mobile devices
+- [x] Create page layout component
+- [x] Build Hero section with CTA
+- [x] Build Problem section
+- [x] Build What You Get section
+- [x] Build How It Works section
+- [x] Build Pricing section
+- [x] Add responsive styles
+- [x] Test on mobile devices
 
 ### Phase 3: Modal Component
 
-- [ ] Create modal wrapper component
-- [ ] Build Pay-Intent screen
-- [ ] Build Commitment Form screen
-- [ ] Build Confirmation screen
-- [ ] Add step transitions/animations
-- [ ] Handle modal open/close states
-- [ ] Prevent body scroll when open
+- [x] Create modal wrapper component
+- [x] Build Pay-Intent screen
+- [x] Build Commitment Form screen
+- [x] Build Confirmation screen
+- [x] Add step transitions/animations
+- [x] Handle modal open/close states
+- [x] Prevent body scroll when open
 
 ### Phase 4: Form & Data
 
@@ -350,11 +350,11 @@ page_view → cta_click → intent_yes → form_submit
 
 Per modal_requirements.pdf:
 
-- [ ] **No fake UI** — No fake payment forms or Stripe-like interfaces
-- [ ] **No discounts** — Price is $29, no promotional pricing
-- [ ] **No "waitlist" language** — Use "early access" instead
-- [ ] **No extra steps** — Keep flow minimal (3 steps max in modal)
-- [ ] **Transparent messaging** — Always clear that payment isn't collected yet
+- [x] **No fake UI** — No fake payment forms or Stripe-like interfaces
+- [x] **No discounts** — Price is $29, no promotional pricing
+- [x] **No "waitlist" language** — Use "early access" instead
+- [x] **No extra steps** — Keep flow minimal (3 steps max in modal)
+- [x] **Transparent messaging** — Always clear that payment isn't collected yet
 
 ---
 
