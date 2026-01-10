@@ -248,8 +248,8 @@ Use **SQLite** (file-based, zero cost, no external dependencies) or **Supabase f
 
 ### 6.2 Analytics Tool
 
-- [ ] PostHog (free tier sufficient)
-- [ ] Or simple custom event logging to database
+- [x] PostHog (free tier sufficient)
+- [x] Or simple custom event logging to database
 
 ### 6.3 Funnel Visualization
 
@@ -329,12 +329,12 @@ page_view → cta_click → intent_yes → form_submit
 
 ### Phase 5: Analytics
 
-- [ ] Install PostHog or custom tracking
-- [ ] Add page view tracking
-- [ ] Add CTA click tracking
-- [ ] Add intent button tracking
-- [ ] Add form submission tracking
-- [ ] Verify events in dashboard
+- [x] Install PostHog or custom tracking
+- [x] Add page view tracking
+- [x] Add CTA click tracking
+- [x] Add intent button tracking
+- [x] Add form submission tracking
+- [x] Verify events in dashboard
 
 ### Phase 6: Deploy & Test
 

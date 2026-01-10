@@ -26,6 +26,15 @@ function initializeSchema(database: Database.Database): void {
       created_at TEXT NOT NULL DEFAULT (datetime('now'))
     )
   `)
+
+  database.exec(`
+    CREATE TABLE IF NOT EXISTS analytics_events (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      event_name TEXT NOT NULL,
+      source TEXT,
+      created_at TEXT NOT NULL DEFAULT (datetime('now'))
+    )
+  `)
 }
 
 export interface Lead {
@@ -62,4 +71,31 @@ export function insertLead(lead: Lead): { success: boolean; id?: number } {
     success: true,
     id: result.lastInsertRowid as number,
   }
+}
+
+export type AnalyticsEvent =
+  | 'page_view'
+  | 'cta_click'
+  | 'intent_yes'
+  | 'intent_no'
+  | 'form_submit'
+  | 'form_error'
+
+export function trackEvent(
+  eventName: AnalyticsEvent,
+  source?: string | null,
+): { success: boolean } {
+  const database = getDb()
+
+  const stmt = database.prepare(`
+    INSERT INTO analytics_events (event_name, source)
+    VALUES (@event_name, @source)
+  `)
+
+  stmt.run({
+    event_name: eventName,
+    source: source ?? null,
+  })
+
+  return { success: true }
 }

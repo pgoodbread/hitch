@@ -5,6 +5,7 @@ import { useState } from 'react'
 import { Button } from '@/components/Button'
 import { Container } from '@/components/Container'
 import { OptimizeModal } from '@/components/OptimizeModal'
+import { track } from '@/lib/analytics'
 
 export function Hero() {
   const [isModalOpen, setIsModalOpen] = useState(false)
@@ -32,7 +33,12 @@ export function Hero() {
           without changing who they are.
         </p>
         <div className="mt-10 flex justify-center gap-x-6">
-          <Button onClick={() => setIsModalOpen(true)}>
+          <Button
+            onClick={() => {
+              track('cta_click')
+              setIsModalOpen(true)
+            }}
+          >
             Optimize my profile
           </Button>
         </div>

@@ -10,6 +10,7 @@ import {
 } from '@headlessui/react'
 
 import { Button } from '@/components/Button'
+import { track } from '@/lib/analytics'
 
 type ModalStep = 'intent' | 'form' | 'confirmation'
 
@@ -50,10 +51,12 @@ export function OptimizeModal({
   }
 
   function handleIntentYes() {
+    track('intent_yes')
     setStep('form')
   }
 
   function handleIntentNo() {
+    track('intent_no')
     handleClose()
   }
 
@@ -79,8 +82,10 @@ export function OptimizeModal({
         throw new Error('Failed to submit')
       }
 
+      track('form_submit')
       setStep('confirmation')
     } catch {
+      track('form_error')
       setError('Something went wrong. Please try again.')
     } finally {
       setIsSubmitting(false)

@@ -5,6 +5,7 @@ import { useState } from 'react'
 import { Button } from '@/components/Button'
 import { Container } from '@/components/Container'
 import { OptimizeModal } from '@/components/OptimizeModal'
+import { track } from '@/lib/analytics'
 
 function CheckIcon({ className }: { className?: string }) {
   return (
@@ -79,7 +80,10 @@ export function Pricing() {
                 ))}
               </ul>
               <Button
-                onClick={() => setIsModalOpen(true)}
+                onClick={() => {
+                  track('cta_click')
+                  setIsModalOpen(true)
+                }}
                 color="white"
                 className="mt-8 w-full"
               >

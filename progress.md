@@ -38,7 +38,22 @@
   - All 8 tests pass (7 new + 1 existing example test)
   - Phase 4 is now complete
 
+### 2026-01-10: Add analytics tracking (Phase 5)
+
+- **Commit:** `a89066f`
+- **What was done:**
+  - Added `analytics_events` table to SQLite database in `src/lib/db.ts`
+  - Created `trackEvent()` function for server-side event logging
+  - Created `src/lib/analytics.ts` with client-side `track()` function
+  - Created `/api/analytics` POST endpoint for event tracking
+  - Added tracking to OptimizeModal: `intent_yes`, `intent_no`, `form_submit`, `form_error` events
+  - Added `cta_click` tracking to Hero and Pricing components
+  - Created `PageViewTracker` component for `page_view` tracking on landing page
+  - All events capture UTM source parameter when present
+  - Created `src/test/analytics.test.ts` with tests for analytics database operations
+  - All 11 tests pass (3 new analytics tests + 8 existing)
+  - Phase 5 is now complete
+
 ## Next Tasks
 
-- Phase 5: Add analytics tracking
 - Phase 6: Deploy and test
