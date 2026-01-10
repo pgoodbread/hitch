@@ -28,8 +28,17 @@
   - Created `/data` directory for SQLite storage with .gitkeep
   - Updated .gitignore to exclude database files (_.db, _.db-wal, \*.db-shm)
 
+### 2026-01-10: Add form submission flow tests
+
+- **Commit:** `7d59963`
+- **What was done:**
+  - Created `src/test/leads.test.ts` with comprehensive tests for the form submission flow
+  - Tests cover database layer: insert new lead, upsert on duplicate email, willing_to_pay storage, null source handling
+  - Tests cover API validation: email format validation, main_problem minimum length requirement
+  - All 8 tests pass (7 new + 1 existing example test)
+  - Phase 4 is now complete
+
 ## Next Tasks
 
-- Phase 4: Test form submission flow (end-to-end)
 - Phase 5: Add analytics tracking
 - Phase 6: Deploy and test
