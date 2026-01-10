@@ -15,8 +15,21 @@
   - Form submits to `/api/leads` endpoint (not yet created)
   - Added close button (X) to modal
 
+### 2026-01-10: Create /api/leads API route and database setup
+
+- **Commit:** `9bf87c0`
+- **What was done:**
+  - Created `src/lib/db.ts` with SQLite database module using better-sqlite3
+  - Implemented `leads` table schema matching PRD spec (id, email, willing_to_pay, price_shown, main_problem, source, created_at)
+  - Added `insertLead()` function with email deduplication via upsert (ON CONFLICT UPDATE)
+  - Created `src/app/api/leads/route.ts` POST endpoint
+  - Added request validation (email format, required fields, minimum 10 chars for main_problem)
+  - Normalizes email to lowercase before storing
+  - Created `/data` directory for SQLite storage with .gitkeep
+  - Updated .gitignore to exclude database files (_.db, _.db-wal, \*.db-shm)
+
 ## Next Tasks
 
-- Phase 4: Create `/api/leads` API route and database setup
+- Phase 4: Test form submission flow (end-to-end)
 - Phase 5: Add analytics tracking
 - Phase 6: Deploy and test

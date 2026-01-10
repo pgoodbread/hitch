@@ -224,12 +224,12 @@ Use **SQLite** (file-based, zero cost, no external dependencies) or **Supabase f
 
 ### 5.3 Data Requirements
 
-- [ ] Store email with deduplication (upsert on email)
-- [ ] Store checkbox confirmation value
-- [ ] Store free-text response
-- [ ] Store timestamp
-- [ ] Store UTM parameters if present
-- [ ] No PII beyond email
+- [x] Store email with deduplication (upsert on email)
+- [x] Store checkbox confirmation value
+- [x] Store free-text response
+- [x] Store timestamp
+- [x] Store UTM parameters if present
+- [x] No PII beyond email
 
 ---
 
@@ -321,10 +321,10 @@ page_view → cta_click → intent_yes → form_submit
 
 ### Phase 4: Form & Data
 
-- [ ] Create form with validation
-- [ ] Build API route for lead submission
-- [ ] Implement email deduplication
-- [ ] Add error handling
+- [x] Create form with validation
+- [x] Build API route for lead submission
+- [x] Implement email deduplication
+- [x] Add error handling
 - [ ] Test form submission flow
 
 ### Phase 5: Analytics
