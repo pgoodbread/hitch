@@ -7,45 +7,37 @@ import clsx from 'clsx'
 
 import { Container } from '@/components/Container'
 import backgroundImage from '@/images/background-features.jpg'
-import screenshotExpenses from '@/images/screenshots/expenses.png'
-import screenshotPayroll from '@/images/screenshots/payroll.png'
-import screenshotReporting from '@/images/screenshots/reporting.png'
-import screenshotVatReturns from '@/images/screenshots/vat-returns.png'
 
-const features = [
+const painPoints = [
   {
-    title: 'Payroll',
+    title: 'Inconsistent matches',
     description:
-      "Keep track of everyone's salaries and whether or not they've been paid. Direct deposit not supported.",
-    image: screenshotPayroll,
+      'You get matches, but not consistently. Some weeks are great, others are dead.',
   },
   {
-    title: 'Claim expenses',
+    title: 'Photo uncertainty',
     description:
-      "All of your receipts organized into one place, as long as you don't mind typing in the data by hand.",
-    image: screenshotExpenses,
+      "You're not sure which photos actually work. Is it the hiking one? The suit? You've tried rearranging them, but who knows.",
   },
   {
-    title: 'VAT handling',
+    title: 'Bio problems',
     description:
-      "We only sell our software to companies who don't deal with VAT at all, so technically we do all the VAT stuff they need.",
-    image: screenshotVatReturns,
+      "Your bio feels fine, but it doesn't start conversations. People swipe right, then disappear.",
   },
   {
-    title: 'Reporting',
+    title: 'Generic advice',
     description:
-      'Easily export your data into an Excel spreadsheet where you can do whatever the hell you want with it.',
-    image: screenshotReporting,
+      "Generic advice online doesn't fit your situation. You're not a pickup artist. You just want better results.",
   },
 ]
 
 export function PrimaryFeatures() {
-  let [tabOrientation, setTabOrientation] = useState<'horizontal' | 'vertical'>(
-    'horizontal',
-  )
+  const [tabOrientation, setTabOrientation] = useState<
+    'horizontal' | 'vertical'
+  >('horizontal')
 
   useEffect(() => {
-    let lgMediaQuery = window.matchMedia('(min-width: 1024px)')
+    const lgMediaQuery = window.matchMedia('(min-width: 1024px)')
 
     function onMediaQueryChange({ matches }: { matches: boolean }) {
       setTabOrientation(matches ? 'vertical' : 'horizontal')
@@ -62,7 +54,7 @@ export function PrimaryFeatures() {
   return (
     <section
       id="features"
-      aria-label="Features for running your books"
+      aria-label="Common profile problems"
       className="relative overflow-hidden bg-blue-600 pt-20 pb-28 sm:py-32"
     >
       <Image
@@ -76,11 +68,11 @@ export function PrimaryFeatures() {
       <Container className="relative">
         <div className="max-w-2xl md:mx-auto md:text-center xl:max-w-none">
           <h2 className="font-display text-3xl tracking-tight text-white sm:text-4xl md:text-5xl">
-            Everything you need to run your books.
+            Your profile isn&apos;t bad. It just underperforms.
           </h2>
           <p className="mt-6 text-lg tracking-tight text-blue-100">
-            Well everything you need if you aren’t that picky about minor
-            details like tax compliance.
+            Most guys have the same few problems. Small fixes lead to real
+            results.
           </p>
         </div>
         <TabGroup
@@ -91,12 +83,12 @@ export function PrimaryFeatures() {
             <>
               <div className="-mx-4 flex overflow-x-auto pb-4 sm:mx-0 sm:overflow-visible sm:pb-0 lg:col-span-5">
                 <TabList className="relative z-10 flex gap-x-4 px-4 whitespace-nowrap sm:mx-auto sm:px-0 lg:mx-0 lg:block lg:gap-x-0 lg:gap-y-1 lg:whitespace-normal">
-                  {features.map((feature, featureIndex) => (
+                  {painPoints.map((point, pointIndex) => (
                     <div
-                      key={feature.title}
+                      key={point.title}
                       className={clsx(
                         'group relative rounded-full px-4 py-1 lg:rounded-l-xl lg:rounded-r-none lg:p-6',
-                        selectedIndex === featureIndex
+                        selectedIndex === pointIndex
                           ? 'bg-white lg:bg-white/10 lg:ring-1 lg:ring-white/10 lg:ring-inset'
                           : 'hover:bg-white/10 lg:hover:bg-white/5',
                       )}
@@ -105,46 +97,44 @@ export function PrimaryFeatures() {
                         <Tab
                           className={clsx(
                             'font-display text-lg data-selected:not-data-focus:outline-hidden',
-                            selectedIndex === featureIndex
+                            selectedIndex === pointIndex
                               ? 'text-blue-600 lg:text-white'
                               : 'text-blue-100 hover:text-white lg:text-white',
                           )}
                         >
                           <span className="absolute inset-0 rounded-full lg:rounded-l-xl lg:rounded-r-none" />
-                          {feature.title}
+                          {point.title}
                         </Tab>
                       </h3>
                       <p
                         className={clsx(
                           'mt-2 hidden text-sm lg:block',
-                          selectedIndex === featureIndex
+                          selectedIndex === pointIndex
                             ? 'text-white'
                             : 'text-blue-100 group-hover:text-white',
                         )}
                       >
-                        {feature.description}
+                        {point.description}
                       </p>
                     </div>
                   ))}
                 </TabList>
               </div>
               <TabPanels className="lg:col-span-7">
-                {features.map((feature) => (
-                  <TabPanel key={feature.title} unmount={false}>
+                {painPoints.map((point) => (
+                  <TabPanel key={point.title} unmount={false}>
                     <div className="relative sm:px-6 lg:hidden">
                       <div className="absolute -inset-x-4 -top-26 -bottom-17 bg-white/10 ring-1 ring-white/10 ring-inset sm:inset-x-0 sm:rounded-t-xl" />
                       <p className="relative mx-auto max-w-2xl text-base text-white sm:text-center">
-                        {feature.description}
+                        {point.description}
                       </p>
                     </div>
-                    <div className="mt-10 w-180 overflow-hidden rounded-xl bg-slate-50 shadow-xl shadow-blue-900/20 sm:w-auto lg:mt-0 lg:w-271.25">
-                      <Image
-                        className="w-full"
-                        src={feature.image}
-                        alt=""
-                        priority
-                        sizes="(min-width: 1024px) 67.8125rem, (min-width: 640px) 100vw, 45rem"
-                      />
+                    <div className="mt-10 flex items-center justify-center lg:mt-0">
+                      <div className="rounded-2xl bg-white/10 p-8 text-center ring-1 ring-white/20 ring-inset">
+                        <p className="text-lg font-medium text-white">
+                          {point.description}
+                        </p>
+                      </div>
                     </div>
                   </TabPanel>
                 ))}
