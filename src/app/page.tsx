@@ -93,24 +93,28 @@ const faqs = [
 // Static data for PrimaryFeatures
 const painPoints = [
   {
-    title: 'Inconsistent matches',
+    title: 'Wrong Photos',
+    image: '/images/photo-uncertainty.PNG',
     description:
-      'You get matches, but not consistently. Some weeks are great, others are dead.',
+      "You don't know which photos actually work. Is it the hiking one? The suit? You've tried rearranging them, but who knows.",
   },
   {
-    title: 'Photo uncertainty',
+    title: 'Boring Bio',
+    image: '/images/bio-problems.PNG',
     description:
-      "You're not sure which photos actually work. Is it the hiking one? The suit? You've tried rearranging them, but who knows.",
+      "Your bio feels fine, but it doesn't start conversations. The few People that do swipe right, quickly disappear.",
   },
   {
-    title: 'Bio problems',
+    title: 'No Ideas',
+    image: '/images/no-ideas.PNG',
     description:
-      "Your bio feels fine, but it doesn't start conversations. People swipe right, then disappear.",
+      "Generic advice online doesn't fit your situation. You're not a pickup artist. You just want better results. But you don't know how to get there.",
   },
   {
-    title: 'Generic advice',
+    title: 'No Matches',
+    image: '/images/inconsistent-matches.PNG',
     description:
-      "Generic advice online doesn't fit your situation. You're not a pickup artist. You just want better results.",
+      "Sometimes you get matches, but not consistently. Some weeks feel okay, most are dead. You've tried everything, but nothing works.",
   },
 ]
 
@@ -257,7 +261,7 @@ export default function Home() {
             <Button onClick={handleCtaClick}>Optimize my profile</Button>
           </div>
           <p className="mt-6 text-sm text-slate-500">
-            Takes 5 minutes · One-time payment · Results in 24-48h
+            Takes 5 minutes · One-time payment · Results in minutes
           </p>
         </Container>
 
@@ -278,12 +282,27 @@ export default function Home() {
           <Container className="relative">
             <div className="max-w-2xl md:mx-auto md:text-center xl:max-w-none">
               <h2 className="font-display text-3xl tracking-tight text-white sm:text-4xl md:text-5xl">
-                It&apos;s not you. It&apos;s{' '}
-                <span className="line-through">me</span> your profile.
+                It&apos;s not you.
+                <br />
+                It&apos;s{' '}
+                <span className="relative px-1 whitespace-nowrap text-white">
+                  <svg
+                    aria-hidden="true"
+                    viewBox="0 0 418 42"
+                    className="absolute top-1/4 left-0 z-1 h-[1em] w-full fill-red-500"
+                    preserveAspectRatio="none"
+                  >
+                    <path d="M203.371.916c-26.013-2.078-76.686 1.963-124.73 9.946L67.3 12.749C35.421 18.062 18.2 21.766 6.004 25.934 1.244 27.561.828 27.778.874 28.61c.07 1.214.828 1.121 9.595-1.176 9.072-2.377 17.15-3.92 39.246-7.496C123.565 7.986 157.869 4.492 195.942 5.046c7.461.108 19.25 1.696 19.17 2.582-.107 1.183-7.874 4.31-25.75 10.366-21.992 7.45-35.43 12.534-36.701 13.884-2.173 2.308-.202 4.407 4.442 4.734 2.654.187 3.263.157 15.593-.78 35.401-2.686 57.944-3.488 88.365-3.143 46.327.526 75.721 2.23 130.788 7.584 19.787 1.924 20.814 1.98 24.557 1.332l.066-.011c1.201-.203 1.53-1.825.399-2.335-2.911-1.31-4.893-1.604-22.048-3.261-57.509-5.556-87.871-7.36-132.059-7.842-23.239-.254-33.617-.116-50.627.674-11.629.54-42.371 2.494-46.696 2.967-2.359.259 8.133-3.625 26.504-9.81 23.239-7.825 27.934-10.149 28.304-14.005.417-4.348-3.529-6-16.878-7.066Z" />
+                  </svg>
+                  <span className="relative z-0">me</span>
+                </span>
+                !
+                <br />
+                No - It&apos;s your profile.
               </h2>
               <p className="mt-6 text-lg tracking-tight text-blue-100">
-                Your profile isn&apos;t bad. It just underperforms. Most guys
-                have the same few problems. Small fixes lead to real results.
+                Most guys have the same few problems. Small fixes lead to real
+                results.
               </p>
             </div>
             <TabGroup
@@ -335,16 +354,19 @@ export default function Home() {
                     {painPoints.map((point) => (
                       <TabPanel key={point.title} unmount={false}>
                         <div className="relative sm:px-6 lg:hidden">
-                          <div className="absolute -inset-x-4 -top-26 -bottom-17 bg-white/10 ring-1 ring-white/10 ring-inset sm:inset-x-0 sm:rounded-t-xl" />
+                          <div className="absolute -inset-x-4 -top-26 -bottom-17 bg-linear-to-b from-white/10 to-white/0 ring-1 ring-white/10 ring-inset sm:inset-x-0 sm:rounded-t-xl" />
                           <p className="relative mx-auto max-w-2xl text-base text-white sm:text-center">
                             {point.description}
                           </p>
                         </div>
                         <div className="mt-10 flex items-center justify-center lg:mt-0">
-                          <div className="rounded-2xl bg-white/10 p-8 text-center ring-1 ring-white/20 ring-inset">
-                            <p className="text-lg font-medium text-white">
-                              {point.description}
-                            </p>
+                          <div className="w-full rounded-2xl bg-white/10 p-4 text-center ring-1 ring-white/20 ring-inset md:w-1/2">
+                            <Image
+                              src={point.image}
+                              alt={point.title}
+                              width={1000}
+                              height={1000}
+                            />
                           </div>
                         </div>
                       </TabPanel>
