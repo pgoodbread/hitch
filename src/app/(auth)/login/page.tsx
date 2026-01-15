@@ -3,8 +3,8 @@ import Link from 'next/link'
 
 import { Button } from '@/components/Button'
 import { TextField } from '@/components/Fields'
-import { Logo } from '@/components/Logo'
 import { SlimLayout } from '@/components/SlimLayout'
+import Image from 'next/image'
 
 export const metadata: Metadata = {
   title: 'Sign In',
@@ -15,7 +15,13 @@ export default function Login() {
     <SlimLayout>
       <div className="flex">
         <Link href="/" aria-label="Home">
-          <Logo className="h-10 w-auto" />
+          <Image
+            src="/logo.png"
+            alt="Tinder Profile Optimizer"
+            width={40}
+            height={40}
+            className="mr-4 rounded-xs"
+          />
         </Link>
       </div>
       <h2 className="mt-20 text-lg font-semibold text-gray-900">

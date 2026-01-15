@@ -12,9 +12,9 @@ import clsx from 'clsx'
 
 import { Button } from '@/components/Button'
 import { Container } from '@/components/Container'
-import { Logo } from '@/components/Logo'
 import { NavLink } from '@/components/NavLink'
 import { OptimizeModal } from '@/components/OptimizeModal'
+import Image from 'next/image'
 
 function MobileNavLink({
   href,
@@ -91,9 +91,21 @@ export function Header() {
         <Container>
           <nav className="relative z-50 flex justify-between">
             <div className="flex items-center md:gap-x-12">
-              <Link href="#" aria-label="Home">
-                <Logo className="h-10 w-auto" />
+              <Link href="#">
+                <div className="flex items-center">
+                  <Image
+                    src="/logo.png"
+                    alt="Tinder Profile Optimizer"
+                    width={40}
+                    height={40}
+                    className="mr-4 rounded-xs"
+                  />
+                  <span className="text-3xl font-bold text-yellow-500">
+                    TypeScript Pro
+                  </span>
+                </div>
               </Link>
+
               <div className="hidden md:flex md:gap-x-6">
                 <NavLink href="#how-it-works">How it works</NavLink>
                 <NavLink href="#pricing">Pricing</NavLink>
