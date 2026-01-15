@@ -167,7 +167,7 @@ export function OptimizeModal({
                       </li>
                       <li className="flex items-start">
                         <span className="mr-2">•</span>
-                        Delivery: ~3 weeks
+                        Optimizer ready in: ~3 weeks
                       </li>
                     </ul>
                     <div className="mt-8 flex flex-col gap-3">

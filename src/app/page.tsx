@@ -278,11 +278,12 @@ export default function Home() {
           <Container className="relative">
             <div className="max-w-2xl md:mx-auto md:text-center xl:max-w-none">
               <h2 className="font-display text-3xl tracking-tight text-white sm:text-4xl md:text-5xl">
-                Your profile isn&apos;t bad. It just underperforms.
+                It&apos;s not you. It&apos;s{' '}
+                <span className="line-through">me</span> your profile.
               </h2>
               <p className="mt-6 text-lg tracking-tight text-blue-100">
-                Most guys have the same few problems. Small fixes lead to real
-                results.
+                Your profile isn&apos;t bad. It just underperforms. Most guys
+                have the same few problems. Small fixes lead to real results.
               </p>
             </div>
             <TabGroup
