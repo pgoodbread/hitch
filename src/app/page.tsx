@@ -15,6 +15,13 @@ import { track } from '@/lib/analytics'
 import backgroundCallToAction from '@/images/background-call-to-action.jpg'
 import backgroundFaqs from '@/images/background-faqs.jpg'
 import backgroundFeatures from '@/images/background-features.jpg'
+import {
+  ImageUp,
+  PenLine,
+  MessageCircleHeart,
+  Target,
+  AlarmClockCheck,
+} from 'lucide-react'
 
 // Static data for SecondaryFeatures
 const deliverables = [
@@ -22,44 +29,49 @@ const deliverables = [
     title: 'Photo ranking and selection',
     description:
       'Every photo ranked: keep, replace, or remove. Plus the best 3-4 photos for your profile, in the right order.',
+    icon: ImageUp,
   },
   {
     title: 'Rewritten bio',
     description:
       'One clear, confident bio that sounds like you. No gimmicks, no pickup lines.',
+    icon: PenLine,
   },
   {
     title: 'Conversation prompts',
     description:
       '2-3 improved prompts or hooks that make it easier for matches to start talking.',
+    icon: MessageCircleHeart,
   },
   {
     title: 'Goal-specific optimization',
     description:
-      "Tailored to what you're looking for: long-term relationship or casual dating.",
+      "Tailored to what you're looking for: long-term relationship, casual dating, or finding new friends.",
+    icon: Target,
   },
   {
     title: 'Fast turnaround',
-    description: 'Everything delivered in 24-48 hours. No waiting around.',
+    description: 'Everything delivered in minutes. No waiting around.',
+    icon: AlarmClockCheck,
   },
 ]
 
 // Static data for CallToAction
 const steps = [
   {
-    number: '1',
+    number: 1,
     title: 'Upload your current profile',
     description: 'Screenshots of your photos, bio, and prompts.',
   },
   {
-    number: '2',
+    number: 2,
     title: 'Choose your dating goal',
-    description: 'Long-term relationship or casual dating.',
+    description: 'Long-term relationship, casual dating, or friends.',
   },
   {
-    number: '3',
+    number: 3,
     title: 'Receive your optimized profile',
-    description: 'Delivered to your inbox in 24-48 hours.',
+    description: 'Delivered to your inbox in minutes.',
   },
 ]
 
@@ -76,12 +88,12 @@ const faqs = [
   {
     question: 'What exactly do I get?',
     answer:
-      'You get a complete profile review: every photo ranked (keep, replace, or remove), the best 3-4 photos selected and ordered, a rewritten bio, and 2-3 conversation prompts. All tailored to your dating goal.',
+      'You get a complete profile review: every photo ranked (keep, replace, or remove), the best 3-4 photos selected and ordered, a rewritten bio, and 3 conversation prompts including answers that actually work. All tailored to your dating goal.',
   },
   {
     question: 'How long does it take?',
     answer:
-      "You'll receive your optimized profile within 24-48 hours of submitting your current profile screenshots.",
+      "You'll receive your optimized profile within minutes of submitting your current profile screenshots.",
   },
   {
     question: 'Is my data private?',
@@ -122,29 +134,10 @@ const painPoints = [
 const pricingFeatures = [
   'Photo ranking and selection',
   'Rewritten bio',
-  '2-3 conversation prompts',
+  '3 conversation prompts that actually work',
   'Goal-specific optimization',
-  'Delivered in 24-48 hours',
+  'Delivered in minutes to your inbox',
 ]
-
-// Icons
-function CheckIcon() {
-  return (
-    <svg
-      className="h-6 w-6 flex-none text-blue-600"
-      fill="none"
-      viewBox="0 0 24 24"
-      strokeWidth="2"
-      stroke="currentColor"
-    >
-      <path
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        d="M4.5 12.75l6 6 9-13.5"
-      />
-    </svg>
-  )
-}
 
 function XIcon() {
   return (
@@ -399,13 +392,16 @@ export default function Home() {
                 {deliverables.map((item) => (
                   <li
                     key={item.title}
-                    className="flex gap-x-4 rounded-xl bg-slate-50 p-6"
+                    className="flex gap-x-4 rounded-xl bg-slate-50"
                   >
-                    <CheckIcon />
-                    <div>
+                    <div className="flex items-center justify-center rounded-xl bg-blue-600/10 p-6">
+                      <item.icon className="h-10 w-10 text-blue-600" />
+                    </div>
+                    <div className="py-4">
                       <h3 className="font-display text-lg text-slate-900">
                         {item.title}
                       </h3>
+
                       <p className="mt-2 text-sm text-slate-600">
                         {item.description}
                       </p>
@@ -444,8 +440,13 @@ export default function Home() {
               {steps.map((step) => (
                 <div key={step.number} className="text-center">
                   <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-white/10 ring-1 ring-white/20">
-                    <span className="font-display text-lg font-medium text-white">
+                    <span className="relative text-lg font-medium text-white not-last:font-display">
                       {step.number}
+                      {step.number === 3 && (
+                        <span className="absolute -top-5 -right-10 text-3xl">
+                          🎉
+                        </span>
+                      )}
                     </span>
                   </div>
                   <h3 className="mt-6 font-display text-lg text-white">
@@ -522,7 +523,11 @@ export default function Home() {
                 One-time profile optimization
               </h2>
               <p className="mt-4 text-lg text-slate-400">
-                No subscription. No recurring fees. Just results.
+                No subscription.
+                <br />
+                No recurring fees.
+                <br />
+                Just results.
               </p>
             </div>
             <div className="mx-auto mt-16 max-w-md">
@@ -552,7 +557,7 @@ export default function Home() {
                   color="white"
                   className="mt-8 w-full"
                 >
-                  Optimize my profile
+                  Buy once - match forever!
                 </Button>
               </div>
             </div>
