@@ -92,18 +92,13 @@ export function Header() {
           <nav className="relative z-50 flex justify-between">
             <div className="flex items-center md:gap-x-12">
               <Link href="#">
-                <div className="flex items-center">
-                  <Image
-                    src="/logo.png"
-                    alt="Tinder Profile Optimizer"
-                    width={40}
-                    height={40}
-                    className="mr-4 rounded-xs"
-                  />
-                  <span className="text-3xl font-bold text-yellow-500">
-                    TypeScript Pro
-                  </span>
-                </div>
+                <Image
+                  src="/logo.png"
+                  alt="Tinder Profile Optimizer"
+                  width={130}
+                  height={100}
+                  className="rounded-xs"
+                />
               </Link>
 
               <div className="hidden md:flex md:gap-x-6">
@@ -113,7 +108,10 @@ export function Header() {
               </div>
             </div>
             <div className="flex items-center gap-x-5 md:gap-x-8">
-              <Button onClick={() => setIsModalOpen(true)} color="blue">
+              <Button
+                onClick={() => setIsModalOpen(true)}
+                className="bg-gradient-to-br from-blue-500 via-indigo-500 to-purple-600"
+              >
                 Optimize my profile
               </Button>
               <div className="-mr-1 md:hidden">
