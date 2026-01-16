@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server'
-// import { trackEvent, type AnalyticsEvent } from '@/lib/db'
+import posthog from 'posthog-js'
 
 const VALID_EVENTS: string[] = [
   'page_view',
@@ -17,19 +17,22 @@ interface AnalyticsRequest {
 
 export async function POST(request: Request) {
   try {
-    const body = (await request.json()) as AnalyticsRequest
+    const { event, source, ...rest } =
+      (await request.json()) as AnalyticsRequest
 
-    if (!body.event || typeof body.event !== 'string') {
+    if (!event || typeof event !== 'string') {
       return NextResponse.json({ error: 'Event is required' }, { status: 400 })
     }
 
-    if (!VALID_EVENTS.includes(body.event as string)) {
+    if (!VALID_EVENTS.some((validEvent) => validEvent === event)) {
       return NextResponse.json({ error: 'Invalid event name' }, { status: 400 })
     }
 
-    // const result = trackEvent(body.event as AnalyticsEvent, body.source ?? null)
+    console.log('Tracking event:', event, source, rest)
+    const result = posthog.capture(event, { source, ...rest })
+    console.log('Result:', result)
 
-    return NextResponse.json({ success: true }, { status: 201 })
+    return NextResponse.json({ success: result !== undefined }, { status: 201 })
   } catch (error) {
     console.error('Error tracking event:', error)
     return NextResponse.json(

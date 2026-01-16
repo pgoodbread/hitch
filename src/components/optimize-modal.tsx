@@ -51,12 +51,12 @@ export function OptimizeModal({
   }
 
   function handleIntentYes() {
-    track('intent_yes')
+    track('intent_yes', { price: 29 })
     setStep('form')
   }
 
   function handleIntentNo() {
-    track('intent_no')
+    track('intent_no', { price: 29 })
     handleClose()
   }
 
