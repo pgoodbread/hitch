@@ -29,7 +29,7 @@ export async function POST(request: Request) {
 
     // const result = trackEvent(body.event as AnalyticsEvent, body.source ?? null)
 
-    // return NextResponse.json({ success: result.success }, { status: 201 })
+    return NextResponse.json({ success: true }, { status: 201 })
   } catch (error) {
     console.error('Error tracking event:', error)
     return NextResponse.json(

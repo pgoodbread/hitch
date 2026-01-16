@@ -1,101 +1,47 @@
-// // import Database from 'better-sqlite3'
-// import path from 'path'
+import { cookies } from 'next/headers'
+import { createClient } from './supabase/server'
 
-// const DB_PATH = path.join(process.cwd(), 'data', 'leads.db')
+export interface Lead {
+  email: string
+  willing_to_pay: boolean
+  price_shown: number
+  main_problem: string
+  source?: string | null
+}
 
-// let db: Database.Database | null = null
+export interface InsertLeadResult {
+  success: boolean
+  id?: number
+  error?: string
+}
 
-// function getDb(): Database.Database {
-//   if (!db) {
-//     db = new Database(DB_PATH)
-//     db.pragma('journal_mode = WAL')
-//     initializeSchema(db)
-//   }
-//   return db
-// }
+export async function insertLead(lead: Lead): Promise<InsertLeadResult> {
+  const cookieStore = await cookies()
+  const supabase = await createClient(cookieStore)
 
-// function initializeSchema(database: Database.Database): void {
-//   database.exec(`
-//     CREATE TABLE IF NOT EXISTS leads (
-//       id INTEGER PRIMARY KEY AUTOINCREMENT,
-//       email TEXT UNIQUE NOT NULL,
-//       willing_to_pay INTEGER NOT NULL DEFAULT 0,
-//       price_shown INTEGER NOT NULL,
-//       main_problem TEXT NOT NULL,
-//       source TEXT,
-//       created_at TEXT NOT NULL DEFAULT (datetime('now'))
-//     )
-//   `)
+  const { data, error } = await supabase
+    .from('leads')
+    .upsert(
+      {
+        email: lead.email,
+        willing_to_pay: lead.willing_to_pay,
+        price_shown: lead.price_shown,
+        main_problem: lead.main_problem,
+        source: lead.source ?? null,
+        updated_at: new Date().toISOString(),
+      },
+      {
+        onConflict: 'email',
+        ignoreDuplicates: false,
+      },
+    )
+    .select('id')
+    .single()
 
-//   database.exec(`
-//     CREATE TABLE IF NOT EXISTS analytics_events (
-//       id INTEGER PRIMARY KEY AUTOINCREMENT,
-//       event_name TEXT NOT NULL,
-//       source TEXT,
-//       created_at TEXT NOT NULL DEFAULT (datetime('now'))
-//     )
-//   `)
-// }
+  if (error) {
+    console.error('Error inserting lead:', error)
+    return { success: false, error: error.message }
+  }
 
-// export interface Lead {
-//   email: string
-//   willing_to_pay: boolean
-//   price_shown: number
-//   main_problem: string
-//   source?: string | null
-// }
-
-// export function insertLead(lead: Lead): { success: boolean; id?: number } {
-//   const database = getDb()
-
-//   const stmt = database.prepare(`
-//     INSERT INTO leads (email, willing_to_pay, price_shown, main_problem, source)
-//     VALUES (@email, @willing_to_pay, @price_shown, @main_problem, @source)
-//     ON CONFLICT(email) DO UPDATE SET
-//       willing_to_pay = @willing_to_pay,
-//       price_shown = @price_shown,
-//       main_problem = @main_problem,
-//       source = COALESCE(@source, leads.source),
-//       created_at = datetime('now')
-//   `)
-
-//   const result = stmt.run({
-//     email: lead.email,
-//     willing_to_pay: lead.willing_to_pay ? 1 : 0,
-//     price_shown: lead.price_shown,
-//     main_problem: lead.main_problem,
-//     source: lead.source ?? null,
-//   })
-
-//   return {
-//     success: true,
-//     id: result.lastInsertRowid as number,
-//   }
-// }
-
-// export type AnalyticsEvent =
-//   | 'page_view'
-//   | 'cta_click'
-//   | 'intent_yes'
-//   | 'intent_no'
-//   | 'form_submit'
-//   | 'form_error'
-
-// export function trackEvent(
-//   eventName: AnalyticsEvent,
-//   source?: string | null,
-// ): { success: boolean } {
-//   const database = getDb()
-
-//   const stmt = database.prepare(`
-//     INSERT INTO analytics_events (event_name, source)
-//     VALUES (@event_name, @source)
-//   `)
-
-//   stmt.run({
-//     event_name: eventName,
-//     source: source ?? null,
-//   })
-
-//   return { success: true }
-// }
+  return { success: true, id: data?.id }
+}

@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server'
+import { insertLead } from '@/lib/db'
 
 interface LeadRequest {
   email: string
@@ -53,15 +54,22 @@ export async function POST(request: Request) {
       )
     }
 
-    // const result = insertLead({
-    //   email: body.email.trim().toLowerCase(),
-    //   willing_to_pay: body.willing_to_pay,
-    //   price_shown: body.price_shown,
-    //   main_problem: body.main_problem.trim(),
-    //   source: body.source ?? null,
-    // })
+    const result = await insertLead({
+      email: body.email.trim().toLowerCase(),
+      willing_to_pay: body.willing_to_pay,
+      price_shown: body.price_shown,
+      main_problem: body.main_problem.trim(),
+      source: body.source ?? null,
+    })
 
-    // return NextResponse.json({ success: result.success }, { status: 201 })
+    if (!result.success) {
+      return NextResponse.json(
+        { error: result.error || 'Failed to save lead' },
+        { status: 500 },
+      )
+    }
+
+    return NextResponse.json({ success: true }, { status: 201 })
   } catch (error) {
     console.error('Error creating lead:', error)
     return NextResponse.json(
