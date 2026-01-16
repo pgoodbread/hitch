@@ -96,7 +96,7 @@ export function Header() {
                   src="/logo.png"
                   alt="Tinder Profile Optimizer"
                   width={130}
-                  height={100}
+                  height={40}
                   className="rounded-xs"
                 />
               </Link>

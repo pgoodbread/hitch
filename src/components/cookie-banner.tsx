@@ -27,13 +27,13 @@ export function CookieBanner() {
               We use cookies to analyze site usage and deliver the{' '}
               <span className="font-semibold text-blue-600">
                 best{' '}
-                <span className="font-bold text-blue-600 underline decoration-yellow-500 decoration-dotted underline-offset-4">
+                <span className="font-bold text-blue-600 underline decoration-purple-800 decoration-dotted underline-offset-4">
                   Tinder{' '}
                 </span>{' '}
                 optimization experience
               </span>{' '}
               to{' '}
-              <span className="font-bold text-blue-600 underline decoration-yellow-500 decoration-dotted underline-offset-4">
+              <span className="font-bold text-blue-600 underline decoration-purple-800 decoration-dotted underline-offset-4">
                 you
               </span>
               . 😊
