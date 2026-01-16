@@ -43,17 +43,6 @@ export async function POST(request: Request) {
       )
     }
 
-    if (
-      !body.main_problem ||
-      typeof body.main_problem !== 'string' ||
-      body.main_problem.trim().length < 10
-    ) {
-      return NextResponse.json(
-        { error: 'main_problem must be at least 10 characters' },
-        { status: 400 },
-      )
-    }
-
     const result = await insertLead({
       email: body.email.trim().toLowerCase(),
       willing_to_pay: body.willing_to_pay,

@@ -115,8 +115,7 @@ export function OptimizeModal({
   const isFormValid =
     email.trim() !== '' &&
     /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) &&
-    willingToPay &&
-    mainProblem.trim().length >= 10
+    willingToPay
 
   return (
     <Transition show={open} as={Fragment}>
@@ -229,7 +228,8 @@ export function OptimizeModal({
                           htmlFor="email"
                           className="block text-sm font-medium text-slate-700"
                         >
-                          Email address
+                          Email Address{' '}
+                          <span className="text-sm text-red-500">*</span>
                         </label>
                         <input
                           type="email"
@@ -255,6 +255,7 @@ export function OptimizeModal({
                             required
                           />
                           <span className="text-sm text-slate-700">
+                            <span className="text-sm text-red-500">*</span>{' '}
                             I&apos;m willing to pay $
                             {PROFILE_OPTIMIZATION_PRICE} for a one-off Tinder
                             profile optimization when available.
