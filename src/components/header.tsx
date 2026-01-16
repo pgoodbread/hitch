@@ -110,7 +110,7 @@ export function Header() {
             <div className="flex items-center gap-x-5 md:gap-x-8">
               <Button
                 onClick={() => setIsModalOpen(true)}
-                className="bg-gradient-to-br from-blue-500 via-indigo-500 to-purple-600"
+                className="bg-linear-to-br from-blue-500 via-indigo-500 to-purple-600"
               >
                 Optimize my profile
               </Button>

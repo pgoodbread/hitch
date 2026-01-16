@@ -533,6 +533,9 @@ export default function Home() {
             <div className="mx-auto mt-16 max-w-md">
               <div className="rounded-3xl bg-blue-600 px-6 py-8 sm:px-8">
                 <div className="flex items-baseline justify-center gap-x-2">
+                  <span className="font-display text-2xl font-light tracking-tight text-red-500 line-through">
+                    $49
+                  </span>
                   <span className="font-display text-5xl font-light tracking-tight text-white">
                     $29
                   </span>
