@@ -11,6 +11,7 @@ export type AnalyticsEvent =
   | 'field_focus_checkbox'
   | 'field_focus_textarea'
   | 'field_blur_email'
+  | 'scroll_depth'
 
 export function track(
   event: AnalyticsEvent,

@@ -52,8 +52,8 @@ export function Footer() {
             />
           </Link>
           <p className="mt-6 text-sm text-slate-500 sm:mt-0">
-            Copyright &copy; {new Date().getFullYear()} TaxPal. All rights
-            reserved.
+            Copyright &copy; {new Date().getFullYear()} Tinder Profile
+            Optimizer. All rights reserved.
           </p>
         </div>
       </Container>

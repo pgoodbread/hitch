@@ -11,6 +11,7 @@ import { Footer } from '@/components/footer'
 import { Header } from '@/components/header'
 import { OptimizeModal } from '@/components/optimize-modal'
 import { PageViewTracker } from '@/components/page-view-tracker'
+import { ScrollDepthTracker } from '@/components/scroll-depth-tracker'
 import { track } from '@/lib/analytics'
 import backgroundCallToAction from '@/images/background-call-to-action.jpg'
 import backgroundFaqs from '@/images/background-faqs.jpg'
@@ -232,6 +233,7 @@ export default function Home() {
   return (
     <>
       <PageViewTracker />
+      <ScrollDepthTracker />
       <Header />
       <main>
         {/* Hero */}
