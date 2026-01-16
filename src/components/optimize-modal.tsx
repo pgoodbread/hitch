@@ -14,6 +14,8 @@ import { track } from '@/lib/analytics'
 
 type ModalStep = 'intent' | 'form' | 'confirmation'
 
+export const PROFILE_OPTIMIZATION_PRICE = 29
+
 export function OptimizeModal({
   open,
   onClose,
@@ -27,6 +29,11 @@ export function OptimizeModal({
   const [mainProblem, setMainProblem] = useState('')
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const [fieldsFocused, setFieldsFocused] = useState({
+    email: false,
+    checkbox: false,
+    textarea: false,
+  })
 
   // Auto-close after 5 seconds on confirmation
   useEffect(() => {
@@ -47,16 +54,24 @@ export function OptimizeModal({
       setWillingToPay(false)
       setMainProblem('')
       setError(null)
+      setFieldsFocused({ email: false, checkbox: false, textarea: false })
     }, 300)
   }
 
+  function handleFieldFocus(field: 'email' | 'checkbox' | 'textarea') {
+    if (!fieldsFocused[field]) {
+      setFieldsFocused((prev) => ({ ...prev, [field]: true }))
+      track(`field_focus_${field}`)
+    }
+  }
+
   function handleIntentYes() {
-    track('intent_yes', { price: 29 })
+    track('intent_yes', { price: PROFILE_OPTIMIZATION_PRICE })
     setStep('form')
   }
 
   function handleIntentNo() {
-    track('intent_no', { price: 29 })
+    track('intent_no', { price: PROFILE_OPTIMIZATION_PRICE })
     handleClose()
   }
 
@@ -72,7 +87,7 @@ export function OptimizeModal({
         body: JSON.stringify({
           email,
           willing_to_pay: willingToPay,
-          price_shown: 29,
+          price_shown: PROFILE_OPTIMIZATION_PRICE,
           main_problem: mainProblem,
           source: new URLSearchParams(window.location.search).get('utm_source'),
         }),
@@ -82,7 +97,12 @@ export function OptimizeModal({
         throw new Error('Failed to submit')
       }
 
-      track('form_submit')
+      track('form_submit', {
+        email,
+        willing_to_pay: willingToPay,
+        main_problem: mainProblem,
+        price: 29,
+      })
       setStep('confirmation')
     } catch {
       track('form_error')
@@ -163,7 +183,7 @@ export function OptimizeModal({
                       </li>
                       <li className="flex items-start">
                         <span className="mr-2">•</span>
-                        Price: $29
+                        Price: ${PROFILE_OPTIMIZATION_PRICE}
                       </li>
                       <li className="flex items-start">
                         <span className="mr-2">•</span>
@@ -176,7 +196,7 @@ export function OptimizeModal({
                         color="blue"
                         className="w-full"
                       >
-                        Yes, I intend to pay $29
+                        Yes, I intend to pay ${PROFILE_OPTIMIZATION_PRICE}
                       </Button>
                       <Button
                         onClick={handleIntentNo}
@@ -217,6 +237,8 @@ export function OptimizeModal({
                           required
                           value={email}
                           onChange={(e) => setEmail(e.target.value)}
+                          onFocus={() => handleFieldFocus('email')}
+                          onBlur={() => track('field_blur_email', { email })}
                           className="mt-1 block w-full rounded-lg border border-slate-300 px-3 py-2 text-slate-900 placeholder-slate-400 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none"
                           placeholder="you@example.com"
                         />
@@ -228,11 +250,13 @@ export function OptimizeModal({
                             type="checkbox"
                             checked={willingToPay}
                             onChange={(e) => setWillingToPay(e.target.checked)}
+                            onFocus={() => handleFieldFocus('checkbox')}
                             className="mt-1 h-4 w-4 rounded border-slate-300 text-blue-600 focus:ring-blue-500"
                             required
                           />
                           <span className="text-sm text-slate-700">
-                            I&apos;m willing to pay $29 for a one-off Tinder
+                            I&apos;m willing to pay $
+                            {PROFILE_OPTIMIZATION_PRICE} for a one-off Tinder
                             profile optimization when available.
                           </span>
                         </label>
@@ -248,10 +272,10 @@ export function OptimizeModal({
                         </label>
                         <textarea
                           id="mainProblem"
-                          required
                           minLength={10}
                           value={mainProblem}
                           onChange={(e) => setMainProblem(e.target.value)}
+                          onFocus={() => handleFieldFocus('textarea')}
                           rows={3}
                           className="mt-1 block w-full rounded-lg border border-slate-300 px-3 py-2 text-slate-900 placeholder-slate-400 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none"
                           placeholder="Tell us what's not working..."

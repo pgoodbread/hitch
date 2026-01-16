@@ -7,6 +7,10 @@ export type AnalyticsEvent =
   | 'intent_no'
   | 'form_submit'
   | 'form_error'
+  | 'field_focus_email'
+  | 'field_focus_checkbox'
+  | 'field_focus_textarea'
+  | 'field_blur_email'
 
 export function track(
   event: AnalyticsEvent,
