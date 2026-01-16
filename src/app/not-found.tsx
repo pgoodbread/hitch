@@ -1,7 +1,7 @@
 import Link from 'next/link'
 
-import { Button } from '@/components/Button'
-import { SlimLayout } from '@/components/SlimLayout'
+import { Button } from '@/components/button'
+import { SlimLayout } from '@/components/slim-layout'
 import Image from 'next/image'
 
 export default function NotFound() {

@@ -10,10 +10,10 @@ import {
 } from '@headlessui/react'
 import clsx from 'clsx'
 
-import { Button } from '@/components/Button'
-import { Container } from '@/components/Container'
-import { NavLink } from '@/components/NavLink'
-import { OptimizeModal } from '@/components/OptimizeModal'
+import { Button } from '@/components/button'
+import { Container } from '@/components/container'
+import { NavLink } from '@/components/nav-link'
+import { OptimizeModal } from '@/components/optimize-modal'
 import Image from 'next/image'
 
 function MobileNavLink({
@@ -87,7 +87,7 @@ export function Header() {
 
   return (
     <>
-      <header className="py-10">
+      <header className="pt-4 pb-8">
         <Container>
           <nav className="relative z-50 flex justify-between">
             <div className="flex items-center md:gap-x-12">

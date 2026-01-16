@@ -22,6 +22,7 @@
     "clsx": "^2.1.1",
     "lucide-react": "^0.562.0",
     "next": "^15",
+    "posthog-js": "^1.324.1",
     "react": "^19",
     "react-dom": "^19",
     "tailwindcss": "^4.1.15",
