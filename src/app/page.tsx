@@ -71,7 +71,7 @@ const steps = [
   {
     number: 3,
     title: 'Tell us about yourself',
-    description: 'So we can tailor the optimization to YOU.',
+    description: 'So we can tailor the optimization to YOU. test ',
   },
   {
     number: 4,
