@@ -1,3 +1,5 @@
+import posthog from 'posthog-js'
+
 export type AnalyticsEvent =
   | 'page_view'
   | 'cta_click'
@@ -12,12 +14,10 @@ export function track(
 ): void {
   const source = new URLSearchParams(window.location.search).get('utm_source')
 
-  fetch('/api/analytics', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ event, source, ...properties }),
-  }).catch((error) => {
+  try {
+    posthog.capture(event, { source, ...properties })
+  } catch (error) {
     // Silently fail - analytics should not block user experience
-    console.error('Error tracking event:', event, properties, error)
-  })
+    console.error('Error tracking event:', event, source, properties, error)
+  }
 }
