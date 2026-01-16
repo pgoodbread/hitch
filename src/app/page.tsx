@@ -70,7 +70,12 @@ const steps = [
   },
   {
     number: 3,
-    title: 'Receive your optimized profile',
+    title: 'Tell us about yourself',
+    description: 'So we can tailor the optimization to YOU.',
+  },
+  {
+    number: 4,
+    title: 'Enjoy your optimized profile',
     description: 'Delivered to your inbox in minutes.',
   },
 ]
@@ -442,7 +447,7 @@ export default function Home() {
                   <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-white/10 ring-1 ring-white/20">
                     <span className="relative text-lg font-medium text-white not-last:font-display">
                       {step.number}
-                      {step.number === 3 && (
+                      {step.number === 4 && (
                         <span className="absolute -top-5 -right-10 text-3xl">
                           🎉
                         </span>
