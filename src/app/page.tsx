@@ -16,44 +16,38 @@ import { track } from '@/lib/analytics'
 import backgroundCallToAction from '@/images/background-call-to-action.jpg'
 import backgroundFaqs from '@/images/background-faqs.jpg'
 import backgroundFeatures from '@/images/background-features.jpg'
-import {
-  ImageUp,
-  PenLine,
-  MessageCircleHeart,
-  Target,
-  AlarmClockCheck,
-} from 'lucide-react'
+import { ImageUp, PenLine, MessageCircleHeart, Target } from 'lucide-react'
 
 // Static data for SecondaryFeatures
 const deliverables = [
   {
-    title: 'Photo ranking and selection',
+    title: 'Photo Ranking',
     description:
       'Every photo ranked: keep, replace, or remove. Plus the best 3-4 photos for your profile, in the right order.',
-    icon: ImageUp,
+    image: '/images/photo-ranking.PNG',
   },
   {
-    title: 'Rewritten bio',
+    title: 'Fresh Bio',
     description:
       'One clear, confident bio that sounds like you. No gimmicks, no pickup lines.',
-    icon: PenLine,
+    image: '/images/bio-problems.PNG',
   },
   {
-    title: 'Conversation prompts',
+    title: 'Tailored Prompts',
     description:
       '2-3 improved prompts or hooks that make it easier for matches to start talking.',
-    icon: MessageCircleHeart,
+    image: '/images/no-ideas.PNG',
   },
   {
-    title: 'Goal-specific optimization',
+    title: 'Goal-Specific Optimization',
     description:
       "Tailored to what you're looking for: long-term relationship, casual dating, or finding new friends.",
-    icon: Target,
+    image: '/images/inconsistent-matches.PNG',
   },
   {
-    title: 'Fast turnaround',
+    title: 'Fast Results',
     description: 'Everything delivered in minutes. No waiting around.',
-    icon: AlarmClockCheck,
+    image: '/images/fast-turnaround.PNG',
   },
 ]
 
@@ -112,25 +106,25 @@ const faqs = [
 const painPoints = [
   {
     title: 'Wrong Photos',
-    image: '/images/photo-uncertainty.PNG',
+    icon: ImageUp,
     description:
       "You don't know which photos actually work. Is it the hiking one? The suit? You've tried rearranging them, but who knows.",
   },
   {
     title: 'Boring Bio',
-    image: '/images/bio-problems.PNG',
+    icon: PenLine,
     description:
       "Your bio feels fine, but it doesn't start conversations. The few People that do swipe right, quickly disappear.",
   },
   {
     title: 'No Ideas',
-    image: '/images/no-ideas.PNG',
+    icon: MessageCircleHeart,
     description:
       "Generic advice online doesn't fit your situation. You're not a pickup artist. You just want better results. But you don't know how to get there.",
   },
   {
     title: 'No Matches',
-    image: '/images/inconsistent-matches.PNG',
+    icon: Target,
     description:
       "Sometimes you get matches, but not consistently. Some weeks feel okay, most are dead. You've tried everything, but nothing works.",
   },
@@ -313,7 +307,7 @@ export default function Home() {
                 <>
                   <div className="-mx-4 flex overflow-x-auto pb-4 sm:mx-0 sm:overflow-visible sm:pb-0 lg:col-span-5">
                     <TabList className="relative z-10 flex gap-x-4 px-4 whitespace-nowrap sm:mx-auto sm:px-0 lg:mx-0 lg:block lg:gap-x-0 lg:gap-y-1 lg:whitespace-normal">
-                      {painPoints.map((point, pointIndex) => (
+                      {deliverables.map((point, pointIndex) => (
                         <div
                           key={point.title}
                           className={clsx(
@@ -351,7 +345,7 @@ export default function Home() {
                     </TabList>
                   </div>
                   <TabPanels className="lg:col-span-7">
-                    {painPoints.map((point) => (
+                    {deliverables.map((point) => (
                       <TabPanel key={point.title} unmount={false}>
                         <div className="relative sm:px-6 lg:hidden">
                           <div className="absolute -inset-x-4 -top-26 -bottom-17 bg-linear-to-b from-white/10 to-white/0 ring-1 ring-white/10 ring-inset sm:inset-x-0 sm:rounded-t-xl" />
@@ -366,6 +360,7 @@ export default function Home() {
                               alt={point.title}
                               width={1000}
                               height={1000}
+                              className="rounded-lg shadow-lg"
                             />
                           </div>
                         </div>
@@ -396,7 +391,7 @@ export default function Home() {
             </div>
             <div className="mx-auto mt-16 max-w-2xl">
               <ul role="list" className="space-y-6">
-                {deliverables.map((item) => (
+                {painPoints.map((item) => (
                   <li
                     key={item.title}
                     className="flex gap-x-4 rounded-xl bg-slate-50"
