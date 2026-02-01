@@ -2,7 +2,14 @@
 
 import { useEffect, useState } from 'react'
 import Image from 'next/image'
-import { Tab, TabGroup, TabList, TabPanel, TabPanels } from '@headlessui/react'
+import {
+  Tab,
+  TabGroup,
+  TabList,
+  TabPanel,
+  TabPanels,
+  Transition,
+} from '@headlessui/react'
 import clsx from 'clsx'
 import { useSwipeable } from 'react-swipeable'
 
@@ -373,25 +380,36 @@ export default function Home() {
               </div>
               <div {...swipeHandlers} className="lg:col-span-7">
                 <TabPanels>
-                  {deliverables.map((point) => (
+                  {deliverables.map((point, pointIndex) => (
                     <TabPanel key={point.title} unmount={false}>
-                      <div className="relative sm:px-6 lg:hidden">
-                        <div className="absolute -inset-x-4 -top-26 -bottom-17 bg-linear-to-b from-white/10 to-white/0 ring-1 ring-white/10 ring-inset sm:inset-x-0 sm:rounded-t-xl" />
-                        <p className="relative mx-auto max-w-2xl text-base text-white sm:text-center">
-                          {point.description}
-                        </p>
-                      </div>
-                      <div className="mt-10 flex items-center justify-center lg:mt-0">
-                        <div className="w-full rounded-2xl bg-white/10 p-4 text-center ring-1 ring-white/20 ring-inset md:w-1/2">
-                          <Image
-                            src={point.image}
-                            alt={point.title}
-                            width={1000}
-                            height={1000}
-                            className="rounded-lg shadow-lg"
-                          />
+                      <Transition
+                        as="div"
+                        show={selectedDeliverableIndex === pointIndex}
+                        enter="transition-opacity duration-300 ease-out"
+                        enterFrom="opacity-0"
+                        enterTo="opacity-100"
+                        leave="transition-opacity duration-200 ease-in"
+                        leaveFrom="opacity-100"
+                        leaveTo="opacity-0"
+                      >
+                        <div className="relative sm:px-6 lg:hidden">
+                          <div className="absolute -inset-x-4 -top-26 -bottom-17 bg-linear-to-b from-white/10 to-white/0 ring-1 ring-white/10 ring-inset sm:inset-x-0 sm:rounded-t-xl" />
+                          <p className="relative mx-auto max-w-2xl text-base text-white sm:text-center">
+                            {point.description}
+                          </p>
                         </div>
-                      </div>
+                        <div className="mt-10 flex items-center justify-center lg:mt-0">
+                          <div className="w-full rounded-2xl bg-white/10 p-4 text-center ring-1 ring-white/20 ring-inset md:w-1/2">
+                            <Image
+                              src={point.image}
+                              alt={point.title}
+                              width={1000}
+                              height={1000}
+                              className="rounded-lg shadow-lg"
+                            />
+                          </div>
+                        </div>
+                      </Transition>
                     </TabPanel>
                   ))}
                 </TabPanels>
