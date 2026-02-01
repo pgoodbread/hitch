@@ -25,30 +25,30 @@ const deliverables = [
     title: 'Photo Ranking',
     description:
       'Every photo ranked: keep, replace, or remove. Plus the best 3-4 photos for your profile, in the right order.',
-    image: '/images/photo-ranking.PNG',
+    image: '/images/photo-ranking.png',
   },
   {
     title: 'Fresh Bio',
     description:
       'One clear, confident bio that sounds like you. No gimmicks, no pickup lines.',
-    image: '/images/bio.PNG',
+    image: '/images/bio.png',
   },
   {
     title: 'Tailored Prompts',
     description:
       '2-3 improved prompts or hooks that make it easier for matches to start talking.',
-    image: '/images/prompts.PNG',
+    image: '/images/prompts.png',
   },
   {
     title: 'Goal-Specific Optimization',
     description:
       "Tailored to what you're looking for: long-term relationship, casual dating, or finding new friends.",
-    image: '/images/goals.PNG',
+    image: '/images/goals.png',
   },
   {
     title: 'Fast Results',
     description: 'Everything delivered in minutes. No waiting around.',
-    image: '/images/fast.PNG',
+    image: '/images/fast.png',
   },
 ]
 
