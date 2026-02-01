@@ -594,6 +594,10 @@ export default function Home() {
                 <br />
                 Just results.
               </p>
+
+              <p className="mt-4 text-xl font-bold text-blue-300">
+                What are you waiting for? You got nothing to lose.
+              </p>
             </div>
             <div className="mx-auto mt-16 max-w-md">
               <div className="rounded-3xl bg-blue-600 px-6 py-8 sm:px-8">
