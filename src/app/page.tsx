@@ -106,24 +106,28 @@ const faqs = [
 const painPoints = [
   {
     title: 'Wrong Photos',
+    emoji: '❌',
     icon: ImageUp,
     description:
       "You don't know which photos actually work. Is it the hiking one? The suit? You've tried rearranging them, but who knows.",
   },
   {
     title: 'Boring Bio',
+    emoji: '💤',
     icon: PenLine,
     description:
       "Your bio feels fine, but it doesn't start conversations. The few People that do swipe right, quickly disappear.",
   },
   {
     title: 'No Ideas',
+    emoji: '❓',
     icon: MessageCircleHeart,
     description:
       "Generic advice online doesn't fit your situation. You're not a pickup artist. You just want better results. But you don't know how to get there.",
   },
   {
     title: 'No Matches',
+    emoji: '💔',
     icon: Target,
     description:
       "Sometimes you get matches, but not consistently. Some weeks feel okay, most are dead. You've tried everything, but nothing works.",
@@ -382,11 +386,11 @@ export default function Home() {
           <Container>
             <div className="mx-auto max-w-2xl md:text-center">
               <h2 className="font-display text-3xl tracking-tight text-slate-900 sm:text-4xl">
-                What you&apos;ll get
+                What you&apos;ll solve
               </h2>
               <p className="mt-4 text-lg tracking-tight text-slate-700">
-                A complete profile review with specific, actionable
-                improvements.
+                Get rid of the common problems that are holding you back from
+                getting more matches.
               </p>
             </div>
             <div className="mx-auto mt-16 max-w-2xl">
@@ -397,7 +401,12 @@ export default function Home() {
                     className="flex gap-x-4 rounded-xl bg-slate-50"
                   >
                     <div className="flex items-center justify-center rounded-xl bg-blue-600/10 p-6">
-                      <item.icon className="h-10 w-10 text-blue-600" />
+                      <div className="relative">
+                        <item.icon className="h-10 w-10 text-blue-600" />
+                        <span className="absolute top-1/2 -right-2 text-lg">
+                          {item.emoji}
+                        </span>
+                      </div>
                     </div>
                     <div className="py-4">
                       <h3 className="font-display text-lg text-slate-900">
