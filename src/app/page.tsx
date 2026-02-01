@@ -30,24 +30,24 @@ const deliverables = [
     title: 'Fresh Bio',
     description:
       'One clear, confident bio that sounds like you. No gimmicks, no pickup lines.',
-    image: '/images/bio-problems.PNG',
+    image: '/images/bio.PNG',
   },
   {
     title: 'Tailored Prompts',
     description:
       '2-3 improved prompts or hooks that make it easier for matches to start talking.',
-    image: '/images/no-ideas.PNG',
+    image: '/images/prompts.PNG',
   },
   {
     title: 'Goal-Specific Optimization',
     description:
       "Tailored to what you're looking for: long-term relationship, casual dating, or finding new friends.",
-    image: '/images/inconsistent-matches.PNG',
+    image: '/images/goals.PNG',
   },
   {
     title: 'Fast Results',
     description: 'Everything delivered in minutes. No waiting around.',
-    image: '/images/fast-turnaround.PNG',
+    image: '/images/fast.PNG',
   },
 ]
 
@@ -81,6 +81,14 @@ const notThis = [
   'Not changing who you are',
   'Not ongoing chat support',
   'Not a subscription',
+]
+
+const butThis = [
+  'Practical optimization of your photos, bio, and prompts.',
+  'Designed specifically for Tinder.',
+  'Delivered to your inbox in minutes.',
+  'One-time payment.',
+  'A second chance at dating.',
 ]
 
 // Static data for Faqs
@@ -374,6 +382,9 @@ export default function Home() {
                 </>
               )}
             </TabGroup>
+            <div className="mt-10 flex justify-center gap-x-6">
+              <Button onClick={handleCtaClick}>Optimize my profile</Button>
+            </div>
           </Container>
         </section>
 
@@ -421,6 +432,9 @@ export default function Home() {
                 ))}
               </ul>
             </div>
+            <div className="mt-10 flex justify-center gap-x-6">
+              <Button onClick={handleCtaClick}>Optimize my profile</Button>
+            </div>
           </Container>
         </section>
 
@@ -447,7 +461,7 @@ export default function Home() {
                 private.
               </p>
             </div>
-            <div className="mx-auto mt-16 grid max-w-4xl grid-cols-1 gap-8 sm:grid-cols-3">
+            <div className="mx-auto mt-16 grid max-w-4xl grid-cols-1 gap-8 sm:grid-cols-4">
               {steps.map((step) => (
                 <div key={step.number} className="text-center">
                   <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-white/10 ring-1 ring-white/20">
@@ -468,6 +482,9 @@ export default function Home() {
                   </p>
                 </div>
               ))}
+            </div>
+            <div className="mt-10 flex justify-center gap-x-6">
+              <Button onClick={handleCtaClick}>Optimize my profile</Button>
             </div>
           </Container>
         </section>
@@ -505,19 +522,23 @@ export default function Home() {
                   <h3 className="font-display text-lg text-slate-900">
                     What this is
                   </h3>
-                  <div className="mt-4 flex items-start gap-x-3">
-                    <SmallCheckIcon />
-                    <span className="text-slate-600">
-                      Practical optimization of your photos, bio, and prompts.
-                      Designed specifically for Tinder.
-                    </span>
-                  </div>
+                  <ul role="list" className="mt-4 space-y-3">
+                    {butThis.map((item) => (
+                      <li key={item} className="flex items-center gap-x-3">
+                        <SmallCheckIcon />
+                        <span className="text-slate-600">{item}</span>
+                      </li>
+                    ))}
+                  </ul>
                 </div>
               </div>
               <p className="mt-8 text-center text-sm text-slate-500">
                 This service removes common profile mistakes. It does not
                 promise attraction.
               </p>
+            </div>
+            <div className="mt-10 flex justify-center gap-x-6">
+              <Button onClick={handleCtaClick}>Optimize my profile</Button>
             </div>
           </Container>
         </section>
@@ -614,6 +635,9 @@ export default function Home() {
                 </li>
               ))}
             </ul>
+            <div className="mt-10 flex justify-center gap-x-6">
+              <Button onClick={handleCtaClick}>Optimize my profile</Button>
+            </div>
           </Container>
         </section>
       </main>
