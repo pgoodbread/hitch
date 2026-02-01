@@ -25,6 +25,7 @@
     "posthog-js": "^1.324.1",
     "react": "^19",
     "react-dom": "^19",
+    "react-swipeable": "^7.0.2",
     "tailwindcss": "^4.1.15",
     "typescript": "^5.8.3"
   },

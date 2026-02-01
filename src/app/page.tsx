@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 import Image from 'next/image'
 import { Tab, TabGroup, TabList, TabPanel, TabPanels } from '@headlessui/react'
 import clsx from 'clsx'
+import { useSwipeable } from 'react-swipeable'
 
 import { Button } from '@/components/button'
 import { Container } from '@/components/container'
@@ -212,9 +213,23 @@ function PricingCheckIcon({ className }: { className?: string }) {
 
 export default function Home() {
   const [isModalOpen, setIsModalOpen] = useState(false)
+  const [selectedDeliverableIndex, setSelectedDeliverableIndex] = useState(0)
   const [tabOrientation, setTabOrientation] = useState<
     'horizontal' | 'vertical'
   >('horizontal')
+
+  const swipeHandlers = useSwipeable({
+    onSwipedLeft: () => {
+      setSelectedDeliverableIndex((prev) =>
+        Math.min(prev + 1, deliverables.length - 1),
+      )
+    },
+    onSwipedRight: () => {
+      setSelectedDeliverableIndex((prev) => Math.max(prev - 1, 0))
+    },
+    trackMouse: false,
+    preventScrollOnSwipe: true,
+  })
 
   useEffect(() => {
     const lgMediaQuery = window.matchMedia('(min-width: 1024px)')
@@ -267,7 +282,7 @@ export default function Home() {
             <Button onClick={handleCtaClick}>Optimize my profile</Button>
           </div>
           <p className="mt-6 text-sm text-slate-500">
-            Takes 5 minutes · One-time payment · Results in minutes
+            Takes 5 minutes · One-time payment · Results delivered to your inbox
           </p>
         </Container>
 
@@ -314,73 +329,73 @@ export default function Home() {
             <TabGroup
               className="mt-16 grid grid-cols-1 items-center gap-y-2 pt-10 sm:gap-y-6 md:mt-20 lg:grid-cols-12 lg:pt-0"
               vertical={tabOrientation === 'vertical'}
+              selectedIndex={selectedDeliverableIndex}
+              onChange={setSelectedDeliverableIndex}
             >
-              {({ selectedIndex }) => (
-                <>
-                  <div className="-mx-4 flex overflow-x-auto pb-4 sm:mx-0 sm:overflow-visible sm:pb-0 lg:col-span-5">
-                    <TabList className="relative z-10 flex gap-x-4 px-4 whitespace-nowrap sm:mx-auto sm:px-0 lg:mx-0 lg:block lg:gap-x-0 lg:gap-y-1 lg:whitespace-normal">
-                      {deliverables.map((point, pointIndex) => (
-                        <div
-                          key={point.title}
+              <div className="-mx-4 flex overflow-x-auto pb-4 sm:mx-0 sm:overflow-visible sm:pb-0 lg:col-span-5">
+                <TabList className="relative z-10 flex gap-x-4 px-4 whitespace-nowrap sm:mx-auto sm:px-0 lg:mx-0 lg:block lg:gap-x-0 lg:gap-y-1 lg:whitespace-normal">
+                  {deliverables.map((point, pointIndex) => (
+                    <div
+                      key={point.title}
+                      className={clsx(
+                        'group relative rounded-full px-4 py-1 lg:rounded-l-xl lg:rounded-r-none lg:p-6',
+                        selectedDeliverableIndex === pointIndex
+                          ? 'bg-white lg:bg-white/10 lg:ring-1 lg:ring-white/10 lg:ring-inset'
+                          : 'hover:bg-white/10 lg:hover:bg-white/5',
+                      )}
+                    >
+                      <h3>
+                        <Tab
                           className={clsx(
-                            'group relative rounded-full px-4 py-1 lg:rounded-l-xl lg:rounded-r-none lg:p-6',
-                            selectedIndex === pointIndex
-                              ? 'bg-white lg:bg-white/10 lg:ring-1 lg:ring-white/10 lg:ring-inset'
-                              : 'hover:bg-white/10 lg:hover:bg-white/5',
+                            'font-display text-lg data-selected:not-data-focus:outline-hidden',
+                            selectedDeliverableIndex === pointIndex
+                              ? 'text-blue-600 lg:text-white'
+                              : 'text-blue-100 hover:text-white lg:text-white',
                           )}
                         >
-                          <h3>
-                            <Tab
-                              className={clsx(
-                                'font-display text-lg data-selected:not-data-focus:outline-hidden',
-                                selectedIndex === pointIndex
-                                  ? 'text-blue-600 lg:text-white'
-                                  : 'text-blue-100 hover:text-white lg:text-white',
-                              )}
-                            >
-                              <span className="absolute inset-0 rounded-full lg:rounded-l-xl lg:rounded-r-none" />
-                              {point.title}
-                            </Tab>
-                          </h3>
-                          <p
-                            className={clsx(
-                              'mt-2 hidden text-sm lg:block',
-                              selectedIndex === pointIndex
-                                ? 'text-white'
-                                : 'text-blue-100 group-hover:text-white',
-                            )}
-                          >
-                            {point.description}
-                          </p>
+                          <span className="absolute inset-0 rounded-full lg:rounded-l-xl lg:rounded-r-none" />
+                          {point.title}
+                        </Tab>
+                      </h3>
+                      <p
+                        className={clsx(
+                          'mt-2 hidden text-sm lg:block',
+                          selectedDeliverableIndex === pointIndex
+                            ? 'text-white'
+                            : 'text-blue-100 group-hover:text-white',
+                        )}
+                      >
+                        {point.description}
+                      </p>
+                    </div>
+                  ))}
+                </TabList>
+              </div>
+              <div {...swipeHandlers} className="lg:col-span-7">
+                <TabPanels>
+                  {deliverables.map((point) => (
+                    <TabPanel key={point.title} unmount={false}>
+                      <div className="relative sm:px-6 lg:hidden">
+                        <div className="absolute -inset-x-4 -top-26 -bottom-17 bg-linear-to-b from-white/10 to-white/0 ring-1 ring-white/10 ring-inset sm:inset-x-0 sm:rounded-t-xl" />
+                        <p className="relative mx-auto max-w-2xl text-base text-white sm:text-center">
+                          {point.description}
+                        </p>
+                      </div>
+                      <div className="mt-10 flex items-center justify-center lg:mt-0">
+                        <div className="w-full rounded-2xl bg-white/10 p-4 text-center ring-1 ring-white/20 ring-inset md:w-1/2">
+                          <Image
+                            src={point.image}
+                            alt={point.title}
+                            width={1000}
+                            height={1000}
+                            className="rounded-lg shadow-lg"
+                          />
                         </div>
-                      ))}
-                    </TabList>
-                  </div>
-                  <TabPanels className="lg:col-span-7">
-                    {deliverables.map((point) => (
-                      <TabPanel key={point.title} unmount={false}>
-                        <div className="relative sm:px-6 lg:hidden">
-                          <div className="absolute -inset-x-4 -top-26 -bottom-17 bg-linear-to-b from-white/10 to-white/0 ring-1 ring-white/10 ring-inset sm:inset-x-0 sm:rounded-t-xl" />
-                          <p className="relative mx-auto max-w-2xl text-base text-white sm:text-center">
-                            {point.description}
-                          </p>
-                        </div>
-                        <div className="mt-10 flex items-center justify-center lg:mt-0">
-                          <div className="w-full rounded-2xl bg-white/10 p-4 text-center ring-1 ring-white/20 ring-inset md:w-1/2">
-                            <Image
-                              src={point.image}
-                              alt={point.title}
-                              width={1000}
-                              height={1000}
-                              className="rounded-lg shadow-lg"
-                            />
-                          </div>
-                        </div>
-                      </TabPanel>
-                    ))}
-                  </TabPanels>
-                </>
-              )}
+                      </div>
+                    </TabPanel>
+                  ))}
+                </TabPanels>
+              </div>
             </TabGroup>
             <div className="mt-10 flex justify-center gap-x-6">
               <Button onClick={handleCtaClick}>Optimize my profile</Button>
