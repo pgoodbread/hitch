@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useCallback } from 'react'
 import Link from 'next/link'
 import {
   Popover,
@@ -13,7 +13,7 @@ import clsx from 'clsx'
 import { Button } from '@/components/button'
 import { Container } from '@/components/container'
 import { NavLink } from '@/components/nav-link'
-import { OptimizeModal } from '@/components/optimize-modal'
+import { track } from '@/lib/analytics'
 import Image from 'next/image'
 
 function MobileNavLink({
@@ -82,46 +82,48 @@ function MobileNavigation() {
   )
 }
 
+const STRIPE_URL = 'https://buy.stripe.com/6oUcN59Ub3Zm4jr07R6EU05'
+
 export function Header() {
-  const [isModalOpen, setIsModalOpen] = useState(false)
+  const handleCtaClick = useCallback(() => {
+    track('cta_click')
+    window.location.href = STRIPE_URL
+  }, [])
 
   return (
-    <>
-      <header className="pt-4 pb-8">
-        <Container>
-          <nav className="relative z-50 flex justify-between">
-            <div className="flex items-center md:gap-x-12">
-              <Link href="#">
-                <Image
-                  src="/logo.png"
-                  alt="Tinder Profile Optimizer"
-                  width={130}
-                  height={40}
-                  className="rounded-xs"
-                />
-              </Link>
+    <header className="pt-4 pb-8">
+      <Container>
+        <nav className="relative z-50 flex justify-between">
+          <div className="flex items-center md:gap-x-12">
+            <Link href="#">
+              <Image
+                src="/logo.png"
+                alt="Tinder Profile Optimizer"
+                width={130}
+                height={40}
+                className="rounded-xs"
+              />
+            </Link>
 
-              <div className="hidden md:flex md:gap-x-6">
-                <NavLink href="#how-it-works">How it works</NavLink>
-                <NavLink href="#pricing">Pricing</NavLink>
-                <NavLink href="#faq">FAQ</NavLink>
-              </div>
+            <div className="hidden md:flex md:gap-x-6">
+              <NavLink href="#how-it-works">How it works</NavLink>
+              <NavLink href="#pricing">Pricing</NavLink>
+              <NavLink href="#faq">FAQ</NavLink>
             </div>
-            <div className="flex items-center gap-x-5 md:gap-x-8">
-              <Button
-                onClick={() => setIsModalOpen(true)}
-                className="bg-linear-to-br from-blue-500 via-indigo-500 to-purple-600"
-              >
-                Optimize my profile
-              </Button>
-              <div className="-mr-1 md:hidden">
-                <MobileNavigation />
-              </div>
+          </div>
+          <div className="flex items-center gap-x-5 md:gap-x-8">
+            <Button
+              onClick={handleCtaClick}
+              className="bg-linear-to-br from-blue-500 via-indigo-500 to-purple-600"
+            >
+              Optimize my profile
+            </Button>
+            <div className="-mr-1 md:hidden">
+              <MobileNavigation />
             </div>
-          </nav>
-        </Container>
-      </header>
-      <OptimizeModal open={isModalOpen} onClose={() => setIsModalOpen(false)} />
-    </>
+          </div>
+        </nav>
+      </Container>
+    </header>
   )
 }

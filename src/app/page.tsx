@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useCallback, useState } from 'react'
 import Image from 'next/image'
 import {
   Tab,
@@ -17,7 +17,6 @@ import { Button } from '@/components/button'
 import { Container } from '@/components/container'
 import { Footer } from '@/components/footer'
 import { Header } from '@/components/header'
-import { OptimizeModal } from '@/components/optimize-modal'
 import { PageViewTracker } from '@/components/page-view-tracker'
 import { ScrollDepthTracker } from '@/components/scroll-depth-tracker'
 import { track } from '@/lib/analytics'
@@ -218,8 +217,9 @@ function PricingCheckIcon({ className }: { className?: string }) {
   )
 }
 
+const STRIPE_URL = 'https://buy.stripe.com/6oUcN59Ub3Zm4jr07R6EU05'
+
 export default function Home() {
-  const [isModalOpen, setIsModalOpen] = useState(false)
   const [selectedDeliverableIndex, setSelectedDeliverableIndex] = useState(0)
   const [tabOrientation, setTabOrientation] = useState<
     'horizontal' | 'vertical'
@@ -253,10 +253,10 @@ export default function Home() {
     }
   }, [])
 
-  function handleCtaClick() {
+  const handleCtaClick = useCallback(() => {
     track('cta_click')
-    setIsModalOpen(true)
-  }
+    window.location.href = STRIPE_URL
+  }, [])
 
   return (
     <>
@@ -679,7 +679,6 @@ export default function Home() {
         </section>
       </main>
       <Footer />
-      <OptimizeModal open={isModalOpen} onClose={() => setIsModalOpen(false)} />
     </>
   )
 }
