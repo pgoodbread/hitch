@@ -12,6 +12,8 @@ export type AnalyticsEvent =
   | 'field_focus_textarea'
   | 'field_blur_email'
   | 'scroll_depth'
+  | 'city_page_view'
+  | 'city_cta_click'
 
 export function track(
   event: AnalyticsEvent,
