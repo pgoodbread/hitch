@@ -217,8 +217,6 @@ function PricingCheckIcon({ className }: { className?: string }) {
   )
 }
 
-const STRIPE_URL = 'https://buy.stripe.com/6oUcN59Ub3Zm4jr07R6EU05'
-
 export default function Home() {
   const [selectedDeliverableIndex, setSelectedDeliverableIndex] = useState(0)
   const [tabOrientation, setTabOrientation] = useState<
@@ -255,7 +253,7 @@ export default function Home() {
 
   const handleCtaClick = useCallback(() => {
     track('cta_click')
-    window.location.href = STRIPE_URL
+    window.location.href = '/optimize'
   }, [])
 
   return (

@@ -82,12 +82,10 @@ function MobileNavigation() {
   )
 }
 
-const STRIPE_URL = 'https://buy.stripe.com/6oUcN59Ub3Zm4jr07R6EU05'
-
 export function Header() {
   const handleCtaClick = useCallback(() => {
     track('cta_click')
-    window.location.href = STRIPE_URL
+    window.location.href = '/optimize'
   }, [])
 
   return (

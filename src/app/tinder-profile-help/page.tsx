@@ -81,7 +81,7 @@ export default function CityIndexPage() {
               Don&apos;t see your city? Our profile optimization works for any
               location.{' '}
               <a
-                href="https://buy.stripe.com/6oUcN59Ub3Zm4jr07R6EU05"
+                href="/optimize"
                 className="font-medium text-blue-600 hover:text-blue-500"
               >
                 Get started for $29 &rarr;

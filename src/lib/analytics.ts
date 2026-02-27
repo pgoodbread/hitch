@@ -14,6 +14,9 @@ export type AnalyticsEvent =
   | 'scroll_depth'
   | 'city_page_view'
   | 'city_cta_click'
+  | 'optimizer_form_started'
+  | 'optimizer_step_completed'
+  | 'optimizer_checkout_started'
 
 export function track(
   event: AnalyticsEvent,
