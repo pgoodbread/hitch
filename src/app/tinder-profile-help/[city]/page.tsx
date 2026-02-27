@@ -17,7 +17,6 @@ import { getCityBySlug, getAllCitySlugs } from '@/data/cities'
 import backgroundCallToAction from '@/images/background-call-to-action.jpg'
 
 const BASE_URL = 'https://tinderprofileoptimizer.com'
-const STRIPE_URL = 'https://buy.stripe.com/6oUcN59Ub3Zm4jr07R6EU05'
 
 const steps = [
   {
@@ -150,7 +149,7 @@ export default async function CityPage({
       '@type': 'Offer',
       price: '29',
       priceCurrency: 'USD',
-      url: STRIPE_URL,
+      url: `${BASE_URL}/optimize`,
     },
   }
 
