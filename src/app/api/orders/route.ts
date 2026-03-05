@@ -3,7 +3,7 @@ import { cookies } from 'next/headers'
 import { getStripe } from '@/lib/stripe'
 import { createOrder, updateOrderStatus } from '@/lib/orders'
 import { createClient } from '@/lib/supabase/server'
-import { PRODUCT_PRICE_DOLLARS, PRODUCT_PRICE_CENTS } from '@/lib/config'
+import { PRODUCT_PRICE_DOLLARS } from '@/lib/config'
 
 interface OrderRequest {
   email: string
@@ -159,21 +159,18 @@ export async function POST(request: Request) {
     // Create Stripe Checkout session
     const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'
 
+    const priceId = process.env.STRIPE_PRICE_ID_29
+    if (!priceId) {
+      throw new Error('Missing STRIPE_PRICE_ID_29 environment variable')
+    }
+
     const session = await getStripe().checkout.sessions.create({
       mode: 'payment',
       customer_email: email,
       allow_promotion_codes: true,
       line_items: [
         {
-          price_data: {
-            currency: 'usd',
-            product_data: {
-              name: 'Tinder Profile Optimization',
-              description:
-                'Complete profile review: photo ranking, bio rewrite, and conversation prompts',
-            },
-            unit_amount: PRODUCT_PRICE_CENTS,
-          },
+          price: priceId,
           quantity: 1,
         },
       ],
