@@ -9,18 +9,32 @@ function getResend(): Resend {
   return _resend
 }
 
+export interface PhotoAttachment {
+  content: Buffer
+  filename: string
+}
+
 export async function sendReportEmail(
   to: string,
   markdownReport: string,
+  photos: PhotoAttachment[] = [],
 ): Promise<void> {
   const reportHtml = await marked(markdownReport)
-  const html = await render(ReportEmail({ reportHtml }))
+  const photoCount = photos.length
+  const html = await render(ReportEmail({ reportHtml, photoCount }))
+
+  const attachments = photos.map((photo, i) => ({
+    content: photo.content,
+    filename: photo.filename,
+    content_id: `photo${i + 1}`,
+  }))
 
   const { error } = await getResend().emails.send({
     from: 'Tinder Profile Optimizer <reports@tinderprofileoptimizer.com>',
     to,
     subject: 'Your Tinder Profile Optimization Report',
     html,
+    attachments: attachments.length > 0 ? attachments : undefined,
   })
 
   if (error) {

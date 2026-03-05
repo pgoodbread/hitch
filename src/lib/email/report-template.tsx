@@ -7,13 +7,19 @@ import {
   Text,
   Hr,
   Link,
+  Img,
+  Row,
+  Column,
 } from '@react-email/components'
 
 interface ReportEmailProps {
   reportHtml: string
+  photoCount?: number
 }
 
-export function ReportEmail({ reportHtml }: ReportEmailProps) {
+export function ReportEmail({ reportHtml, photoCount = 0 }: ReportEmailProps) {
+  const photos = Array.from({ length: photoCount }, (_, i) => i + 1)
+
   return (
     <Html>
       <Head />
@@ -25,6 +31,26 @@ export function ReportEmail({ reportHtml }: ReportEmailProps) {
 
           <Section style={content}>
             <Text style={greeting}>Your profile optimization is ready!</Text>
+
+            {photoCount > 0 && (
+              <>
+                <Text style={sectionTitle}>Your Photos</Text>
+                <Row>
+                  {photos.map((num) => (
+                    <Column key={num} style={photoColumn}>
+                      <Img
+                        src={`cid:photo${num}`}
+                        alt={`Photo ${num}`}
+                        width="120"
+                        style={photoImage}
+                      />
+                      <Text style={photoLabel}>Photo {num}</Text>
+                    </Column>
+                  ))}
+                </Row>
+                <Hr style={divider} />
+              </>
+            )}
 
             <div dangerouslySetInnerHTML={{ __html: reportHtml }} />
 
@@ -83,6 +109,30 @@ const greeting = {
   fontWeight: '600' as const,
   color: '#1e293b',
   marginBottom: '24px',
+}
+
+const sectionTitle = {
+  fontSize: '16px',
+  fontWeight: '600' as const,
+  color: '#334155',
+  marginBottom: '12px',
+}
+
+const photoColumn = {
+  padding: '0 8px 0 0',
+  verticalAlign: 'top' as const,
+}
+
+const photoImage = {
+  borderRadius: '8px',
+  border: '1px solid #e2e8f0',
+}
+
+const photoLabel = {
+  fontSize: '12px',
+  color: '#64748b',
+  textAlign: 'center' as const,
+  margin: '4px 0 0 0',
 }
 
 const divider = {

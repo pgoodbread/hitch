@@ -3,6 +3,7 @@ import { Header } from '@/components/header'
 import { Footer } from '@/components/footer'
 import { Container } from '@/components/container'
 import { OptimizerForm } from '@/components/optimizer/optimizer-form'
+import { FormStartTracker } from '@/components/optimizer/form-start-tracker'
 
 export const metadata: Metadata = {
   title: 'Optimize Your Tinder Profile | Tinder Profile Optimizer',
@@ -26,6 +27,7 @@ export default function OptimizePage() {
               </p>
             </div>
             <div className="mt-12">
+              <FormStartTracker />
               <OptimizerForm />
             </div>
           </div>
