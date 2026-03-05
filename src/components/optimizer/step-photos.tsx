@@ -1,6 +1,6 @@
 'use client'
 
-import { useCallback, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import Image from 'next/image'
 import clsx from 'clsx'
 import { Upload, X, Loader2, AlertCircle } from 'lucide-react'
@@ -29,6 +29,10 @@ export function StepPhotos({
   const [isDragging, setIsDragging] = useState(false)
   const [uploadError, setUploadError] = useState<string | null>(null)
   const [uploadProgress, setUploadProgress] = useState<string | null>(null)
+  const photosRef = useRef(photos)
+  useEffect(() => {
+    photosRef.current = photos
+  }, [photos])
 
   const { startUpload } = useUploadThing('imageUploader')
 
@@ -49,7 +53,7 @@ export function StepPhotos({
         }
 
         // Respect the 10-photo limit
-        const remaining = 10 - photos.length
+        const remaining = 10 - photosRef.current.length
         const toUpload = ready.slice(0, remaining)
 
         if (toUpload.length === 0) {
@@ -60,7 +64,7 @@ export function StepPhotos({
 
         // Upload in batches of BATCH_SIZE
         let uploaded = 0
-        let currentPhotos = photos
+        let currentPhotos = photosRef.current
 
         for (let i = 0; i < toUpload.length; i += BATCH_SIZE) {
           const batch = toUpload.slice(i, i + BATCH_SIZE)
@@ -75,6 +79,7 @@ export function StepPhotos({
               key: file.key,
             }))
             currentPhotos = [...currentPhotos, ...newPhotos]
+            photosRef.current = currentPhotos
             onPhotosChange(currentPhotos)
           }
           uploaded += batch.length
@@ -89,7 +94,7 @@ export function StepPhotos({
         setUploadProgress(null)
       }
     },
-    [photos, startUpload, onPhotosChange],
+    [startUpload, onPhotosChange],
   )
 
   const handleDrop = useCallback(
@@ -133,7 +138,14 @@ export function StepPhotos({
       {uploadError && (
         <div className="flex items-start gap-2 rounded-lg bg-red-50 p-3">
           <AlertCircle className="mt-0.5 h-4 w-4 shrink-0 text-red-600" />
-          <p className="text-sm text-red-700">{uploadError}</p>
+          <p className="flex-1 text-sm text-red-700">{uploadError}</p>
+          <button
+            onClick={() => setUploadError(null)}
+            className="shrink-0 text-red-400 hover:text-red-600"
+            aria-label="Dismiss error"
+          >
+            <X className="h-4 w-4" />
+          </button>
         </div>
       )}
 
