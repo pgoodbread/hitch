@@ -86,7 +86,7 @@ export function StepPhotos({
           Upload your profile photos
         </h2>
         <p className="mt-2 text-sm text-slate-600">
-          Screenshots of your current Tinder photos. Up to 10 images, 10MB each.
+          Your current Tinder profile photos. Up to 10 images, 10MB each.
         </p>
       </div>
 

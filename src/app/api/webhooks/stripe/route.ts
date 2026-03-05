@@ -1,8 +1,9 @@
 import { NextResponse } from 'next/server'
 import { getStripe } from '@/lib/stripe'
-import { getOrderBySessionId, updateOrderStatus } from '@/lib/orders'
+import { getSupabaseAdmin } from '@/lib/supabase/admin'
 import { processOrder } from '@/lib/ai/process-order'
 import type Stripe from 'stripe'
+import type { Order } from '@/lib/orders'
 
 export async function POST(request: Request) {
   const body = await request.text()
@@ -28,16 +29,28 @@ export async function POST(request: Request) {
   if (event.type === 'checkout.session.completed') {
     const session = event.data.object as Stripe.Checkout.Session
 
-    const order = await getOrderBySessionId(session.id)
-    if (!order) {
-      console.error('Order not found for session:', session.id)
+    const { data: order, error } = await getSupabaseAdmin()
+      .from('orders')
+      .select('*')
+      .eq('stripe_session_id', session.id)
+      .single()
+
+    if (error || !order) {
+      console.error('Order not found for session:', session.id, error)
       return NextResponse.json({ received: true })
     }
 
-    await updateOrderStatus(order.id, 'processing')
+    const { error: updateError } = await getSupabaseAdmin()
+      .from('orders')
+      .update({ status: 'processing' })
+      .eq('id', order.id)
+
+    if (updateError) {
+      console.error('Error updating order status:', updateError)
+    }
 
     // Fire async pipeline — don't await so we return 200 quickly
-    processOrder(order).catch((err) => {
+    processOrder(order as Order).catch((err) => {
       console.error('Error processing order:', order.id, err)
     })
   }
