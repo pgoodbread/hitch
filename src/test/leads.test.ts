@@ -50,7 +50,7 @@ describe('leads database', () => {
           })),
         })),
       })),
-    } as ReturnType<typeof createClient>)
+    } as unknown as ReturnType<typeof createClient>)
 
     const { insertLead } = await import('../lib/db')
 
