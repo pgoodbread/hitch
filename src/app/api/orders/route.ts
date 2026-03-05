@@ -9,6 +9,9 @@ interface OrderRequest {
   dating_goal: 'relationship' | 'casual' | 'friends'
   about_user: string
   age?: number | null
+  location?: string | null
+  gender?: string | null
+  looking_for?: string[] | null
   upload_keys: string[]
   source?: string | null
 }
@@ -79,6 +82,9 @@ export async function POST(request: Request) {
       dating_goal: body.dating_goal,
       about_user: body.about_user.trim(),
       age: body.age ?? null,
+      location: body.location ?? null,
+      gender: body.gender ?? null,
+      looking_for: body.looking_for ?? null,
       upload_keys: body.upload_keys,
       source: body.source ?? null,
     })

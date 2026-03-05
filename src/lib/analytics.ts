@@ -17,6 +17,8 @@ export type AnalyticsEvent =
   | 'optimizer_form_started'
   | 'optimizer_step_completed'
   | 'optimizer_checkout_started'
+  | 'optimizer_payment_completed'
+  | 'optimizer_payment_failed'
 
 export function track(
   event: AnalyticsEvent,

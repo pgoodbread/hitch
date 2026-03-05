@@ -7,9 +7,7 @@ function getClient(): Anthropic {
   return _client
 }
 
-async function fetchImageAsBase64(
-  url: string,
-): Promise<{
+async function fetchImageAsBase64(url: string): Promise<{
   data: string
   mediaType: 'image/jpeg' | 'image/png' | 'image/gif' | 'image/webp'
 }> {
@@ -33,14 +31,31 @@ async function sleep(ms: number): Promise<void> {
   return new Promise((resolve) => setTimeout(resolve, ms))
 }
 
+export interface ProfileAnalysisInput {
+  imageUrls: string[]
+  datingGoal: string
+  aboutUser: string
+  age: number | null
+  location: string | null
+  gender: string | null
+  lookingFor: string[] | null
+}
+
 export async function analyzeProfile(
-  imageUrls: string[],
-  datingGoal: string,
-  aboutUser: string,
-  age: number | null,
-): Promise<string> {
+  input: ProfileAnalysisInput,
+): Promise<{ report: string; imageBuffers: Buffer[] }> {
   // Fetch all images as base64
-  const images = await Promise.all(imageUrls.map(fetchImageAsBase64))
+  const images = await Promise.all(input.imageUrls.map(fetchImageAsBase64))
+
+  // Build demographics section
+  const demographicLines: string[] = []
+  demographicLines.push(`**Dating Goal:** ${input.datingGoal}`)
+  demographicLines.push(`**About the user:** ${input.aboutUser}`)
+  if (input.age) demographicLines.push(`**Age:** ${input.age}`)
+  if (input.location) demographicLines.push(`**Location:** ${input.location}`)
+  if (input.gender) demographicLines.push(`**Gender:** ${input.gender}`)
+  if (input.lookingFor?.length)
+    demographicLines.push(`**Looking for:** ${input.lookingFor.join(', ')}`)
 
   const userContent: Anthropic.MessageCreateParams['messages'][0]['content'] = [
     ...images.map(
@@ -52,19 +67,19 @@ export async function analyzeProfile(
             media_type: img.mediaType,
             data: img.data,
           },
-          // Using cache_control is not needed here
         }) satisfies Anthropic.ImageBlockParam,
     ),
     {
       type: 'text' as const,
-      text: `Please analyze these ${images.length} profile photos and provide a complete Tinder profile optimization.
+      text: `Please analyze these ${images.length} profile photos (numbered Photo 1 through Photo ${images.length} in the order shown above) and provide a complete Tinder profile optimization.
 
-**Dating Goal:** ${datingGoal}
-**About the user:** ${aboutUser}${age ? `\n**Age:** ${age}` : ''}
+${demographicLines.join('\n')}
 
-Provide your analysis in markdown format.`,
+Refer to photos by number (Photo 1, Photo 2, etc.) in your analysis. Provide your analysis in markdown format.`,
     },
   ]
+
+  const imageBuffers = images.map((img) => Buffer.from(img.data, 'base64'))
 
   // Retry with exponential backoff
   for (let attempt = 0; attempt < AI_CONFIG.retry.maxAttempts; attempt++) {
@@ -81,7 +96,7 @@ Provide your analysis in markdown format.`,
         throw new Error('No text response from Claude')
       }
 
-      return textBlock.text
+      return { report: textBlock.text, imageBuffers }
     } catch (error) {
       if (attempt === AI_CONFIG.retry.maxAttempts - 1) throw error
       const delay = AI_CONFIG.retry.backoffMs[attempt] ?? 16000

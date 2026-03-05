@@ -1,9 +1,10 @@
 'use client'
 
-import { useEffect, useState, useCallback } from 'react'
+import { useEffect, useState, useCallback, useRef } from 'react'
 import { useSearchParams } from 'next/navigation'
 import { Loader2, CheckCircle2, AlertCircle } from 'lucide-react'
 import Link from 'next/link'
+import { track } from '@/lib/analytics'
 
 type OrderStatus = 'pending' | 'processing' | 'completed' | 'failed' | 'loading'
 
@@ -11,6 +12,7 @@ export function SuccessContent() {
   const searchParams = useSearchParams()
   const sessionId = searchParams.get('session_id')
   const [status, setStatus] = useState<OrderStatus>('loading')
+  const trackedRef = useRef(false)
 
   const pollStatus = useCallback(async () => {
     if (!sessionId) return
@@ -40,12 +42,17 @@ export function SuccessContent() {
     return () => clearInterval(interval)
   }, [sessionId, pollStatus])
 
-  // Stop polling when terminal
   useEffect(() => {
-    if (status === 'completed' || status === 'failed') {
-      // No-op: interval cleared by unmount or session change
+    if (trackedRef.current) return
+
+    if (status === 'completed') {
+      trackedRef.current = true
+      track('optimizer_payment_completed', { session_id: sessionId })
+    } else if (status === 'failed') {
+      trackedRef.current = true
+      track('optimizer_payment_failed', { session_id: sessionId })
     }
-  }, [status])
+  }, [status, sessionId])
 
   if (status === 'loading' || status === 'pending' || status === 'processing') {
     return (

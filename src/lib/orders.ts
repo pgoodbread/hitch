@@ -7,6 +7,9 @@ export interface Order {
   dating_goal: 'relationship' | 'casual' | 'friends'
   about_user: string
   age: number | null
+  location: string | null
+  gender: string | null
+  looking_for: string[] | null
   upload_keys: string[]
   stripe_session_id: string | null
   status: 'pending' | 'processing' | 'completed' | 'failed'
@@ -19,7 +22,15 @@ export interface Order {
 export async function createOrder(
   order: Pick<
     Order,
-    'email' | 'dating_goal' | 'about_user' | 'age' | 'upload_keys' | 'source'
+    | 'email'
+    | 'dating_goal'
+    | 'about_user'
+    | 'age'
+    | 'location'
+    | 'gender'
+    | 'looking_for'
+    | 'upload_keys'
+    | 'source'
   >,
 ): Promise<{ id: string } | { error: string }> {
   const cookieStore = await cookies()
@@ -32,6 +43,9 @@ export async function createOrder(
       dating_goal: order.dating_goal,
       about_user: order.about_user,
       age: order.age,
+      location: order.location,
+      gender: order.gender,
+      looking_for: order.looking_for,
       upload_keys: order.upload_keys,
       source: order.source,
     })
