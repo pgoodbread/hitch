@@ -47,15 +47,25 @@ export async function analyzeProfile(
   // Fetch all images as base64
   const images = await Promise.all(input.imageUrls.map(fetchImageAsBase64))
 
-  // Build demographics section
+  // Build demographics section with XML delimiters to prevent prompt injection
   const demographicLines: string[] = []
   demographicLines.push(`**Dating Goal:** ${input.datingGoal}`)
-  demographicLines.push(`**About the user:** ${input.aboutUser}`)
+  demographicLines.push(
+    `**About the user:** <user_input>${input.aboutUser}</user_input>`,
+  )
   if (input.age) demographicLines.push(`**Age:** ${input.age}`)
-  if (input.location) demographicLines.push(`**Location:** ${input.location}`)
-  if (input.gender) demographicLines.push(`**Gender:** ${input.gender}`)
+  if (input.location)
+    demographicLines.push(
+      `**Location:** <user_input>${input.location}</user_input>`,
+    )
+  if (input.gender)
+    demographicLines.push(
+      `**Gender:** <user_input>${input.gender}</user_input>`,
+    )
   if (input.lookingFor?.length)
-    demographicLines.push(`**Looking for:** ${input.lookingFor.join(', ')}`)
+    demographicLines.push(
+      `**Looking for:** <user_input>${input.lookingFor.join(', ')}</user_input>`,
+    )
 
   const userContent: Anthropic.MessageCreateParams['messages'][0]['content'] = [
     ...images.map(

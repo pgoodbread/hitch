@@ -13,7 +13,7 @@ import {
 } from '@react-email/components'
 
 interface ReportEmailProps {
-  reportHtml: string
+  reportHtml: string // Must be pre-sanitized by the caller
   photoCount?: number
 }
 

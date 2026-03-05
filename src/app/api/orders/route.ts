@@ -21,24 +21,27 @@ function isValidEmail(email: string): boolean {
 }
 
 const VALID_GOALS = ['relationship', 'casual', 'friends'] as const
+const VALID_GENDERS = ['Male', 'Female', 'Non-binary'] as const
+const VALID_LOOKING_FOR = ['Men', 'Women', 'Everyone'] as const
+const MAX_ABOUT_LENGTH = 2000
+const MAX_LOCATION_LENGTH = 200
+const MAX_UPLOAD_KEYS = 20
+
+function badRequest(error: string) {
+  return NextResponse.json({ error }, { status: 400 })
+}
 
 export async function POST(request: Request) {
   try {
     const body = (await request.json()) as OrderRequest
 
-    // Validate
+    // Validate required fields
     if (!body.email || !isValidEmail(body.email)) {
-      return NextResponse.json(
-        { error: 'Valid email is required' },
-        { status: 400 },
-      )
+      return badRequest('Valid email is required')
     }
 
     if (!VALID_GOALS.includes(body.dating_goal)) {
-      return NextResponse.json(
-        { error: 'Invalid dating goal' },
-        { status: 400 },
-      )
+      return badRequest('Invalid dating goal')
     }
 
     if (
@@ -46,16 +49,67 @@ export async function POST(request: Request) {
       typeof body.about_user !== 'string' ||
       body.about_user.trim().length < 10
     ) {
-      return NextResponse.json(
-        { error: 'About you must be at least 10 characters' },
-        { status: 400 },
+      return badRequest('About you must be at least 10 characters')
+    }
+
+    if (body.about_user.trim().length > MAX_ABOUT_LENGTH) {
+      return badRequest(
+        `About you must be at most ${MAX_ABOUT_LENGTH} characters`,
       )
     }
 
     if (!Array.isArray(body.upload_keys) || body.upload_keys.length === 0) {
-      return NextResponse.json(
-        { error: 'At least one photo is required' },
-        { status: 400 },
+      return badRequest('At least one photo is required')
+    }
+
+    if (body.upload_keys.length > MAX_UPLOAD_KEYS) {
+      return badRequest(`Maximum ${MAX_UPLOAD_KEYS} photos allowed`)
+    }
+
+    if (
+      body.upload_keys.some((key) => typeof key !== 'string' || !key.trim())
+    ) {
+      return badRequest('Invalid upload key')
+    }
+
+    // Validate optional fields
+    if (body.age != null) {
+      const age = Number(body.age)
+      if (!Number.isInteger(age) || age < 18 || age > 99) {
+        return badRequest('Age must be an integer between 18 and 99')
+      }
+    }
+
+    if (
+      body.gender != null &&
+      !VALID_GENDERS.includes(body.gender as (typeof VALID_GENDERS)[number])
+    ) {
+      return badRequest(`Gender must be one of: ${VALID_GENDERS.join(', ')}`)
+    }
+
+    if (body.looking_for != null) {
+      if (
+        !Array.isArray(body.looking_for) ||
+        body.looking_for.some(
+          (v) =>
+            !VALID_LOOKING_FOR.includes(
+              v as (typeof VALID_LOOKING_FOR)[number],
+            ),
+        )
+      ) {
+        return badRequest(
+          `Looking for must be an array of: ${VALID_LOOKING_FOR.join(', ')}`,
+        )
+      }
+    }
+
+    if (
+      body.location != null &&
+      typeof body.location === 'string' &&
+      body.location.trim().length > MAX_LOCATION_LENGTH
+    ) {
+      return badRequest(
+        `Location must be at most ${MAX_LOCATION_LENGTH} characters`,
       )
     }
 
@@ -90,7 +144,10 @@ export async function POST(request: Request) {
     })
 
     if ('error' in result) {
-      return NextResponse.json({ error: result.error }, { status: 500 })
+      return NextResponse.json(
+        { error: 'Something went wrong', code: result.error },
+        { status: 500 },
+      )
     }
 
     // Create Stripe Checkout session
