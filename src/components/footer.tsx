@@ -52,10 +52,23 @@ export function Footer() {
               className="mr-4 rounded-xs"
             />
           </Link>
-          <p className="mt-6 text-sm text-slate-500 sm:mt-0">
-            Copyright &copy; {new Date().getFullYear()} Tinder Profile
-            Optimizer. All rights reserved.
-          </p>
+          <div className="mt-6 sm:mt-0">
+            <p className="text-sm text-slate-500">
+              Copyright &copy; {new Date().getFullYear()} Tinder Profile
+              Optimizer. All rights reserved.
+            </p>
+            <div className="mt-2 flex gap-x-4 text-sm text-slate-500">
+              <Link href="/imprint" className="hover:text-slate-700">
+                Imprint
+              </Link>
+              <Link href="/privacy" className="hover:text-slate-700">
+                Privacy Policy
+              </Link>
+              <Link href="/terms" className="hover:text-slate-700">
+                Terms of Service
+              </Link>
+            </div>
+          </div>
         </div>
       </Container>
     </footer>
