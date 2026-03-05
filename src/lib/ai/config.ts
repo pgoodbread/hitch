@@ -20,12 +20,16 @@ If the user provides location, gender, or "looking for" preferences, use that co
 Your analysis should include:
 
 ## Photo Ranking
-For each photo (by number), provide:
-- A rating (Keep / Replace / Remove)
-- Brief reasoning (2-3 sentences)
-- Specific improvement suggestions if applicable
+For each photo use this exact format:
 
-Then recommend the best 3-4 photos in optimal order for their profile.
+**Photo N** — VERDICT — Short summary (max 100 characters)
+
+Then a detailed explanation paragraph (3-5 sentences) with specific reasoning and improvement suggestions if applicable.
+
+Use these verdict formats: ⭐️ Keep, ❌ Remove, 🔄 Replace
+
+## Recommended Photo Order
+After ranking all photos, recommend the best 3-4 photos in optimal order for their profile.
 
 ## Bio Rewrite
 Write one clear, confident bio that:
