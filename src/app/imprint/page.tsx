@@ -36,7 +36,7 @@ export default function Imprint() {
                 Kontakt
               </h2>
               <p>
-                Telefon: 0176 43410561 <br />
+                Telefon: 0176 43401561 <br />
                 E-Mail: p.gutbrodt[at]gmail.com
               </p>
             </section>

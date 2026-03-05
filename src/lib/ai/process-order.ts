@@ -1,9 +1,24 @@
 import type { Order } from '@/lib/orders'
-import { updateOrderStatus } from '@/lib/orders'
+import { getSupabaseAdmin } from '@/lib/supabase/admin'
 import { analyzeProfile } from './pipeline'
 import { sendReportEmail } from '@/lib/email/send'
 import { deleteUploadedFiles } from '@/lib/uploadthing-server'
 import sharp from 'sharp'
+
+async function updateOrderAdmin(
+  id: string,
+  status: Order['status'],
+  extra?: { ai_report?: string },
+) {
+  const { error } = await getSupabaseAdmin()
+    .from('orders')
+    .update({ status, ...extra })
+    .eq('id', id)
+
+  if (error) {
+    console.error('Error updating order status:', error)
+  }
+}
 
 const UPLOADTHING_BASE_URL = 'https://utfs.io/f/'
 const THUMBNAIL_WIDTH = 150
@@ -48,7 +63,7 @@ export async function processOrder(order: Order): Promise<void> {
     const thumbnails = await generateThumbnails(imageBuffers)
 
     // Store report and send email
-    await updateOrderStatus(order.id, 'completed', { ai_report: report })
+    await updateOrderAdmin(order.id, 'completed', { ai_report: report })
     await sendReportEmail(order.email, report, thumbnails)
 
     // Clean up uploaded images
@@ -57,6 +72,6 @@ export async function processOrder(order: Order): Promise<void> {
     )
   } catch (error) {
     console.error('Order processing failed:', order.id, error)
-    await updateOrderStatus(order.id, 'failed')
+    await updateOrderAdmin(order.id, 'failed')
   }
 }

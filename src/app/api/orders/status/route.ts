@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { getOrderBySessionId } from '@/lib/orders'
+import { getSupabaseAdmin } from '@/lib/supabase/admin'
 
 export async function GET(request: NextRequest) {
   const sessionId = request.nextUrl.searchParams.get('session_id')
@@ -11,9 +11,13 @@ export async function GET(request: NextRequest) {
     )
   }
 
-  const order = await getOrderBySessionId(sessionId)
+  const { data: order, error } = await getSupabaseAdmin()
+    .from('orders')
+    .select('status')
+    .eq('stripe_session_id', sessionId)
+    .single()
 
-  if (!order) {
+  if (error || !order) {
     return NextResponse.json({ error: 'Order not found' }, { status: 404 })
   }
 
