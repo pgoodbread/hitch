@@ -7,15 +7,34 @@ function getClient(): Anthropic {
   return _client
 }
 
+const IMAGE_FETCH_TIMEOUT_MS = 30_000
+const IMAGE_MAX_BYTES = 20 * 1024 * 1024 // 20MB
+
 async function fetchImageAsBase64(url: string): Promise<{
   data: string
   mediaType: 'image/jpeg' | 'image/png' | 'image/gif' | 'image/webp'
 }> {
-  const response = await fetch(url)
+  const response = await fetch(url, {
+    signal: AbortSignal.timeout(IMAGE_FETCH_TIMEOUT_MS),
+  })
   if (!response.ok) throw new Error(`Failed to fetch image: ${response.status}`)
+
+  const contentLength = Number(response.headers.get('content-length') || '0')
+  if (contentLength > IMAGE_MAX_BYTES) {
+    throw new Error(
+      `Image too large: ${contentLength} bytes (max ${IMAGE_MAX_BYTES})`,
+    )
+  }
 
   const contentType = response.headers.get('content-type') || 'image/jpeg'
   const buffer = await response.arrayBuffer()
+
+  if (buffer.byteLength > IMAGE_MAX_BYTES) {
+    throw new Error(
+      `Image too large: ${buffer.byteLength} bytes (max ${IMAGE_MAX_BYTES})`,
+    )
+  }
+
   const data = Buffer.from(buffer).toString('base64')
 
   const mediaType = (

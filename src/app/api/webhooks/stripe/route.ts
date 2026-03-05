@@ -14,14 +14,15 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: 'Missing signature' }, { status: 400 })
   }
 
+  const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET
+  if (!webhookSecret) {
+    throw new Error('Missing STRIPE_WEBHOOK_SECRET environment variable')
+  }
+
   let event: Stripe.Event
 
   try {
-    event = getStripe().webhooks.constructEvent(
-      body,
-      signature,
-      process.env.STRIPE_WEBHOOK_SECRET!,
-    )
+    event = getStripe().webhooks.constructEvent(body, signature, webhookSecret)
   } catch (err) {
     console.error('Webhook signature verification failed:', err)
     return NextResponse.json({ error: 'Invalid signature' }, { status: 400 })
@@ -41,21 +42,20 @@ export async function POST(request: Request) {
       return NextResponse.json({ received: true })
     }
 
-    // Idempotency guard: only process orders that are still pending
-    if (order.status !== 'pending') {
-      console.warn(
-        `Duplicate webhook for order ${order.id}, status already '${order.status}' — skipping`,
-      )
-      return NextResponse.json({ received: true })
-    }
-
-    const { error: updateError } = await getSupabaseAdmin()
+    // Atomic idempotency guard: only transition pending → processing
+    const { data: claimed, error: updateError } = await getSupabaseAdmin()
       .from('orders')
       .update({ status: 'processing' })
       .eq('id', order.id)
+      .eq('status', 'pending')
+      .select('id')
+      .single()
 
-    if (updateError) {
-      console.error('Error updating order status:', updateError)
+    if (updateError || !claimed) {
+      console.warn(
+        `Duplicate webhook for order ${order.id} — skipping (already claimed or not pending)`,
+      )
+      return NextResponse.json({ received: true })
     }
 
     // Use after() to keep the serverless function alive for background processing
