@@ -8,14 +8,24 @@ import { track } from '@/lib/analytics'
 
 type OrderStatus = 'pending' | 'processing' | 'completed' | 'failed' | 'loading'
 
+const POLL_TIMEOUT_MS = 3 * 60 * 1000 // 3 minutes
+
 export function SuccessContent() {
   const searchParams = useSearchParams()
   const sessionId = searchParams.get('session_id')
   const [status, setStatus] = useState<OrderStatus>('loading')
+  const [timedOut, setTimedOut] = useState(false)
   const trackedRef = useRef(false)
+  const startTimeRef = useRef(Date.now())
 
   const pollStatus = useCallback(async () => {
     if (!sessionId) return
+
+    // Stop polling after timeout
+    if (Date.now() - startTimeRef.current > POLL_TIMEOUT_MS) {
+      setTimedOut(true)
+      return
+    }
 
     try {
       const res = await fetch(
@@ -37,7 +47,7 @@ export function SuccessContent() {
     }
 
     // Don't poll if already in a terminal state
-    if (status === 'completed' || status === 'failed') return
+    if (status === 'completed' || status === 'failed' || timedOut) return
 
     pollStatus()
     const interval = setInterval(() => {
@@ -45,7 +55,7 @@ export function SuccessContent() {
     }, 4000)
 
     return () => clearInterval(interval)
-  }, [sessionId, pollStatus, status])
+  }, [sessionId, pollStatus, status, timedOut])
 
   useEffect(() => {
     if (trackedRef.current) return
@@ -58,6 +68,28 @@ export function SuccessContent() {
       track('optimizer_payment_failed', { session_id: sessionId })
     }
   }, [status, sessionId])
+
+  if (timedOut) {
+    return (
+      <div className="mx-auto max-w-md text-center">
+        <AlertCircle className="mx-auto h-12 w-12 text-amber-500" />
+        <h1 className="mt-6 font-display text-2xl font-medium text-slate-900">
+          Taking longer than expected
+        </h1>
+        <p className="mt-4 text-slate-600">
+          Your payment was received, but processing is taking longer than usual.
+          Your report will be sent to your email once ready. If you don&apos;t
+          receive it within an hour, please contact us.
+        </p>
+        <a
+          href="mailto:support@tinderprofileoptimizer.com"
+          className="mt-8 inline-flex items-center rounded-full bg-blue-600 px-6 py-3 text-sm font-semibold text-white hover:bg-blue-500"
+        >
+          Contact support
+        </a>
+      </div>
+    )
+  }
 
   if (status === 'loading' || status === 'pending' || status === 'processing') {
     return (

@@ -157,7 +157,9 @@ export async function POST(request: Request) {
     }
 
     // Create Stripe Checkout session
-    const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'
+    const siteUrl = (
+      process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'
+    ).replace(/\/+$/, '')
 
     const priceId = process.env.STRIPE_PRICE_ID_29
     if (!priceId) {
