@@ -11,7 +11,8 @@ export async function isHeicFile(file: File): Promise<boolean> {
   if (HEIC_MIME_TYPES.includes(file.type.toLowerCase())) return true
 
   // Tier 2: File extension
-  const ext = file.name.toLowerCase().slice(file.name.lastIndexOf('.'))
+  const lower = file.name.toLowerCase()
+  const ext = lower.slice(lower.lastIndexOf('.'))
   if (HEIC_EXTENSIONS.includes(ext)) return true
 
   // Tier 3: Byte-level magic number check (only if MIME is empty/generic)
