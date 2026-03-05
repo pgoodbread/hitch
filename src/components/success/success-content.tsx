@@ -36,13 +36,16 @@ export function SuccessContent() {
       return
     }
 
+    // Don't poll if already in a terminal state
+    if (status === 'completed' || status === 'failed') return
+
     pollStatus()
     const interval = setInterval(() => {
       pollStatus()
     }, 4000)
 
     return () => clearInterval(interval)
-  }, [sessionId, pollStatus])
+  }, [sessionId, pollStatus, status])
 
   useEffect(() => {
     if (trackedRef.current) return

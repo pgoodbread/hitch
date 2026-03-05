@@ -47,14 +47,26 @@ export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl
 
   let limiter: Ratelimit | null = null
+  let isRateLimitedRoute = false
 
   if (pathname === '/api/orders' && request.method === 'POST') {
     limiter = getOrdersLimiter()
+    isRateLimitedRoute = true
   } else if (pathname === '/api/orders/status') {
     limiter = getStatusLimiter()
+    isRateLimitedRoute = true
   }
 
   if (!limiter) {
+    if (isRateLimitedRoute) {
+      console.error(
+        'Rate limiter unavailable: UPSTASH_REDIS_REST_URL or UPSTASH_REDIS_REST_TOKEN not set',
+      )
+      return NextResponse.json(
+        { error: 'Service temporarily unavailable' },
+        { status: 503 },
+      )
+    }
     return NextResponse.next()
   }
 

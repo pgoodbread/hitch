@@ -26,6 +26,7 @@ export function OptimizerForm() {
   const [lookingFor, setLookingFor] = useState<string[]>([])
   const [email, setEmail] = useState('')
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const [submitError, setSubmitError] = useState<string | null>(null)
 
   const goNext = useCallback(() => {
     const stepProperties: Record<string, unknown> = { step: currentStep }
@@ -50,6 +51,7 @@ export function OptimizerForm() {
   const handleSubmit = useCallback(async () => {
     if (isSubmitting) return
     setIsSubmitting(true)
+    setSubmitError(null)
     track('optimizer_checkout_started')
 
     try {
@@ -76,15 +78,15 @@ export function OptimizerForm() {
       const data = await res.json()
 
       if (!res.ok) {
-        console.error('Order creation failed:', data.error)
+        setSubmitError(data.error || 'Something went wrong. Please try again.')
         setIsSubmitting(false)
         return
       }
 
       // Redirect to Stripe Checkout
       window.location.href = data.checkoutUrl
-    } catch (error) {
-      console.error('Submit error:', error)
+    } catch {
+      setSubmitError('Something went wrong. Please try again.')
       setIsSubmitting(false)
     }
   }, [
@@ -142,6 +144,7 @@ export function OptimizerForm() {
             onSubmit={handleSubmit}
             onBack={goBack}
             isSubmitting={isSubmitting}
+            error={submitError}
           />
         )}
       </div>

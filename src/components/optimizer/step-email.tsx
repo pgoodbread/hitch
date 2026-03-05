@@ -9,6 +9,7 @@ interface StepEmailProps {
   onSubmit: () => void
   onBack: () => void
   isSubmitting: boolean
+  error?: string | null
 }
 
 function isValidEmail(email: string): boolean {
@@ -21,6 +22,7 @@ export function StepEmail({
   onSubmit,
   onBack,
   isSubmitting,
+  error,
 }: StepEmailProps) {
   const isValid = isValidEmail(email)
 
@@ -90,6 +92,10 @@ export function StepEmail({
           )}
         </button>
       </div>
+
+      {error && (
+        <p className="mt-3 text-center text-sm text-red-600">{error}</p>
+      )}
     </div>
   )
 }

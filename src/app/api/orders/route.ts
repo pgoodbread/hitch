@@ -3,6 +3,7 @@ import { cookies } from 'next/headers'
 import { getStripe } from '@/lib/stripe'
 import { createOrder, updateOrderStatus } from '@/lib/orders'
 import { createClient } from '@/lib/supabase/server'
+import { PRODUCT_PRICE_DOLLARS, PRODUCT_PRICE_CENTS } from '@/lib/config'
 
 interface OrderRequest {
   email: string
@@ -115,6 +116,11 @@ export async function POST(request: Request) {
 
     const email = body.email.trim().toLowerCase()
 
+    // Sanitize source: allow only alphanumeric, dots, hyphens, underscores; max 200 chars
+    const source = body.source
+      ? body.source.replace(/[^a-zA-Z0-9._-]/g, '').slice(0, 200)
+      : null
+
     // Upsert lead for email capture
     const cookieStore = await cookies()
     const supabase = createClient(cookieStore)
@@ -122,9 +128,9 @@ export async function POST(request: Request) {
       {
         email,
         willing_to_pay: true,
-        price_shown: 29,
+        price_shown: PRODUCT_PRICE_DOLLARS,
         main_problem: body.dating_goal,
-        source: body.source ?? null,
+        source,
         updated_at: new Date().toISOString(),
       },
       { onConflict: 'email', ignoreDuplicates: false },
@@ -140,7 +146,7 @@ export async function POST(request: Request) {
       gender: body.gender ?? null,
       looking_for: body.looking_for ?? null,
       upload_keys: body.upload_keys,
-      source: body.source ?? null,
+      source,
     })
 
     if ('error' in result) {
@@ -165,7 +171,7 @@ export async function POST(request: Request) {
               description:
                 'Complete profile review: photo ranking, bio rewrite, and conversation prompts',
             },
-            unit_amount: 2900,
+            unit_amount: PRODUCT_PRICE_CENTS,
           },
           quantity: 1,
         },
