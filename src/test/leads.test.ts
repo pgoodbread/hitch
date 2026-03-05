@@ -1,26 +1,28 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 
-vi.mock('@supabase/supabase-js', () => ({
+const mockSingle = vi.fn()
+const mockSelect = vi.fn(() => ({ single: mockSingle }))
+const mockUpsert = vi.fn(() => ({ select: mockSelect }))
+const mockFrom = vi.fn(() => ({ upsert: mockUpsert }))
+
+vi.mock('next/headers', () => ({
+  cookies: vi.fn(() => Promise.resolve({ getAll: () => [], set: () => {} })),
+}))
+
+vi.mock('../lib/supabase/server', () => ({
   createClient: vi.fn(() => ({
-    from: vi.fn(() => ({
-      upsert: vi.fn(() => ({
-        select: vi.fn(() => ({
-          single: vi.fn(() =>
-            Promise.resolve({ data: { id: 1 }, error: null }),
-          ),
-        })),
-      })),
-    })),
+    from: mockFrom,
   })),
 }))
 
 describe('leads database', () => {
   beforeEach(() => {
     vi.clearAllMocks()
-    vi.resetModules()
   })
 
   it('should insert a new lead', async () => {
+    mockSingle.mockResolvedValue({ data: { id: 1 }, error: null })
+
     const { insertLead } = await import('../lib/db')
 
     const result = await insertLead({
@@ -33,24 +35,14 @@ describe('leads database', () => {
 
     expect(result.success).toBe(true)
     expect(result.id).toBe(1)
+    expect(mockFrom).toHaveBeenCalledWith('leads')
   })
 
   it('should handle insertion errors', async () => {
-    const { createClient } = await import('@supabase/supabase-js')
-    vi.mocked(createClient).mockReturnValue({
-      from: vi.fn(() => ({
-        upsert: vi.fn(() => ({
-          select: vi.fn(() => ({
-            single: vi.fn(() =>
-              Promise.resolve({
-                data: null,
-                error: { message: 'Database error' },
-              }),
-            ),
-          })),
-        })),
-      })),
-    } as unknown as ReturnType<typeof createClient>)
+    mockSingle.mockResolvedValue({
+      data: null,
+      error: { message: 'Database error' },
+    })
 
     const { insertLead } = await import('../lib/db')
 
