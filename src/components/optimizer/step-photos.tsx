@@ -3,8 +3,9 @@
 import { useCallback, useState } from 'react'
 import Image from 'next/image'
 import clsx from 'clsx'
-import { Upload, X, Loader2 } from 'lucide-react'
+import { Upload, X, Loader2, AlertCircle } from 'lucide-react'
 import { useUploadThing } from '@/lib/uploadthing'
+import { prepareFilesForUpload } from '@/lib/image-utils'
 
 interface UploadedPhoto {
   url: string
@@ -17,6 +18,8 @@ interface StepPhotosProps {
   onNext: () => void
 }
 
+const BATCH_SIZE = 2
+
 export function StepPhotos({
   photos,
   onPhotosChange,
@@ -24,33 +27,69 @@ export function StepPhotos({
 }: StepPhotosProps) {
   const [isUploading, setIsUploading] = useState(false)
   const [isDragging, setIsDragging] = useState(false)
+  const [uploadError, setUploadError] = useState<string | null>(null)
+  const [uploadProgress, setUploadProgress] = useState<string | null>(null)
 
-  const { startUpload } = useUploadThing('imageUploader', {
-    onClientUploadComplete: (res) => {
-      const newPhotos = res.map((file) => ({
-        url: file.ufsUrl,
-        key: file.key,
-      }))
-      onPhotosChange([...photos, ...newPhotos])
-      setIsUploading(false)
-    },
-    onUploadError: (error) => {
-      console.error('Upload error:', error)
-      setIsUploading(false)
-    },
-  })
+  const { startUpload } = useUploadThing('imageUploader')
 
   const handleFiles = useCallback(
-    (files: File[]) => {
-      const imageFiles = files.filter((f) => f.type.startsWith('image/'))
-      const remaining = 10 - photos.length
-      const toUpload = imageFiles.slice(0, remaining)
-      if (toUpload.length === 0) return
+    async (files: File[]) => {
+      if (files.length === 0) return
 
       setIsUploading(true)
-      startUpload(toUpload)
+      setUploadError(null)
+      setUploadProgress('Preparing photos...')
+
+      try {
+        // Convert HEIC and filter invalid files
+        const { ready, failed } = await prepareFilesForUpload(files)
+
+        if (failed.length > 0) {
+          setUploadError(failed.map((f) => f.error).join('. '))
+        }
+
+        // Respect the 10-photo limit
+        const remaining = 10 - photos.length
+        const toUpload = ready.slice(0, remaining)
+
+        if (toUpload.length === 0) {
+          setIsUploading(false)
+          setUploadProgress(null)
+          return
+        }
+
+        // Upload in batches of BATCH_SIZE
+        let uploaded = 0
+        let currentPhotos = photos
+
+        for (let i = 0; i < toUpload.length; i += BATCH_SIZE) {
+          const batch = toUpload.slice(i, i + BATCH_SIZE)
+          setUploadProgress(
+            `Uploading ${uploaded + 1}–${Math.min(uploaded + batch.length, toUpload.length)} of ${toUpload.length} photos...`,
+          )
+
+          const res = await startUpload(batch)
+          if (res) {
+            const newPhotos = res.map((file) => ({
+              url: file.ufsUrl,
+              key: file.key,
+            }))
+            currentPhotos = [...currentPhotos, ...newPhotos]
+            onPhotosChange(currentPhotos)
+          }
+          uploaded += batch.length
+        }
+      } catch (err) {
+        console.error('Upload error:', err)
+        setUploadError(
+          err instanceof Error ? err.message : 'Upload failed. Please retry.',
+        )
+      } finally {
+        setIsUploading(false)
+        setUploadProgress(null)
+      }
     },
-    [photos.length, startUpload],
+    [photos, startUpload, onPhotosChange],
   )
 
   const handleDrop = useCallback(
@@ -90,6 +129,14 @@ export function StepPhotos({
         </p>
       </div>
 
+      {/* Error banner */}
+      {uploadError && (
+        <div className="flex items-start gap-2 rounded-lg bg-red-50 p-3">
+          <AlertCircle className="mt-0.5 h-4 w-4 shrink-0 text-red-600" />
+          <p className="text-sm text-red-700">{uploadError}</p>
+        </div>
+      )}
+
       {/* Drop zone */}
       <div
         onDragOver={(e) => {
@@ -112,14 +159,16 @@ export function StepPhotos({
           <Upload className="h-8 w-8 text-slate-400" />
         )}
         <p className="mt-3 text-sm text-slate-600">
-          {isUploading ? 'Uploading...' : 'Drag and drop photos here, or'}
+          {isUploading
+            ? (uploadProgress ?? 'Uploading...')
+            : 'Drag and drop photos here, or'}
         </p>
         {!isUploading && (
           <label className="mt-2 cursor-pointer rounded-lg bg-white px-4 py-2 text-sm font-medium text-blue-600 shadow-sm ring-1 ring-slate-200 hover:bg-slate-50">
             Browse files
             <input
               type="file"
-              accept="image/*"
+              accept="image/*,.heic,.heif"
               multiple
               onChange={handleFileInput}
               className="hidden"
