@@ -1,4 +1,5 @@
 import Anthropic from '@anthropic-ai/sdk'
+import sharp from 'sharp'
 import { AI_CONFIG, SYSTEM_PROMPT } from './config'
 
 let _client: Anthropic | null = null
@@ -9,6 +10,37 @@ function getClient(): Anthropic {
 
 const IMAGE_FETCH_TIMEOUT_MS = 30_000
 const IMAGE_MAX_BYTES = 20 * 1024 * 1024 // 20MB
+const API_IMAGE_MAX_BYTES = 5 * 1024 * 1024 // 5MB Claude API limit
+
+async function compressImageToFit(
+  buffer: Buffer,
+  maxBytes: number,
+): Promise<Buffer> {
+  const qualities = [85, 70, 55]
+  for (const quality of qualities) {
+    const compressed = await sharp(buffer)
+      .resize({
+        width: 2048,
+        height: 2048,
+        fit: 'inside',
+        withoutEnlargement: true,
+      })
+      .jpeg({ quality })
+      .toBuffer()
+    if (compressed.byteLength <= maxBytes)
+      return compressed as Buffer<ArrayBuffer>
+  }
+  // Final attempt: smaller dimensions + low quality
+  return sharp(buffer)
+    .resize({
+      width: 1024,
+      height: 1024,
+      fit: 'inside',
+      withoutEnlargement: true,
+    })
+    .jpeg({ quality: 50 })
+    .toBuffer() as Promise<Buffer<ArrayBuffer>>
+}
 
 async function fetchImageAsBase64(url: string): Promise<{
   data: string
@@ -27,20 +59,36 @@ async function fetchImageAsBase64(url: string): Promise<{
   }
 
   const contentType = response.headers.get('content-type') || 'image/jpeg'
-  const buffer = await response.arrayBuffer()
+  const arrayBuffer = await response.arrayBuffer()
 
-  if (buffer.byteLength > IMAGE_MAX_BYTES) {
+  if (arrayBuffer.byteLength > IMAGE_MAX_BYTES) {
     throw new Error(
-      `Image too large: ${buffer.byteLength} bytes (max ${IMAGE_MAX_BYTES})`,
+      `Image too large: ${arrayBuffer.byteLength} bytes (max ${IMAGE_MAX_BYTES})`,
     )
   }
 
-  const data = Buffer.from(buffer).toString('base64')
+  let imageBuffer = Buffer.from(arrayBuffer)
+  let wasCompressed = false
+
+  // Compress if image exceeds Claude API's 5MB limit
+  if (imageBuffer.byteLength > API_IMAGE_MAX_BYTES) {
+    imageBuffer = (await compressImageToFit(
+      imageBuffer,
+      API_IMAGE_MAX_BYTES,
+    )) as Buffer<ArrayBuffer>
+    wasCompressed = true
+  }
+
+  const data = imageBuffer.toString('base64')
 
   const mediaType = (
-    ['image/jpeg', 'image/png', 'image/gif', 'image/webp'].includes(contentType)
-      ? contentType
-      : 'image/jpeg'
+    wasCompressed
+      ? 'image/jpeg' // compressed images are always JPEG
+      : ['image/jpeg', 'image/png', 'image/gif', 'image/webp'].includes(
+            contentType,
+          )
+        ? contentType
+        : 'image/jpeg'
   ) as 'image/jpeg' | 'image/png' | 'image/gif' | 'image/webp'
 
   return { data, mediaType }
