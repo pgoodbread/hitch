@@ -104,7 +104,7 @@ export function StepAbout({
             aboutUser.trim().length < 10 ? 'text-slate-400' : 'text-green-600',
           )}
         >
-          {aboutUser.trim().length}/10 minimum characters
+          {aboutUser.trim().length} characters (10 minimum)
         </p>
       </div>
 

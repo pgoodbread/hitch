@@ -54,7 +54,7 @@ export async function createOrder(
 
   if (error) {
     console.error('Error creating order:', error)
-    return { error: error.message }
+    return { error: 'ORD_CREATE_FAILED' }
   }
 
   return { id: data.id }

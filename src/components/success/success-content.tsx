@@ -18,7 +18,9 @@ export function SuccessContent() {
     if (!sessionId) return
 
     try {
-      const res = await fetch(`/api/orders/status?session_id=${sessionId}`)
+      const res = await fetch(
+        `/api/orders/status?session_id=${encodeURIComponent(sessionId)}`,
+      )
       if (!res.ok) return
 
       const data = await res.json()

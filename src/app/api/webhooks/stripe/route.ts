@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server'
+import { after } from 'next/server'
 import { getStripe } from '@/lib/stripe'
 import { getSupabaseAdmin } from '@/lib/supabase/admin'
 import { processOrder } from '@/lib/ai/process-order'
@@ -40,6 +41,14 @@ export async function POST(request: Request) {
       return NextResponse.json({ received: true })
     }
 
+    // Idempotency guard: only process orders that are still pending
+    if (order.status !== 'pending') {
+      console.warn(
+        `Duplicate webhook for order ${order.id}, status already '${order.status}' — skipping`,
+      )
+      return NextResponse.json({ received: true })
+    }
+
     const { error: updateError } = await getSupabaseAdmin()
       .from('orders')
       .update({ status: 'processing' })
@@ -49,9 +58,13 @@ export async function POST(request: Request) {
       console.error('Error updating order status:', updateError)
     }
 
-    // Fire async pipeline — don't await so we return 200 quickly
-    processOrder(order as Order).catch((err) => {
-      console.error('Error processing order:', order.id, err)
+    // Use after() to keep the serverless function alive for background processing
+    after(async () => {
+      try {
+        await processOrder(order as Order)
+      } catch (err) {
+        console.error('Error processing order:', order.id, err)
+      }
     })
   }
 
