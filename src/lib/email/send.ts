@@ -91,6 +91,7 @@ export async function sendReportEmail(
 
   const { error } = await getResend().emails.send({
     from: 'Tinder Profile Optimizer <reports@tinderprofileoptimizer.com>',
+    replyTo: 'support@tinderprofileoptimizer.com',
     to,
     subject: 'Your Tinder Profile Optimization Report',
     html,
@@ -100,5 +101,21 @@ export async function sendReportEmail(
   if (error) {
     console.error('Failed to send email:', error)
     throw new Error(`Failed to send email: ${error.message}`)
+  }
+}
+
+export async function sendErrorNotification(
+  orderId: string,
+  errorMessage: string,
+): Promise<void> {
+  const { error } = await getResend().emails.send({
+    from: 'Hitch Alerts <support@tinderprofileoptimizer.com>',
+    to: 'support@tinderprofileoptimizer.com',
+    subject: `[Alert] Order processing failed: ${orderId}`,
+    text: `Order ${orderId} failed:\n\n${errorMessage}`,
+  })
+
+  if (error) {
+    console.error('Failed to send error notification:', error)
   }
 }

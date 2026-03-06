@@ -1,7 +1,7 @@
 import type { Order } from '@/lib/orders'
 import { getSupabaseAdmin } from '@/lib/supabase/admin'
 import { analyzeProfile } from './pipeline'
-import { sendReportEmail } from '@/lib/email/send'
+import { sendReportEmail, sendErrorNotification } from '@/lib/email/send'
 import { deleteUploadedFiles } from '@/lib/uploadthing-server'
 import sharp from 'sharp'
 
@@ -73,5 +73,9 @@ export async function processOrder(order: Order): Promise<void> {
   } catch (error) {
     console.error('Order processing failed:', order.id, error)
     await updateOrderAdmin(order.id, 'failed')
+    await sendErrorNotification(
+      order.id,
+      error instanceof Error ? error.message : String(error),
+    ).catch(() => {})
   }
 }
