@@ -16,7 +16,7 @@ import { getCityBySlug, getAllCitySlugs } from '@/data/cities'
 
 import backgroundCallToAction from '@/images/background-call-to-action.jpg'
 
-const BASE_URL = 'https://tinderprofileoptimizer.com'
+const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL!
 
 const steps = [
   {

@@ -1,6 +1,6 @@
 import { getAllCitySlugs } from '../../src/data/cities'
 
-const BASE_URL = 'https://tinderprofileoptimizer.com'
+const BASE_URL = 'https://www.tinderprofileoptimizer.com'
 
 export function getSitemapUrls(): string[] {
   const citySlugs = getAllCitySlugs()

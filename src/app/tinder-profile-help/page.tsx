@@ -7,7 +7,7 @@ import { Container } from '@/components/container'
 import { getCitiesByRegion } from '@/data/cities'
 import type { CityData } from '@/data/cities'
 
-const BASE_URL = 'https://tinderprofileoptimizer.com'
+const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL!
 
 const regions: CityData['region'][] = [
   'Northeast',

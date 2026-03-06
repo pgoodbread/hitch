@@ -20,7 +20,7 @@ export const metadata: Metadata = {
       'Tinder Profile Optimizer - Get more matches from the profile you already have.',
     description:
       'A one-time Tinder profile optimization for men who want better results without changing who they are.',
-    url: 'https://tinderprofileoptimizer.com',
+    url: process.env.NEXT_PUBLIC_SITE_URL!,
   },
   twitter: {
     card: 'summary_large_image',

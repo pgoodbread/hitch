@@ -44,10 +44,7 @@ export function ReportEmail({ reportHtml }: ReportEmailProps) {
               Questions? Reply to this email and we&apos;ll get back to you.
             </Text>
             <Text style={footer}>
-              <Link
-                href="https://tinderprofileoptimizer.com"
-                style={footerLink}
-              >
+              <Link href={process.env.NEXT_PUBLIC_SITE_URL!} style={footerLink}>
                 tinderprofileoptimizer.com
               </Link>
             </Text>
