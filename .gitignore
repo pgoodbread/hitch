@@ -32,3 +32,6 @@ next-env.d.ts
 /data/*.db-wal
 /data/*.db-shm
 /data/testing
+
+# Google Search Console
+.gsc-credentials.json

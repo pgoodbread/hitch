@@ -2,7 +2,7 @@ import type { MetadataRoute } from 'next'
 import { getAllCitySlugs } from '@/data/cities'
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = 'https://tinderprofileoptimizer.com'
+  const baseUrl = 'https://www.tinderprofileoptimizer.com'
 
   const routes: MetadataRoute.Sitemap = [
     {
