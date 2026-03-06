@@ -11,7 +11,15 @@ export const metadata: Metadata = {
     'Upload your photos, choose your dating goal, and get a personalized Tinder profile optimization delivered to your inbox in minutes.',
 }
 
-export default function OptimizePage() {
+export default async function OptimizePage({
+  searchParams,
+}: {
+  searchParams: Promise<Record<string, string | string[] | undefined>>
+}) {
+  const params = await searchParams
+  const prefillEmail =
+    typeof params.email === 'string' ? params.email : undefined
+
   return (
     <>
       <Header />
@@ -28,7 +36,7 @@ export default function OptimizePage() {
             </div>
             <div className="mt-12">
               <FormStartTracker />
-              <OptimizerForm />
+              <OptimizerForm prefillEmail={prefillEmail} />
             </div>
           </div>
         </Container>
