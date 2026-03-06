@@ -1,7 +1,11 @@
 import type { Order } from '@/lib/orders'
 import { getSupabaseAdmin } from '@/lib/supabase/admin'
 import { analyzeProfile } from './pipeline'
-import { sendReportEmail, sendErrorNotification } from '@/lib/email/send'
+import {
+  sendReportEmail,
+  sendErrorNotification,
+  sendOrderNotification,
+} from '@/lib/email/send'
 import { deleteUploadedFiles } from '@/lib/uploadthing-server'
 import sharp from 'sharp'
 
@@ -65,6 +69,9 @@ export async function processOrder(order: Order): Promise<void> {
     // Store report and send email
     await updateOrderAdmin(order.id, 'completed', { ai_report: report })
     await sendReportEmail(order.email, report, thumbnails)
+    await sendOrderNotification(order).catch((err) =>
+      console.error('Failed to send order notification:', err),
+    )
 
     // Clean up uploaded images
     await deleteUploadedFiles(order.upload_keys as string[]).catch((err) =>

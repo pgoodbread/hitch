@@ -104,6 +104,42 @@ export async function sendReportEmail(
   }
 }
 
+export async function sendOrderNotification(order: {
+  id: string
+  email: string
+  dating_goal: string
+  age: number | null
+  location: string | null
+  gender: string | null
+  source: string | null
+  created_at: string
+}): Promise<void> {
+  const lines = [
+    `New order completed!`,
+    ``,
+    `Order ID: ${order.id}`,
+    `Customer: ${order.email}`,
+    `Dating goal: ${order.dating_goal}`,
+    order.age ? `Age: ${order.age}` : null,
+    order.location ? `Location: ${order.location}` : null,
+    order.gender ? `Gender: ${order.gender}` : null,
+    order.source ? `Source: ${order.source}` : null,
+    ``,
+    `Created: ${new Date(order.created_at).toLocaleString('en-US', { timeZone: 'America/New_York' })}`,
+  ]
+
+  const { error } = await getResend().emails.send({
+    from: 'Hitch Alerts <support@tinderprofileoptimizer.com>',
+    to: 'support@tinderprofileoptimizer.com',
+    subject: `[Order] New completed order from ${order.email}`,
+    text: lines.filter(Boolean).join('\n'),
+  })
+
+  if (error) {
+    console.error('Failed to send order notification:', error)
+  }
+}
+
 export async function sendErrorNotification(
   orderId: string,
   errorMessage: string,
