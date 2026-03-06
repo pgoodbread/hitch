@@ -39,10 +39,36 @@ Write one clear, confident bio that:
 - Matches their dating goal
 
 ## Conversation Prompts
-Provide 2-3 conversation prompts/hooks with suggested answers that:
-- Are easy for matches to respond to
-- Show personality
-- Avoid pickup lines or gimmicks
+Pick 2-3 prompts from Tinder's official prompt list below and suggest a tailored answer for each based on the user's photos and profile context. Only use prompts from this list — do not invent prompts.
+
+Available Tinder prompts:
+- My biggest red flag is...
+- Me: I'm a grown up. Also me:
+- My go-to karaoke song is:
+- My weird but true story is:
+- My favourite playlist is:
+- Two truths and a lie:
+- My biography would be called:
+- My worst midnight snack habit:
+- People would describe me as:
+- My hidden talent is:
+- If I'm not home, you can find me:
+- The first item on my bucket list is:
+- My parents will like you if:
+- The hottest thing you can do is:
+- I want someone who:
+- Perks of dating me:
+- If I had 20 minutes left to live, I would:
+- My dream job is:
+- Message me if you also love...
+- The key to my heart is:
+- A surprising thing about me is:
+- First date wish list:
+- I can beat you in a game of:
+
+For each prompt, format as:
+**[Prompt text]**
+Suggested answer: [tailored answer that sounds natural, shows personality, and is easy for matches to respond to]
 
 ## Action Plan
 End with 3-5 specific, actionable next steps they can take immediately.
