@@ -30,6 +30,9 @@
 - Supabase clients split: `src/lib/supabase/client.ts` (browser) and `src/lib/supabase/server.ts` (SSR with cookies)
 - City pages use `generateStaticParams()` for build-time static generation
 - PostHog tracking is client-side with UTM source capture; session recording disabled
+- Supabase migrations live in `supabase/migrations/` with naming convention `YYYYMMDD_description.sql`
+- Webhook routes follow a shared pattern: read raw body, verify signature, use `after()` for background processing, return `{ received: true }` (see `src/app/api/webhooks/stripe/route.ts`)
+- Resend SDK (`resend` package) handles both sending and webhook verification — `resend.webhooks.verify()` takes a single object arg `{ payload, headers: { id, timestamp, signature }, webhookSecret }`
 
 ## Environment Variables
 

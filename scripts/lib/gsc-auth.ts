@@ -4,9 +4,9 @@ import { google } from 'googleapis'
 import type { JWT } from 'google-auth-library'
 
 const CREDENTIALS_PATH = path.join(process.cwd(), '.gsc-credentials.json')
-const SCOPES = ['https://www.googleapis.com/auth/webmasters.readonly']
+const DEFAULT_SCOPES = ['https://www.googleapis.com/auth/webmasters.readonly']
 
-export async function authenticate(): Promise<JWT> {
+export async function authenticate(extraScopes: string[] = []): Promise<JWT> {
   if (!fs.existsSync(CREDENTIALS_PATH)) {
     console.error(
       '\nMissing .gsc-credentials.json in project root.\n\n' +
@@ -21,7 +21,7 @@ export async function authenticate(): Promise<JWT> {
 
   const auth = new google.auth.GoogleAuth({
     keyFile: CREDENTIALS_PATH,
-    scopes: SCOPES,
+    scopes: [...DEFAULT_SCOPES, ...extraScopes],
   })
 
   const client = (await auth.getClient()) as JWT
