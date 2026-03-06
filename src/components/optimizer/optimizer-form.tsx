@@ -15,7 +15,7 @@ interface UploadedPhoto {
   key: string
 }
 
-export function OptimizerForm() {
+export function OptimizerForm({ prefillEmail }: { prefillEmail?: string }) {
   const [currentStep, setCurrentStep] = useState(1)
   const [photos, setPhotos] = useState<UploadedPhoto[]>([])
   const [datingGoal, setDatingGoal] = useState<DatingGoal | null>(null)
@@ -24,7 +24,7 @@ export function OptimizerForm() {
   const [location, setLocation] = useState('')
   const [gender, setGender] = useState<string | null>(null)
   const [lookingFor, setLookingFor] = useState<string[]>([])
-  const [email, setEmail] = useState('')
+  const [email, setEmail] = useState(prefillEmail ?? '')
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [submitError, setSubmitError] = useState<string | null>(null)
 

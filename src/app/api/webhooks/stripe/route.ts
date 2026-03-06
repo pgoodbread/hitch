@@ -65,6 +65,16 @@ export async function POST(request: Request) {
       } catch (err) {
         console.error('Error processing order:', order.id, err)
       }
+
+      // Mark free score as converted if this email had a free score
+      try {
+        await getSupabaseAdmin()
+          .from('free_scores')
+          .update({ converted: true })
+          .eq('email', order.email)
+      } catch (err) {
+        console.error('Failed to mark free score conversion:', err)
+      }
     })
   }
 

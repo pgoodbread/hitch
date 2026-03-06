@@ -19,6 +19,10 @@ export type AnalyticsEvent =
   | 'optimizer_checkout_started'
   | 'optimizer_payment_completed'
   | 'optimizer_payment_failed'
+  | 'free_score_submitted'
+  | 'free_score_completed'
+  | 'free_score_failed'
+  | 'free_score_cta_click'
 
 export function track(
   event: AnalyticsEvent,
