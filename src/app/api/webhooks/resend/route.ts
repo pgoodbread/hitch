@@ -3,7 +3,9 @@ import { after } from 'next/server'
 import { Resend } from 'resend'
 import { getSupabaseAdmin } from '@/lib/supabase/admin'
 
-const resend = new Resend(process.env.RESEND_API_KEY)
+function getResend() {
+  return new Resend(process.env.RESEND_API_KEY)
+}
 
 export async function POST(request: Request) {
   const body = await request.text()
@@ -25,7 +27,7 @@ export async function POST(request: Request) {
   let event: any
 
   try {
-    event = resend.webhooks.verify({
+    event = getResend().webhooks.verify({
       payload: body,
       headers: {
         id: svixId,
@@ -88,7 +90,7 @@ export async function POST(request: Request) {
     try {
       const forwardTo = process.env.SUPPORT_FORWARD_EMAIL
       if (forwardTo) {
-        const { error: sendError } = await resend.emails.send({
+        const { error: sendError } = await getResend().emails.send({
           from: 'Hitch Support <support@tinderprofileoptimizer.com>',
           to: forwardTo,
           subject: `[Support] ${email.subject || '(no subject)'}`,
