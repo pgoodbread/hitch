@@ -1,23 +1,13 @@
 import Link from 'next/link'
 
 import { Container } from '@/components/container'
-import { NavLink } from '@/components/nav-link'
 import Image from 'next/image'
 
 export function Footer() {
   return (
     <footer className="bg-slate-50">
       <Container>
-        <div className="py-8">
-          <nav className="mt-10 text-sm" aria-label="quick links">
-            <div className="-my-1 flex justify-center gap-x-6">
-              <NavLink href="#features">Features</NavLink>
-              <NavLink href="#pricing">Pricing</NavLink>
-              <NavLink href="#faq">FAQ</NavLink>
-              <NavLink href="/tinder-profile-help">Cities</NavLink>
-            </div>
-          </nav>
-        </div>
+        <div className="py-8" />
         <div className="flex flex-col items-center border-t border-slate-400/10 py-8 sm:flex-row-reverse sm:justify-between">
           {/* <div className="flex gap-x-6">
             <Link href="#" className="group" aria-label="TaxPal on X">

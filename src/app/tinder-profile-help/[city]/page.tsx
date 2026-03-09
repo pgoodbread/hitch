@@ -149,7 +149,7 @@ export default async function CityPage({
       '@type': 'Offer',
       price: '29',
       priceCurrency: 'USD',
-      url: `${BASE_URL}/optimize`,
+      url: `${BASE_URL}/score`,
     },
   }
 
