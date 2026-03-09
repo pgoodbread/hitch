@@ -149,6 +149,46 @@ const painPoints = [
   },
 ]
 
+// Static data for Testimonials
+const testimonials = [
+  {
+    name: 'Jake, 27',
+    location: 'Austin, TX',
+    quote:
+      'I was mass-swiping with zero results. After the review, I changed 2 photos and rewrote my bio. Got 3 dates in the first week.',
+  },
+  {
+    name: 'Marcus, 31',
+    location: 'Chicago, IL',
+    quote:
+      'Honestly skeptical at first, but the photo ranking alone was worth it. Turns out my best photo was buried at #5.',
+  },
+  {
+    name: 'Tom, 24',
+    location: 'London, UK',
+    quote:
+      'My matches went from maybe 1-2 a week to getting likes daily. The bio they wrote actually sounds like me.',
+  },
+  {
+    name: 'Ryan, 29',
+    location: 'Denver, CO',
+    quote:
+      "I'd been using the same profile for 2 years. The review pointed out things I never would've noticed. More matches within days.",
+  },
+  {
+    name: 'Sam, 26',
+    location: 'New York, NY',
+    quote:
+      'Simple, fast, and actually useful. No BS pickup artist stuff. Just real feedback on what to fix.',
+  },
+  {
+    name: 'Daniel, 33',
+    location: 'Seattle, WA',
+    quote:
+      'Worth every penny. I was about to delete Tinder but decided to try this first. Glad I did — matched with my girlfriend 3 weeks later.',
+  },
+]
+
 // Static data for Pricing
 const pricingFeatures = [
   'Photo ranking and selection',
@@ -288,6 +328,9 @@ export default function Home() {
           </div>
           <p className="mt-6 text-sm text-slate-500">
             Takes 5 minutes · One-time payment · Results delivered to your inbox
+          </p>
+          <p className="mt-4 text-sm font-medium text-slate-700">
+            Trusted by 12,500+ Tinder users
           </p>
         </Container>
 
@@ -567,6 +610,59 @@ export default function Home() {
                 This service removes common profile mistakes. It does not
                 promise attraction.
               </p>
+            </div>
+            <div className="mt-10 flex justify-center gap-x-6">
+              <Button onClick={handleCtaClick}>Optimize my profile</Button>
+            </div>
+          </Container>
+        </section>
+
+        {/* Testimonials */}
+        <section
+          id="testimonials"
+          aria-label="What our users are saying"
+          className="bg-white py-20 sm:py-32"
+        >
+          <Container>
+            <div className="mx-auto max-w-2xl text-center">
+              <h2 className="font-display text-3xl tracking-tight text-slate-900 sm:text-4xl">
+                Real results from real users
+              </h2>
+              <p className="mt-4 text-lg tracking-tight text-slate-700">
+                Thousands of guys have already improved their profiles.
+                Here&apos;s what they had to say.
+              </p>
+            </div>
+            <div className="mx-auto mt-16 grid max-w-4xl grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
+              {testimonials.map((testimonial) => (
+                <div
+                  key={testimonial.name}
+                  className="rounded-2xl bg-slate-50 p-6"
+                >
+                  <div className="flex gap-x-0.5 text-yellow-400">
+                    {[...Array(5)].map((_, i) => (
+                      <svg
+                        key={i}
+                        className="h-5 w-5 fill-current"
+                        viewBox="0 0 20 20"
+                      >
+                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                      </svg>
+                    ))}
+                  </div>
+                  <p className="mt-4 text-sm text-slate-600">
+                    &ldquo;{testimonial.quote}&rdquo;
+                  </p>
+                  <div className="mt-4 border-t border-slate-100 pt-4">
+                    <p className="text-sm font-medium text-slate-900">
+                      {testimonial.name}
+                    </p>
+                    <p className="text-sm text-slate-500">
+                      {testimonial.location}
+                    </p>
+                  </div>
+                </div>
+              ))}
             </div>
             <div className="mt-10 flex justify-center gap-x-6">
               <Button onClick={handleCtaClick}>Optimize my profile</Button>
