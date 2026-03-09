@@ -35,7 +35,7 @@ function ScoreBar({ score, label }: { score: number; label: string }) {
   return (
     <div>
       <div className="flex items-baseline justify-between">
-        <span className="text-sm font-medium text-slate-700">{label}</span>
+        <span className="mr-4 text-sm font-medium text-slate-700">{label}</span>
         <span className={clsx('text-lg font-bold', getScoreColor(score))}>
           {score.toFixed(1)}
         </span>
