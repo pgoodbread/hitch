@@ -64,6 +64,45 @@ export async function convertHeicToJpeg(file: File): Promise<File> {
   return jpegFile
 }
 
+/**
+ * Compress an image to fit within maxBytes by reducing JPEG quality,
+ * then scaling dimensions if needed.
+ */
+async function compressImage(file: File, maxBytes: number): Promise<File> {
+  const bitmap = await createImageBitmap(file)
+  let { width, height } = bitmap
+
+  const qualities = [0.85, 0.7, 0.55, 0.4]
+  const baseName = file.name.replace(/\.[^.]+$/, '')
+
+  for (let scale = 0; scale < 3; scale++) {
+    for (const quality of qualities) {
+      const canvas = new OffscreenCanvas(width, height)
+      const ctx = canvas.getContext('2d')!
+      ctx.drawImage(bitmap, 0, 0, width, height)
+
+      const blob = await canvas.convertToBlob({
+        type: 'image/jpeg',
+        quality,
+      })
+
+      if (blob.size <= maxBytes) {
+        bitmap.close()
+        return new File([blob], `${baseName}.jpg`, { type: 'image/jpeg' })
+      }
+    }
+
+    // Scale down by 50% and retry
+    width = Math.round(width / 2)
+    height = Math.round(height / 2)
+  }
+
+  bitmap.close()
+  throw new Error(
+    `${file.name} is too large even after compression. Try a smaller photo.`,
+  )
+}
+
 interface PrepareResult {
   ready: File[]
   failed: { file: File; error: string }[]
@@ -84,7 +123,11 @@ export async function prepareFilesForUpload(
       if (await isHeicFile(file)) {
         ready.push(await convertHeicToJpeg(file))
       } else if (file.type.startsWith('image/')) {
-        ready.push(file)
+        ready.push(
+          file.size > MAX_FILE_SIZE
+            ? await compressImage(file, MAX_FILE_SIZE)
+            : file,
+        )
       } else {
         failed.push({
           file,
