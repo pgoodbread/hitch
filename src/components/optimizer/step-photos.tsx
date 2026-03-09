@@ -130,8 +130,7 @@ export function StepPhotos({
           Upload your profile photos
         </h2>
         <p className="mt-2 text-sm text-slate-600">
-          Your current Tinder profile photos. Up to 10 images. Large photos are
-          automatically resized.
+          Your current Tinder profile photos. Up to 10 images.
         </p>
       </div>
 
