@@ -7,8 +7,15 @@ import { track } from '@/lib/analytics'
 export function CityCta({ city, label }: { city: string; label?: string }) {
   const handleClick = useCallback(() => {
     track('city_cta_click', { city })
-    window.location.href = '/optimize'
   }, [city])
 
-  return <Button onClick={handleClick}>{label || 'Optimize my profile'}</Button>
+  return (
+    <Button
+      href={`/score?utm_source=city&utm_content=${encodeURIComponent(city)}`}
+      onClick={handleClick}
+      color="blue"
+    >
+      {label || 'Get Your Free Profile Score'}
+    </Button>
+  )
 }
