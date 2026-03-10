@@ -2,6 +2,7 @@
 
 import { useCallback } from 'react'
 import clsx from 'clsx'
+import Image from 'next/image'
 import { Lock, Camera, FileText, Sparkles } from 'lucide-react'
 import { track } from '@/lib/analytics'
 import type { ScoreResult } from './types'
@@ -9,6 +10,7 @@ import type { ScoreResult } from './types'
 interface ScoreResultsProps {
   scores: ScoreResult
   email: string
+  photoUrls: string[]
 }
 
 function getScoreColor(score: number): string {
@@ -90,7 +92,7 @@ const LOCKED_ITEMS = [
   'Your personal action plan',
 ]
 
-export function ScoreResults({ scores, email }: ScoreResultsProps) {
+export function ScoreResults({ scores, email, photoUrls }: ScoreResultsProps) {
   const handleCtaClick = useCallback(() => {
     track('free_score_cta_click', { overall_score: scores.overall_score })
     window.location.href = `/optimize?email=${encodeURIComponent(email)}`
@@ -166,7 +168,29 @@ export function ScoreResults({ scores, email }: ScoreResultsProps) {
             </h3>
           </div>
 
-          {/* Blurred fake content */}
+          {/* Sneak preview: first photo with verdict */}
+          {photoUrls.length > 0 && (
+            <div className="mt-4 flex items-center gap-4 rounded-xl border border-slate-200 bg-slate-50 p-4">
+              <Image
+                src={photoUrls[0]}
+                alt="Your first photo"
+                width={80}
+                height={80}
+                className="h-20 w-20 shrink-0 rounded-lg object-cover"
+              />
+              <div>
+                <p className="text-sm font-medium text-slate-900">Photo 1</p>
+                <span className="mt-1 inline-block rounded-full bg-red-100 px-2.5 py-0.5 text-xs font-semibold text-red-700">
+                  Replace
+                </span>
+                <p className="mt-1.5 text-sm text-slate-500">
+                  Unlock to see why and what to use instead.
+                </p>
+              </div>
+            </div>
+          )}
+
+          {/* Blurred locked content */}
           <div className="mt-4 space-y-3 select-none" aria-hidden="true">
             {LOCKED_ITEMS.map((item) => (
               <div key={item} className="flex items-start gap-3">
