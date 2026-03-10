@@ -166,7 +166,13 @@ export function ScoreForm() {
 
   // Show results if we have scores
   if (scores) {
-    return <ScoreResults scores={scores} email={email.trim().toLowerCase()} />
+    return (
+      <ScoreResults
+        scores={scores}
+        email={email.trim().toLowerCase()}
+        photoUrls={photos.map((p) => p.url)}
+      />
+    )
   }
 
   return (
