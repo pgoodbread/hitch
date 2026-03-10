@@ -5,6 +5,7 @@ import { render } from '@react-email/components'
 import { marked } from 'marked'
 import sanitizeHtml from 'sanitize-html'
 import { ReportEmail } from './report-template'
+import { injectPhotoThumbnails } from './inject-thumbnails'
 
 let _resend: Resend | null = null
 function getResend(): Resend {
@@ -45,23 +46,6 @@ const ALLOWED_HTML: sanitizeHtml.IOptions = {
 export interface PhotoAttachment {
   content: Buffer
   filename: string
-}
-
-/**
- * Inject inline thumbnail images into the report HTML next to each
- * "Photo N" reference (bold text). Only injects for photos we have.
- */
-function injectPhotoThumbnails(html: string, photoCount: number): string {
-  let result = html
-  for (let i = 1; i <= photoCount; i++) {
-    const imgTag =
-      `<img src="cid:photo${i}" alt="Photo ${i}" width="60" ` +
-      `style="display:block;border-radius:4px;border:1px solid #e2e8f0;margin-bottom:6px">`
-    // Match <strong>Photo N</strong> (with optional trailing content inside the tag)
-    const pattern = new RegExp(`(<strong>Photo ${i}\\b)(.*?</strong>)`)
-    result = result.replace(pattern, `${imgTag}$1$2`)
-  }
-  return result
 }
 
 export async function sendReportEmail(
