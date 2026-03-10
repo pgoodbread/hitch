@@ -62,7 +62,9 @@ export async function analyzeProfile(
     ),
     {
       type: 'text' as const,
-      text: `Please analyze these ${images.length} profile photos (numbered Photo 1 through Photo ${images.length} in the order shown above) and provide a complete Tinder profile optimization.
+      text: `Please analyze these ${images.length} profile photos and provide a complete Tinder profile optimization.
+
+The photos are numbered Photo 1 through Photo ${images.length} in the exact order shown above. You MUST include an analysis entry for every single photo using that exact numbering — do not skip or renumber any photo, even if it is not a personal photo.
 
 ${demographicLines.join('\n')}
 

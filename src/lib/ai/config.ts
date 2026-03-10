@@ -20,6 +20,8 @@ If the user provides location, gender, or "looking for" preferences, use that co
 Your analysis should include:
 
 ## Photo Ranking
+CRITICAL: You MUST include an entry for EVERY photo, numbered exactly Photo 1 through Photo N matching the order provided. NEVER skip, reorder, or renumber photos — even if a photo is not a personal photo (e.g., a screenshot, logo, meme). For non-personal photos, use ❌ Remove and explain what the image actually is.
+
 For each photo use this exact format:
 
 **Photo N** — VERDICT — Short summary (max 100 characters)
