@@ -37,7 +37,7 @@ export default function Imprint() {
               </h2>
               <p>
                 Telefon: 0176 43401561 <br />
-                E-Mail: p.gutbrodt[at]gmail.com
+                E-Mail: support[at]tinderprofileoptimizer.com
               </p>
             </section>
 
