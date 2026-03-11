@@ -2,6 +2,7 @@
 
 import { useCallback, useState } from 'react'
 import { useSwipeable } from 'react-swipeable'
+import clsx from 'clsx'
 import { Check, ChevronLeft, ChevronRight } from 'lucide-react'
 
 import { Button } from '@/components/button'
@@ -86,10 +87,16 @@ const carouselTestimonials = [
 ]
 
 const exampleScores = [
-  { label: 'Photos', score: '5.1 / 10' },
-  { label: 'Bio', score: '3.4 / 10' },
-  { label: 'First Impression', score: '4.2 / 10' },
+  { label: 'Photos', score: 5.1 },
+  { label: 'Bio', score: 3.4 },
+  { label: 'First Impression', score: 4.2 },
 ]
+
+function getScoreColor(score: number): string {
+  if (score <= 3) return 'text-red-600'
+  if (score <= 6) return 'text-yellow-600'
+  return 'text-green-600'
+}
 
 export default function Home() {
   const [currentSlide, setCurrentSlide] = useState(0)
@@ -205,8 +212,9 @@ export default function Home() {
                 <p className="text-center text-sm font-medium tracking-wide text-slate-500 uppercase">
                   Your Tinder Profile Score
                 </p>
-                <p className="mt-2 text-center font-display text-5xl font-medium text-slate-900">
-                  4.2 <span className="text-2xl text-slate-400">/ 10</span>
+                <p className="mt-2 text-center font-display text-5xl font-medium">
+                  <span className={getScoreColor(4.2)}>4.2</span>{' '}
+                  <span className="text-2xl text-slate-400">/ 10</span>
                 </p>
                 <div className="mt-8 space-y-4">
                   {exampleScores.map((item) => (
@@ -217,8 +225,14 @@ export default function Home() {
                       <span className="text-sm text-slate-600">
                         {item.label}
                       </span>
-                      <span className="font-medium text-slate-900">
-                        {item.score}
+                      <span
+                        className={clsx(
+                          'font-medium',
+                          getScoreColor(item.score),
+                        )}
+                      >
+                        {item.score.toFixed(1)}{' '}
+                        <span className="text-slate-400">/ 10</span>
                       </span>
                     </div>
                   ))}
