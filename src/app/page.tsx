@@ -68,21 +68,20 @@ const faqItems = [
   },
 ]
 
-
 const carouselTestimonials = [
   {
     name: 'John',
     age: 39,
     quote:
-      'Very good, exceeded expectations – especially the extensiveness of the results in the email. My clear impression: I got more likes afterwards.',
-    image: "/images/testimonials/john.JPG",
+      'Very good! It exceeded expectations. Especially how detailed the results were. I got noticeably more likes afterwards.',
+    image: '/images/testimonials/john.JPG',
   },
   {
     name: 'Phil',
     age: 33,
     quote:
-      'Honestly skeptical at first, but the photo ranking alone was worth it. Turns out my best photo was buried at #5.',
-    image: "/images/testimonials/phil.JPG",
+      'Honestly skeptical at first, I thought my profile was pretty good. But boy was I wrong! Photo ranking alone was worth it, but what I loved most is the step-by-step action plan!',
+    image: '/images/testimonials/phil.JPG',
   },
 ]
 
@@ -93,7 +92,7 @@ const exampleScores = [
 ]
 
 export default function Home() {
-  const [currentSlide, setCurrentSlide] = useState(0) 
+  const [currentSlide, setCurrentSlide] = useState(0)
 
   const nextSlide = useCallback(
     () => setCurrentSlide((s) => (s + 1) % carouselTestimonials.length),
@@ -245,7 +244,12 @@ export default function Home() {
         {/* Testimonial Carousel */}
         <section id="testimonials" className="py-12 sm:py-16">
           <Container>
-            <div className="mx-auto max-w-4xl">
+            <div className="mx-auto max-w-2xl text-center">
+              <h2 className="font-display text-3xl tracking-tight text-slate-900 sm:text-4xl">
+                Real results from real guys
+              </h2>
+            </div>
+            <div className="mx-auto mt-12 max-w-4xl">
               <div className="relative" {...swipeHandlers}>
                 <div className="overflow-hidden rounded-2xl">
                   <div
@@ -255,10 +259,7 @@ export default function Home() {
                     }}
                   >
                     {carouselTestimonials.map((testimonial) => (
-                      <div
-                        key={testimonial.name}
-                        className="w-full shrink-0"
-                      >
+                      <div key={testimonial.name} className="w-full shrink-0">
                         <Testimonial
                           quote={testimonial.quote}
                           name={testimonial.name}
