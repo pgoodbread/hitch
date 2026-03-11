@@ -158,15 +158,6 @@ export function ScoreResults({ scores, email, photoUrls }: ScoreResultsProps) {
         </div>
       </div>
 
-      <div className="mx-auto flex max-w-xs justify-center">
-        <button
-          onClick={handleCtaClick}
-          className="w-full rounded-full bg-blue-600 py-3.5 text-sm font-semibold text-white shadow-lg transition-colors hover:bg-blue-500"
-        >
-          Unlock Full Analysis — $29
-        </button>
-      </div>
-
       {/* Blurred/Locked Full Analysis */}
       <div className="relative overflow-hidden rounded-2xl bg-white shadow-sm ring-1 ring-slate-200">
         <div className="p-6 sm:p-8">
@@ -233,13 +224,15 @@ export function ScoreResults({ scores, email, photoUrls }: ScoreResultsProps) {
       </div>
 
       {/* Sticky mobile CTA */}
-      <div className="fixed right-0 bottom-0 left-0 z-50 border-t border-slate-200 bg-white/95 p-3 backdrop-blur-sm md:hidden">
-        <button
-          onClick={handleCtaClick}
-          className="w-full rounded-full bg-blue-600 py-3.5 text-sm font-semibold text-white shadow-lg transition-colors hover:bg-blue-500"
-        >
-          Unlock Full Analysis — $29
-        </button>
+      <div className="fixed right-0 bottom-0 left-0 z-50 border-t border-slate-200 bg-white/95 p-3 backdrop-blur-sm">
+        <div className="mx-auto flex max-w-xs justify-center">
+          <button
+            onClick={handleCtaClick}
+            className="mx-auto w-full rounded-full bg-blue-600 py-3.5 text-sm font-semibold text-white shadow-lg transition-colors hover:bg-blue-500 md:max-w-xs"
+          >
+            Unlock Full Analysis — $29
+          </button>
+        </div>
       </div>
     </div>
   )
