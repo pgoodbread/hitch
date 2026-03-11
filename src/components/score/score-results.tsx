@@ -158,6 +158,15 @@ export function ScoreResults({ scores, email, photoUrls }: ScoreResultsProps) {
         </div>
       </div>
 
+      <div className="mx-auto flex max-w-xs justify-center">
+        <button
+          onClick={handleCtaClick}
+          className="w-full rounded-full bg-blue-600 py-3.5 text-sm font-semibold text-white shadow-lg transition-colors hover:bg-blue-500"
+        >
+          Unlock Full Analysis — $29
+        </button>
+      </div>
+
       {/* Blurred/Locked Full Analysis */}
       <div className="relative overflow-hidden rounded-2xl bg-white shadow-sm ring-1 ring-slate-200">
         <div className="p-6 sm:p-8">
@@ -210,7 +219,7 @@ export function ScoreResults({ scores, email, photoUrls }: ScoreResultsProps) {
         </div>
 
         {/* Gradient overlay */}
-        <div className="absolute inset-0 bg-gradient-to-b from-white/30 via-white/60 to-white" />
+        <div className="absolute inset-0 bg-linear-to-b from-white/30 via-white/60 to-white" />
 
         {/* CTA overlay */}
         <div className="absolute inset-x-0 bottom-0 p-6 sm:p-8">
