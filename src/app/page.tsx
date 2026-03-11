@@ -12,6 +12,7 @@ import { Header } from '@/components/header'
 import { PageViewTracker } from '@/components/page-view-tracker'
 import { ScrollDepthTracker } from '@/components/scroll-depth-tracker'
 import { StickyMobileCta } from '@/components/sticky-mobile-cta'
+import Testimonial from '@/components/testimonial'
 import { track } from '@/lib/analytics'
 
 const howItWorksSteps = [
@@ -70,13 +71,15 @@ const faqItems = [
 
 const carouselTestimonials = [
   {
-    name: 'John, 39',
+    name: 'John',
+    age: 39,
     quote:
       'Very good, exceeded expectations – especially the extensiveness of the results in the email. My clear impression: I got more likes afterwards.',
     image: "/images/testimonials/john.JPG",
   },
   {
-    name: 'Phil, 33',
+    name: 'Phil',
+    age: 33,
     quote:
       'Honestly skeptical at first, but the photo ranking alone was worth it. Turns out my best photo was buried at #5.',
     image: "/images/testimonials/phil.JPG",
@@ -242,7 +245,7 @@ export default function Home() {
         {/* Testimonial Carousel */}
         <section id="testimonials" className="py-12 sm:py-16">
           <Container>
-            <div className="mx-auto max-w-md">
+            <div className="mx-auto max-w-4xl">
               <div className="relative" {...swipeHandlers}>
                 <div className="overflow-hidden rounded-2xl">
                   <div
@@ -254,16 +257,14 @@ export default function Home() {
                     {carouselTestimonials.map((testimonial) => (
                       <div
                         key={testimonial.name}
-                        className="w-full shrink-0 bg-slate-50 p-6"
+                        className="w-full shrink-0"
                       >
-                        <p className="mt-4 text-sm text-slate-600">
-                          &ldquo;{testimonial.quote}&rdquo;
-                        </p>
-                        <div className="mt-4 border-t border-slate-100 pt-4">
-                          <p className="text-sm font-medium text-slate-900">
-                            {testimonial.name}
-                          </p>
-                        </div>
+                        <Testimonial
+                          quote={testimonial.quote}
+                          name={testimonial.name}
+                          age={testimonial.age}
+                          imageSrc={testimonial.image}
+                        />
                       </div>
                     ))}
                   </div>
