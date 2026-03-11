@@ -5,6 +5,7 @@ import { render } from '@react-email/components'
 import { marked } from 'marked'
 import sanitizeHtml from 'sanitize-html'
 import { ReportEmail } from './report-template'
+import { FreeScoreEmail } from './free-score-template'
 import { injectPhotoThumbnails } from './inject-thumbnails'
 
 let _resend: Resend | null = null
@@ -121,6 +122,46 @@ export async function sendOrderNotification(order: {
 
   if (error) {
     console.error('Failed to send order notification:', error)
+  }
+}
+
+export async function sendFreeScoreResultsEmail(score: {
+  email: string
+  overall_score: number
+  photo_score: number
+  bio_score: number
+  first_impression_score: number
+  photo_teaser: string
+  bio_teaser: string
+  first_impression_teaser: string
+}): Promise<void> {
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL!
+
+  const html = await render(
+    FreeScoreEmail({
+      ...score,
+      siteUrl,
+    }),
+  )
+
+  const logoPath = path.resolve(process.cwd(), 'public/logo.png')
+  const logoAttachment = {
+    content: fs.readFileSync(logoPath),
+    filename: 'logo.png',
+    contentId: 'logo',
+  }
+
+  const { error } = await getResend().emails.send({
+    from: 'Tinder Profile Optimizer <reports@tinderprofileoptimizer.com>',
+    replyTo: 'support@tinderprofileoptimizer.com',
+    to: score.email,
+    subject: `Your Tinder Profile Score: ${score.overall_score.toFixed(1)}/10`,
+    html,
+    attachments: [logoAttachment],
+  })
+
+  if (error) {
+    console.error('Failed to send free score results email:', error)
   }
 }
 
