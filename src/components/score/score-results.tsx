@@ -99,7 +99,7 @@ export function ScoreResults({ scores, email, photoUrls }: ScoreResultsProps) {
   }, [scores.overall_score, email])
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 pb-20 md:pb-0">
       {/* Overall Score Card */}
       <div className="rounded-2xl bg-white p-6 shadow-sm ring-1 ring-slate-200 sm:p-8">
         <h2 className="text-center font-display text-lg font-medium tracking-tight text-slate-500 uppercase">
@@ -221,6 +221,16 @@ export function ScoreResults({ scores, email, photoUrls }: ScoreResultsProps) {
             Unlock Full Analysis — $29
           </button>
         </div>
+      </div>
+
+      {/* Sticky mobile CTA */}
+      <div className="fixed right-0 bottom-0 left-0 z-50 border-t border-slate-200 bg-white/95 p-3 backdrop-blur-sm md:hidden">
+        <button
+          onClick={handleCtaClick}
+          className="w-full rounded-full bg-blue-600 py-3.5 text-sm font-semibold text-white shadow-lg transition-colors hover:bg-blue-500"
+        >
+          Unlock Full Analysis — $29
+        </button>
       </div>
     </div>
   )
