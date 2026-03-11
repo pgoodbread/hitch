@@ -2,6 +2,7 @@
 
 ## Workflow
 
+- Always pull the latest main (`git checkout main && git pull`) before creating a feature branch
 - Always create a feature branch before starting work
 - Run `npm run build` and `npm run lint` before committing — both must pass
 - Run tests if test infrastructure exists (`npm run test:run`)
