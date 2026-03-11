@@ -3,6 +3,7 @@ import { getSupabaseAdmin } from '@/lib/supabase/admin'
 import { fetchImageAsBase64 } from '@/lib/ai/images'
 import { analyzeFreeScore } from '@/lib/ai/free-score'
 import { deleteUploadedFiles } from '@/lib/uploadthing-server'
+import { sendFreeScoreNotification } from '@/lib/email/send'
 
 interface ScoreRequest {
   email: string
@@ -77,6 +78,11 @@ export async function POST(request: Request) {
       bio_score: scores.bio_score,
       first_impression_score: scores.first_impression_score,
     })
+
+    // Send notification email (fire and forget)
+    sendFreeScoreNotification({ email, ...scores }).catch((err) =>
+      console.error('Failed to send free score notification:', err),
+    )
 
     // Delete uploaded files (fire and forget)
     deleteUploadedFiles(body.upload_keys).catch((err) =>

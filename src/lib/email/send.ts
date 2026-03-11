@@ -124,6 +124,37 @@ export async function sendOrderNotification(order: {
   }
 }
 
+export async function sendFreeScoreNotification(score: {
+  email: string
+  overall_score: number
+  photo_score: number
+  bio_score: number
+  first_impression_score: number
+}): Promise<void> {
+  const lines = [
+    `New free score generated!`,
+    ``,
+    `Email: ${score.email}`,
+    `Overall: ${score.overall_score}/10`,
+    `Photos: ${score.photo_score}/10`,
+    `Bio: ${score.bio_score}/10`,
+    `First Impression: ${score.first_impression_score}/10`,
+    ``,
+    `Time: ${new Date().toLocaleString('en-US', { timeZone: 'America/New_York' })}`,
+  ]
+
+  const { error } = await getResend().emails.send({
+    from: 'Hitch Alerts <support@tinderprofileoptimizer.com>',
+    to: 'support@tinderprofileoptimizer.com',
+    subject: `[Free Score] New score from ${score.email}`,
+    text: lines.join('\n'),
+  })
+
+  if (error) {
+    console.error('Failed to send free score notification:', error)
+  }
+}
+
 export async function sendErrorNotification(
   orderId: string,
   errorMessage: string,
