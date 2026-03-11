@@ -82,9 +82,23 @@ export async function sendReportEmail(
     attachments,
   })
 
+  const { error: supportError } = await getResend().emails.send({
+    from: 'Tinder Profile Optimizer <reports@tinderprofileoptimizer.com>',
+    replyTo: 'support@tinderprofileoptimizer.com',
+    to: 'support@tinderprofileoptimizer.com',
+    subject: 'Your Tinder Profile Optimization Report',
+    html,
+    attachments,
+  })
+
   if (error) {
     console.error('Failed to send email:', error)
     throw new Error(`Failed to send email: ${error.message}`)
+  }
+
+  if (supportError) {
+    console.error('Failed to send support email:', supportError)
+    throw new Error(`Failed to send support email: ${supportError.message}`)
   }
 }
 
