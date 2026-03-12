@@ -1,5 +1,6 @@
 import { type Metadata } from 'next'
 import { Container } from '@/components/container'
+import { AnalyticsOptOut } from '@/components/analytics-opt-out'
 
 export const metadata: Metadata = {
   title: 'Privacy Policy',
@@ -19,7 +20,7 @@ export default function PrivacyPolicy() {
             Privacy Policy
           </h1>
           <p className="mt-2 text-sm text-zinc-500 dark:text-zinc-400">
-            Last updated: March 5, 2026
+            Last updated: March 12, 2026
           </p>
 
           <div className="mt-6 space-y-7 text-base text-zinc-600 dark:text-zinc-400">
@@ -66,7 +67,8 @@ export default function PrivacyPolicy() {
                 </li>
                 <li>
                   <strong>Usage analytics</strong> — page views, button clicks,
-                  and scroll depth via PostHog, only if you accept cookies.
+                  and scroll depth via PostHog, collected anonymously without
+                  cookies or persistent identifiers. You can opt out below.
                 </li>
               </ul>
             </section>
@@ -82,14 +84,11 @@ export default function PrivacyPolicy() {
                   delivering it via email.
                 </li>
                 <li>
-                  <strong>Consent (Art. 6(1)(a) GDPR)</strong> — analytics
-                  cookies (PostHog) are only set after you explicitly accept
-                  them. You can withdraw consent at any time by clearing your
-                  cookies.
-                </li>
-                <li>
                   <strong>Legitimate interest (Art. 6(1)(f) GDPR)</strong> —
-                  fraud prevention and service improvement.
+                  anonymous analytics for service improvement (PostHog runs in
+                  cookieless mode with no persistent identifiers, hosted in the
+                  EU, and is used solely to improve the service), as well as
+                  fraud prevention.
                 </li>
               </ul>
             </section>
@@ -163,8 +162,8 @@ export default function PrivacyPolicy() {
                   </a>
                 </li>
                 <li>
-                  <strong>PostHog</strong> (analytics, consent-gated) — EU
-                  hosting.{' '}
+                  <strong>PostHog</strong> (analytics, cookieless, EU-hosted) —
+                  no cookies or persistent identifiers.{' '}
                   <a
                     href="https://posthog.com/privacy"
                     className="text-blue-600 underline hover:text-blue-800"
@@ -208,12 +207,13 @@ export default function PrivacyPolicy() {
                 6. Cookies
               </h2>
               <p>
-                We use a cookie consent banner. Only essential cookies (session
-                management) are set by default. Analytics cookies (PostHog) are
-                only activated after you give explicit consent. You can withdraw
-                consent at any time by clearing your browser cookies or
-                declining when the banner reappears.
+                We do not use analytics cookies. PostHog analytics runs in
+                cookieless mode with memory-only persistence — no cookies,
+                localStorage, or persistent identifiers are stored on your
+                device. You can opt out of analytics tracking using the toggle
+                below.
               </p>
+              <AnalyticsOptOut />
             </section>
 
             <section>
@@ -261,7 +261,8 @@ export default function PrivacyPolicy() {
                 </li>
                 <li>
                   <strong>Object</strong> to processing based on legitimate
-                  interest
+                  interest — you can opt out of analytics tracking at any time
+                  using the toggle in Section 6 above
                 </li>
                 <li>
                   <strong>Withdraw consent</strong> at any time (without

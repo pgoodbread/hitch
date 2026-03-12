@@ -20,6 +20,10 @@ function PostHogProvider({ children }: { children: React.ReactNode }) {
         advanced_disable_feature_flags: true,
         disable_cookie: true,
       })
+
+      if (localStorage.getItem('analytics-opt-out') === 'true') {
+        posthog.opt_out_capturing()
+      }
     }
   }, [])
 
