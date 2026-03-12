@@ -52,6 +52,7 @@ export async function analyzeFreeScore(
   images: { data: string; mediaType: string }[],
   bio: string,
 ): Promise<ScoreResult> {
+  const hasPhotos = images.length > 0
   const userContent: Anthropic.MessageCreateParams['messages'][0]['content'] = [
     ...images.map(
       (img) =>
@@ -70,7 +71,9 @@ export async function analyzeFreeScore(
     ),
     {
       type: 'text' as const,
-      text: `Analyze these ${images.length} profile photo(s) and this bio:\n\n<user_input>${bio}</user_input>`,
+      text: hasPhotos
+        ? `Analyze these ${images.length} profile photo(s) and this bio:\n\n<user_input>${bio}</user_input>`
+        : `Analyze this Tinder bio (no photos provided — score photos as 3.0 and note they didn't provide any, focus your analysis on the bio and overall impression):\n\n<user_input>${bio}</user_input>`,
     },
   ]
 
