@@ -161,8 +161,7 @@ export function ScoreForm() {
     }
   }, [isSubmitting, email, bio, photos])
 
-  const isFormValid =
-    photos.length > 0 && bio.trim().length >= 10 && isValidEmail(email)
+  const isFormValid = bio.trim().length >= 10 && isValidEmail(email)
 
   // Show results if we have scores
   if (scores) {
@@ -178,14 +177,65 @@ export function ScoreForm() {
   return (
     <div className="rounded-2xl bg-white p-6 shadow-sm ring-1 ring-slate-200 sm:p-8">
       <div className="space-y-8">
-        {/* Photos Section */}
+        {/* Bio Section */}
+        <div className="space-y-2">
+          <label
+            htmlFor="bio"
+            className="block font-display text-lg font-medium text-slate-900"
+          >
+            Your bio
+          </label>
+          <p className="text-sm text-slate-600">
+            Paste your current Tinder bio.
+          </p>
+          <textarea
+            id="bio"
+            rows={4}
+            value={bio}
+            onChange={(e) => setBio(e.target.value)}
+            placeholder="Paste your Tinder bio here..."
+            className="block w-full rounded-lg border border-slate-300 px-3 py-2 text-sm text-slate-900 placeholder:text-slate-400 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none"
+          />
+          <p
+            className={clsx(
+              'text-xs',
+              bio.trim().length < 10 ? 'text-slate-400' : 'text-green-600',
+            )}
+          >
+            {bio.trim().length} characters (10 minimum)
+          </p>
+        </div>
+
+        {/* Email Section */}
+        <div className="space-y-2">
+          <label
+            htmlFor="score-email"
+            className="block font-display text-lg font-medium text-slate-900"
+          >
+            Your email
+          </label>
+          <input
+            id="score-email"
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="you@example.com"
+            className="block w-full rounded-lg border border-slate-300 px-3 py-2 text-sm text-slate-900 placeholder:text-slate-400 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none"
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' && isFormValid && !isSubmitting)
+                handleSubmit()
+            }}
+          />
+        </div>
+
+        {/* Photos Section (optional) */}
         <div className="space-y-4">
           <div>
             <h2 className="font-display text-lg font-medium text-slate-900">
               Your profile photos
             </h2>
             <p className="mt-1 text-sm text-slate-600">
-              Upload 1-3 photos from your Tinder profile.
+              Want a more complete score? Add your photos (optional)
             </p>
           </div>
 
@@ -270,57 +320,6 @@ export function ScoreForm() {
               ))}
             </div>
           )}
-        </div>
-
-        {/* Bio Section */}
-        <div className="space-y-2">
-          <label
-            htmlFor="bio"
-            className="block font-display text-lg font-medium text-slate-900"
-          >
-            Your bio
-          </label>
-          <p className="text-sm text-slate-600">
-            Paste your current Tinder bio.
-          </p>
-          <textarea
-            id="bio"
-            rows={4}
-            value={bio}
-            onChange={(e) => setBio(e.target.value)}
-            placeholder="Paste your Tinder bio here..."
-            className="block w-full rounded-lg border border-slate-300 px-3 py-2 text-sm text-slate-900 placeholder:text-slate-400 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none"
-          />
-          <p
-            className={clsx(
-              'text-xs',
-              bio.trim().length < 10 ? 'text-slate-400' : 'text-green-600',
-            )}
-          >
-            {bio.trim().length} characters (10 minimum)
-          </p>
-        </div>
-
-        {/* Email Section */}
-        <div className="space-y-2">
-          <label
-            htmlFor="score-email"
-            className="block font-display text-lg font-medium text-slate-900"
-          >
-            Your email
-          </label>
-          <input
-            id="score-email"
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            placeholder="you@example.com"
-            className="block w-full rounded-lg border border-slate-300 px-3 py-2 text-sm text-slate-900 placeholder:text-slate-400 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none"
-            onKeyDown={(e) => {
-              if (e.key === 'Enter' && isFormValid && !isSubmitting)
-                handleSubmit()
-            }}
-          />
         </div>
 
         {/* Privacy */}

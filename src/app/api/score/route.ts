@@ -44,8 +44,8 @@ export async function POST(request: Request) {
       return badRequest(`Bio must be at most ${MAX_BIO_LENGTH} characters`)
     }
 
-    if (!Array.isArray(body.upload_keys) || body.upload_keys.length === 0) {
-      return badRequest('At least one photo is required')
+    if (!Array.isArray(body.upload_keys)) {
+      return badRequest('upload_keys must be an array')
     }
 
     if (body.upload_keys.length > MAX_UPLOAD_KEYS) {
@@ -61,11 +61,15 @@ export async function POST(request: Request) {
     const email = body.email.trim().toLowerCase()
     const bio = body.bio.trim()
 
-    // Fetch and compress images
-    const imageUrls = body.upload_keys.map(
-      (key) => `${UPLOADTHING_BASE_URL}${key}`,
-    )
-    const images = await Promise.all(imageUrls.map(fetchImageAsBase64))
+    // Fetch and compress images (if any)
+    const images =
+      body.upload_keys.length > 0
+        ? await Promise.all(
+            body.upload_keys
+              .map((key) => `${UPLOADTHING_BASE_URL}${key}`)
+              .map(fetchImageAsBase64),
+          )
+        : []
 
     // Run AI analysis
     const scores = await analyzeFreeScore(images, bio)
@@ -85,9 +89,11 @@ export async function POST(request: Request) {
     )
 
     // Delete uploaded files (fire and forget)
-    deleteUploadedFiles(body.upload_keys).catch((err) =>
-      console.error('Failed to delete uploaded files:', err),
-    )
+    if (body.upload_keys.length > 0) {
+      deleteUploadedFiles(body.upload_keys).catch((err) =>
+        console.error('Failed to delete uploaded files:', err),
+      )
+    }
 
     return NextResponse.json(scores)
   } catch (error) {
