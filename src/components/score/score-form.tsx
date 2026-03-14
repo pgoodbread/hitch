@@ -3,7 +3,14 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import Image from 'next/image'
 import clsx from 'clsx'
-import { Upload, X, Loader2, AlertCircle, Lock } from 'lucide-react'
+import {
+  Upload,
+  X,
+  Loader2,
+  AlertCircle,
+  Lock,
+  ChevronDown,
+} from 'lucide-react'
 import { useUploadThing } from '@/lib/uploadthing'
 import { prepareFilesForUpload } from '@/lib/image-utils'
 import { track } from '@/lib/analytics'
@@ -33,6 +40,7 @@ export function ScoreForm() {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [submitError, setSubmitError] = useState<string | null>(null)
   const [scores, setScores] = useState<ScoreResult | null>(null)
+  const [photosOpen, setPhotosOpen] = useState(false)
 
   const photosRef = useRef(photos)
   useEffect(() => {
@@ -228,97 +236,119 @@ export function ScoreForm() {
           />
         </div>
 
-        {/* Photos Section (optional) */}
-        <div className="space-y-4">
-          <div>
-            <h2 className="font-display text-lg font-medium text-slate-900">
-              Screenshots of your Tinder profile
-            </h2>
-            <p className="mt-1 text-sm text-slate-600">
-              Want a more complete score? Add your photos or screenshots of your
-              Tinder profile (optional)
-            </p>
-          </div>
-
-          {uploadError && (
-            <div className="flex items-start gap-2 rounded-lg bg-red-50 p-3">
-              <AlertCircle className="mt-0.5 h-4 w-4 shrink-0 text-red-600" />
-              <p className="flex-1 text-sm text-red-700">{uploadError}</p>
-              <button
-                onClick={() => setUploadError(null)}
-                className="shrink-0 text-red-400 hover:text-red-600"
-                aria-label="Dismiss error"
-              >
-                <X className="h-4 w-4" />
-              </button>
-            </div>
-          )}
-
-          <div
-            onDragOver={(e) => {
-              e.preventDefault()
-              setIsDragging(true)
-            }}
-            onDragLeave={() => setIsDragging(false)}
-            onDrop={handleDrop}
-            className={clsx(
-              'flex flex-col items-center justify-center rounded-xl border-2 border-dashed p-6 transition-colors',
-              isDragging
-                ? 'border-blue-400 bg-blue-50'
-                : 'border-slate-300 bg-slate-50',
-              isUploading && 'pointer-events-none opacity-60',
-              photos.length >= MAX_PHOTOS && 'pointer-events-none opacity-40',
-            )}
+        {/* Photos Section (optional, collapsed by default) */}
+        <div className="rounded-lg border border-slate-200">
+          <button
+            type="button"
+            onClick={() => setPhotosOpen(!photosOpen)}
+            className="flex w-full items-center justify-between px-4 py-3"
           >
-            {isUploading ? (
-              <Loader2 className="h-8 w-8 animate-spin text-blue-600" />
-            ) : (
-              <Upload className="h-8 w-8 text-slate-400" />
-            )}
-            <p className="mt-3 text-sm text-slate-600">
-              {isUploading
-                ? (uploadProgress ?? 'Uploading...')
-                : photos.length >= MAX_PHOTOS
-                  ? 'Maximum photos reached'
-                  : 'Drag and drop photos here, or'}
-            </p>
-            {!isUploading && photos.length < MAX_PHOTOS && (
-              <label className="mt-2 cursor-pointer rounded-lg bg-white px-4 py-2 text-sm font-medium text-blue-600 shadow-sm ring-1 ring-slate-200 hover:bg-slate-50">
-                Browse files
-                <input
-                  type="file"
-                  accept="image/*,.heic,.heif"
-                  multiple
-                  onChange={handleFileInput}
-                  className="hidden"
-                />
-              </label>
-            )}
-            <p className="mt-2 text-xs text-slate-400">
-              {photos.length}/{MAX_PHOTOS} photos uploaded
-            </p>
-          </div>
+            <div className="text-left">
+              <h2 className="font-display text-lg font-medium text-slate-900">
+                Add photos{' '}
+                <span className="text-sm font-normal text-slate-400">
+                  (optional)
+                </span>
+              </h2>
+              <p className="text-sm text-slate-500">
+                Upload screenshots of your profile for a more complete score
+              </p>
+            </div>
+            <ChevronDown
+              className={clsx(
+                'h-5 w-5 shrink-0 text-slate-400 transition-transform',
+                photosOpen && 'rotate-180',
+              )}
+            />
+          </button>
 
-          {photos.length > 0 && (
-            <div className="grid grid-cols-3 gap-3">
-              {photos.map((photo) => (
-                <div key={photo.key} className="group relative aspect-square">
-                  <Image
-                    src={photo.url}
-                    alt="Profile photo"
-                    fill
-                    className="rounded-lg object-cover"
-                    sizes="(max-width: 640px) 33vw, 20vw"
-                  />
+          {photosOpen && (
+            <div className="space-y-4 border-t border-slate-200 px-4 pt-4 pb-4">
+              {uploadError && (
+                <div className="flex items-start gap-2 rounded-lg bg-red-50 p-3">
+                  <AlertCircle className="mt-0.5 h-4 w-4 shrink-0 text-red-600" />
+                  <p className="flex-1 text-sm text-red-700">{uploadError}</p>
                   <button
-                    onClick={() => removePhoto(photo.key)}
-                    className="absolute -top-2 -right-2 flex h-6 w-6 items-center justify-center rounded-full bg-red-500 text-white opacity-0 shadow-sm transition-opacity group-hover:opacity-100"
-                    aria-label="Remove photo"
+                    onClick={() => setUploadError(null)}
+                    className="shrink-0 text-red-400 hover:text-red-600"
+                    aria-label="Dismiss error"
                   >
-                    <X className="h-3 w-3" />
+                    <X className="h-4 w-4" />
                   </button>
                 </div>
-              ))}
+              )}
+
+              <div
+                onDragOver={(e) => {
+                  e.preventDefault()
+                  setIsDragging(true)
+                }}
+                onDragLeave={() => setIsDragging(false)}
+                onDrop={handleDrop}
+                className={clsx(
+                  'flex flex-col items-center justify-center rounded-xl border-2 border-dashed p-6 transition-colors',
+                  isDragging
+                    ? 'border-blue-400 bg-blue-50'
+                    : 'border-slate-300 bg-slate-50',
+                  isUploading && 'pointer-events-none opacity-60',
+                  photos.length >= MAX_PHOTOS &&
+                    'pointer-events-none opacity-40',
+                )}
+              >
+                {isUploading ? (
+                  <Loader2 className="h-8 w-8 animate-spin text-blue-600" />
+                ) : (
+                  <Upload className="h-8 w-8 text-slate-400" />
+                )}
+                <p className="mt-3 text-sm text-slate-600">
+                  {isUploading
+                    ? (uploadProgress ?? 'Uploading...')
+                    : photos.length >= MAX_PHOTOS
+                      ? 'Maximum photos reached'
+                      : 'Drag and drop photos here, or'}
+                </p>
+                {!isUploading && photos.length < MAX_PHOTOS && (
+                  <label className="mt-2 cursor-pointer rounded-lg bg-white px-4 py-2 text-sm font-medium text-blue-600 shadow-sm ring-1 ring-slate-200 hover:bg-slate-50">
+                    Browse files
+                    <input
+                      type="file"
+                      accept="image/*,.heic,.heif"
+                      multiple
+                      onChange={handleFileInput}
+                      className="hidden"
+                    />
+                  </label>
+                )}
+                <p className="mt-2 text-xs text-slate-400">
+                  {photos.length}/{MAX_PHOTOS} photos uploaded
+                </p>
+              </div>
+
+              {photos.length > 0 && (
+                <div className="grid grid-cols-3 gap-3">
+                  {photos.map((photo) => (
+                    <div
+                      key={photo.key}
+                      className="group relative aspect-square"
+                    >
+                      <Image
+                        src={photo.url}
+                        alt="Profile photo"
+                        fill
+                        className="rounded-lg object-cover"
+                        sizes="(max-width: 640px) 33vw, 20vw"
+                      />
+                      <button
+                        onClick={() => removePhoto(photo.key)}
+                        className="absolute -top-2 -right-2 flex h-6 w-6 items-center justify-center rounded-full bg-red-500 text-white opacity-0 shadow-sm transition-opacity group-hover:opacity-100"
+                        aria-label="Remove photo"
+                      >
+                        <X className="h-3 w-3" />
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
           )}
         </div>
