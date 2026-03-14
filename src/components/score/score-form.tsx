@@ -25,10 +25,6 @@ interface UploadedPhoto {
 const MAX_PHOTOS = 3
 const BATCH_SIZE = 2
 
-function isValidEmail(email: string): boolean {
-  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
-}
-
 export function ScoreForm() {
   const [photos, setPhotos] = useState<UploadedPhoto[]>([])
   const [bio, setBio] = useState('')
@@ -134,6 +130,10 @@ export function ScoreForm() {
 
   const handleSubmit = useCallback(async () => {
     if (isSubmitting) return
+    if (bio.trim().length < 10) {
+      setSubmitError('Bio must be at least 10 characters')
+      return
+    }
     setIsSubmitting(true)
     setSubmitError(null)
     track('free_score_submitted', { photo_count: photos.length })
@@ -143,7 +143,7 @@ export function ScoreForm() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          email: email.trim().toLowerCase(),
+          email: email.trim() ? email.trim().toLowerCase() : undefined,
           bio: bio.trim(),
           upload_keys: photos.map((p) => p.key),
         }),
@@ -169,7 +169,7 @@ export function ScoreForm() {
     }
   }, [isSubmitting, email, bio, photos])
 
-  const isFormValid = bio.trim().length >= 10 && isValidEmail(email)
+  const isFormValid = bio.trim().length >= 10
 
   // Show results if we have scores
   if (scores) {
@@ -220,7 +220,10 @@ export function ScoreForm() {
             htmlFor="score-email"
             className="block font-display text-lg font-medium text-slate-900"
           >
-            Your email
+            Your email{' '}
+            <span className="text-sm font-normal text-slate-400">
+              (optional)
+            </span>
           </label>
           <input
             id="score-email"
@@ -366,13 +369,8 @@ export function ScoreForm() {
         {/* Submit */}
         <button
           onClick={handleSubmit}
-          disabled={!isFormValid || isSubmitting}
-          className={clsx(
-            'w-full rounded-full py-3.5 text-sm font-semibold transition-colors',
-            isFormValid && !isSubmitting
-              ? 'bg-blue-600 text-white hover:bg-blue-500'
-              : 'cursor-not-allowed bg-slate-200 text-slate-400',
-          )}
+          disabled={isSubmitting}
+          className="w-full rounded-full bg-blue-600 py-3.5 text-sm font-semibold text-white transition-colors hover:bg-blue-500"
         >
           {isSubmitting ? (
             <span className="flex items-center justify-center gap-2">

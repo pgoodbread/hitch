@@ -6,7 +6,7 @@ import { deleteUploadedFiles } from '@/lib/uploadthing-server'
 import { sendFreeScoreNotification } from '@/lib/email/send'
 
 interface ScoreRequest {
-  email: string
+  email?: string
   bio: string
   upload_keys: string[]
 }
@@ -28,8 +28,8 @@ export async function POST(request: Request) {
     const body = (await request.json()) as ScoreRequest
 
     // Validate
-    if (!body.email || !isValidEmail(body.email)) {
-      return badRequest('Valid email is required')
+    if (body.email && !isValidEmail(body.email)) {
+      return badRequest('Invalid email format')
     }
 
     if (
@@ -58,7 +58,7 @@ export async function POST(request: Request) {
       return badRequest('Invalid upload key')
     }
 
-    const email = body.email.trim().toLowerCase()
+    const email = body.email?.trim().toLowerCase() || null
     const bio = body.bio.trim()
 
     // Fetch and compress images (if any)
