@@ -139,7 +139,7 @@ export async function sendOrderNotification(order: {
 }
 
 export async function sendFreeScoreNotification(score: {
-  email: string
+  email: string | null
   overall_score: number
   photo_score: number
   bio_score: number
@@ -148,7 +148,7 @@ export async function sendFreeScoreNotification(score: {
   const lines = [
     `New free score generated!`,
     ``,
-    `Email: ${score.email}`,
+    `Email: ${score.email || '(not provided)'}`,
     `Overall: ${score.overall_score}/10`,
     `Photos: ${score.photo_score}/10`,
     `Bio: ${score.bio_score}/10`,
@@ -160,7 +160,7 @@ export async function sendFreeScoreNotification(score: {
   const { error } = await getResend().emails.send({
     from: 'Hitch Alerts <support@tinderprofileoptimizer.com>',
     to: 'support@tinderprofileoptimizer.com',
-    subject: `[Free Score] New score from ${score.email}`,
+    subject: `[Free Score] New score from ${score.email || 'anonymous'}`,
     text: lines.join('\n'),
   })
 

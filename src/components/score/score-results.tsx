@@ -95,7 +95,8 @@ const LOCKED_ITEMS = [
 export function ScoreResults({ scores, email, photoUrls }: ScoreResultsProps) {
   const handleCtaClick = useCallback(() => {
     track('cta_click', { overall_score: scores.overall_score })
-    window.location.href = `/optimize?email=${encodeURIComponent(email)}`
+    const params = email ? `?email=${encodeURIComponent(email)}` : ''
+    window.location.href = `/optimize${params}`
   }, [scores.overall_score, email])
 
   return (
