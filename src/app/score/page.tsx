@@ -27,7 +27,7 @@ export default function ScorePage() {
                 How does your profile score?
               </h1>
               <p className="mt-4 text-lg tracking-tight text-slate-700">
-                Upload your photos and bio. Get your score in seconds — free.
+                Paste your bio. Get your score in seconds — free.
               </p>
             </div>
             <div className="mt-12">
