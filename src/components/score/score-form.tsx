@@ -232,10 +232,11 @@ export function ScoreForm() {
         <div className="space-y-4">
           <div>
             <h2 className="font-display text-lg font-medium text-slate-900">
-              Your profile photos
+              Screenshots of your Tinder profile
             </h2>
             <p className="mt-1 text-sm text-slate-600">
-              Want a more complete score? Add your photos (optional)
+              Want a more complete score? Add your photos or screenshots of your
+              Tinder profile (optional)
             </p>
           </div>
 
