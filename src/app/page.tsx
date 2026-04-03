@@ -336,13 +336,17 @@ export default function Home() {
                 </li>
               ))}
             </ul>
-            <div className="mt-12 flex justify-center">
+            <p className="mt-8 text-center text-sm font-semibold tracking-wider text-emerald-400 uppercase">
+              Spring Sale — Get ready for summer
+            </p>
+            <div className="mt-4 flex justify-center">
               <Button
                 href="/optimize?utm_source=lp&utm_content=upsell"
                 onClick={() => handleCtaClick('upsell', '/optimize')}
                 color="white"
               >
-                Get Full Analysis — $29
+                Get Full Analysis —{' '}
+                <span className="text-slate-400 line-through">$29</span> $19
               </Button>
             </div>
             <p className="mt-6 text-center text-sm text-slate-500">

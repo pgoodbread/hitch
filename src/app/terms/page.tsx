@@ -70,7 +70,10 @@ export default function TermsOfService() {
                 4. Pricing and Payment
               </h2>
               <ul className="list-disc space-y-2 pl-6">
-                <li>The service costs a one-time payment of $29 USD.</li>
+                <li>
+                  The service costs a one-time payment of $19 USD (promotional
+                  pricing may apply).
+                </li>
                 <li>
                   Payment is processed securely by Stripe. We do not store your
                   payment details.

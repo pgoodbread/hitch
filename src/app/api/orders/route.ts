@@ -161,9 +161,9 @@ export async function POST(request: Request) {
       process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'
     ).replace(/\/+$/, '')
 
-    const priceId = process.env.STRIPE_PRICE_ID_29
+    const priceId = process.env.STRIPE_PRICE_ID
     if (!priceId) {
-      throw new Error('Missing STRIPE_PRICE_ID_29 environment variable')
+      throw new Error('Missing STRIPE_PRICE_ID environment variable')
     }
 
     const session = await getStripe().checkout.sessions.create({

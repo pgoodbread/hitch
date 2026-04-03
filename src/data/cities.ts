@@ -88,7 +88,7 @@ export const cities: CityData[] = [
     ],
     metaTitle: 'Tinder Profile Help in New York City',
     metaDescription:
-      'Get more Tinder matches in NYC. Professional profile optimization for photos, bio, and prompts tailored to the New York City dating scene. One-time $29.',
+      'Get more Tinder matches in NYC. Professional profile optimization for photos, bio, and prompts tailored to the New York City dating scene. One-time $19.',
     h1: 'Get More Tinder Matches in New York City',
     nearbyCities: ['long-beach', 'philadelphia', 'boston', 'washington-dc'],
   },
@@ -159,7 +159,7 @@ export const cities: CityData[] = [
     ],
     metaTitle: 'Tinder Profile Help in Los Angeles',
     metaDescription:
-      'Get more Tinder matches in LA. Professional profile optimization for photos, bio, and prompts tailored to the Los Angeles dating scene. One-time $29.',
+      'Get more Tinder matches in LA. Professional profile optimization for photos, bio, and prompts tailored to the Los Angeles dating scene. One-time $19.',
     h1: 'Get More Tinder Matches in Los Angeles',
     nearbyCities: ['long-beach', 'san-diego', 'san-jose', 'san-francisco'],
   },
@@ -231,7 +231,7 @@ export const cities: CityData[] = [
     ],
     metaTitle: 'Tinder Profile Help in Chicago',
     metaDescription:
-      'Get more Tinder matches in Chicago. Professional profile optimization for photos, bio, and prompts tailored to the Chicago dating scene. One-time $29.',
+      'Get more Tinder matches in Chicago. Professional profile optimization for photos, bio, and prompts tailored to the Chicago dating scene. One-time $19.',
     h1: 'Get More Tinder Matches in Chicago',
     nearbyCities: ['milwaukee', 'indianapolis', 'columbus', 'minneapolis'],
   },
@@ -302,7 +302,7 @@ export const cities: CityData[] = [
     ],
     metaTitle: 'Tinder Profile Help in Houston',
     metaDescription:
-      'Get more Tinder matches in Houston. Professional profile optimization for photos, bio, and prompts tailored to the Houston dating scene. One-time $29.',
+      'Get more Tinder matches in Houston. Professional profile optimization for photos, bio, and prompts tailored to the Houston dating scene. One-time $19.',
     h1: 'Get More Tinder Matches in Houston',
     nearbyCities: ['san-antonio', 'dallas', 'austin', 'new-orleans'],
   },
@@ -373,7 +373,7 @@ export const cities: CityData[] = [
     ],
     metaTitle: 'Tinder Profile Help in Phoenix',
     metaDescription:
-      'Get more Tinder matches in Phoenix. Professional profile optimization for photos, bio, and prompts tailored to the Phoenix dating scene. One-time $29.',
+      'Get more Tinder matches in Phoenix. Professional profile optimization for photos, bio, and prompts tailored to the Phoenix dating scene. One-time $19.',
     h1: 'Get More Tinder Matches in Phoenix',
     nearbyCities: ['mesa', 'tucson', 'albuquerque', 'las-vegas', 'san-diego'],
   },
@@ -445,7 +445,7 @@ export const cities: CityData[] = [
     ],
     metaTitle: 'Tinder Profile Help in Philadelphia',
     metaDescription:
-      'Get more Tinder matches in Philly. Professional profile optimization for photos, bio, and prompts tailored to the Philadelphia dating scene. One-time $29.',
+      'Get more Tinder matches in Philly. Professional profile optimization for photos, bio, and prompts tailored to the Philadelphia dating scene. One-time $19.',
     h1: 'Get More Tinder Matches in Philadelphia',
     nearbyCities: ['new-york', 'washington-dc', 'baltimore', 'long-beach'],
   },
@@ -517,7 +517,7 @@ export const cities: CityData[] = [
     ],
     metaTitle: 'Tinder Profile Help in San Antonio',
     metaDescription:
-      'Get more Tinder matches in San Antonio. Professional profile optimization for photos, bio, and prompts tailored to the SA dating scene. One-time $29.',
+      'Get more Tinder matches in San Antonio. Professional profile optimization for photos, bio, and prompts tailored to the SA dating scene. One-time $19.',
     h1: 'Get More Tinder Matches in San Antonio',
     nearbyCities: ['austin', 'houston', 'dallas'],
   },
@@ -588,7 +588,7 @@ export const cities: CityData[] = [
     ],
     metaTitle: 'Tinder Profile Help in San Diego',
     metaDescription:
-      'Get more Tinder matches in San Diego. Professional profile optimization for photos, bio, and prompts tailored to the SD dating scene. One-time $29.',
+      'Get more Tinder matches in San Diego. Professional profile optimization for photos, bio, and prompts tailored to the SD dating scene. One-time $19.',
     h1: 'Get More Tinder Matches in San Diego',
     nearbyCities: ['los-angeles', 'long-beach', 'phoenix', 'mesa'],
   },
@@ -659,7 +659,7 @@ export const cities: CityData[] = [
     ],
     metaTitle: 'Tinder Profile Help in Dallas',
     metaDescription:
-      'Get more Tinder matches in Dallas. Professional profile optimization for photos, bio, and prompts tailored to the Dallas dating scene. One-time $29.',
+      'Get more Tinder matches in Dallas. Professional profile optimization for photos, bio, and prompts tailored to the Dallas dating scene. One-time $19.',
     h1: 'Get More Tinder Matches in Dallas',
     nearbyCities: ['austin', 'houston', 'san-antonio', 'oklahoma-city'],
   },
@@ -730,7 +730,7 @@ export const cities: CityData[] = [
     ],
     metaTitle: 'Tinder Profile Help in Austin',
     metaDescription:
-      'Get more Tinder matches in Austin. Professional profile optimization for photos, bio, and prompts tailored to the Austin dating scene. One-time $29.',
+      'Get more Tinder matches in Austin. Professional profile optimization for photos, bio, and prompts tailored to the Austin dating scene. One-time $19.',
     h1: 'Get More Tinder Matches in Austin',
     nearbyCities: ['san-antonio', 'houston', 'dallas'],
   },
@@ -801,7 +801,7 @@ export const cities: CityData[] = [
     ],
     metaTitle: 'Tinder Profile Help in San Jose',
     metaDescription:
-      'Get more Tinder matches in San Jose. Professional profile optimization for photos, bio, and prompts tailored to the Silicon Valley dating scene. One-time $29.',
+      'Get more Tinder matches in San Jose. Professional profile optimization for photos, bio, and prompts tailored to the Silicon Valley dating scene. One-time $19.',
     h1: 'Get More Tinder Matches in San Jose',
     nearbyCities: ['san-francisco', 'los-angeles', 'sacramento', 'fresno'],
   },
@@ -872,7 +872,7 @@ export const cities: CityData[] = [
     ],
     metaTitle: 'Tinder Profile Help in Jacksonville',
     metaDescription:
-      'Get more Tinder matches in Jacksonville. Professional profile optimization for photos, bio, and prompts tailored to the Jax dating scene. One-time $29.',
+      'Get more Tinder matches in Jacksonville. Professional profile optimization for photos, bio, and prompts tailored to the Jax dating scene. One-time $19.',
     h1: 'Get More Tinder Matches in Jacksonville',
     nearbyCities: ['orlando', 'tampa', 'miami', 'atlanta'],
   },
@@ -943,7 +943,7 @@ export const cities: CityData[] = [
     ],
     metaTitle: 'Tinder Profile Help in San Francisco',
     metaDescription:
-      'Get more Tinder matches in San Francisco. Professional profile optimization for photos, bio, and prompts tailored to the SF dating scene. One-time $29.',
+      'Get more Tinder matches in San Francisco. Professional profile optimization for photos, bio, and prompts tailored to the SF dating scene. One-time $19.',
     h1: 'Get More Tinder Matches in San Francisco',
     nearbyCities: ['san-jose', 'sacramento', 'los-angeles', 'portland'],
   },
@@ -1014,7 +1014,7 @@ export const cities: CityData[] = [
     ],
     metaTitle: 'Tinder Profile Help in Columbus',
     metaDescription:
-      'Get more Tinder matches in Columbus OH. Professional profile optimization for photos, bio, and prompts tailored to the Columbus dating scene. One-time $29.',
+      'Get more Tinder matches in Columbus OH. Professional profile optimization for photos, bio, and prompts tailored to the Columbus dating scene. One-time $19.',
     h1: 'Get More Tinder Matches in Columbus',
     nearbyCities: ['indianapolis', 'cincinnati', 'cleveland', 'pittsburgh'],
   },
@@ -1085,7 +1085,7 @@ export const cities: CityData[] = [
     ],
     metaTitle: 'Tinder Profile Help in Indianapolis',
     metaDescription:
-      'Get more Tinder matches in Indianapolis. Professional profile optimization for photos, bio, and prompts tailored to the Indy dating scene. One-time $29.',
+      'Get more Tinder matches in Indianapolis. Professional profile optimization for photos, bio, and prompts tailored to the Indy dating scene. One-time $19.',
     h1: 'Get More Tinder Matches in Indianapolis',
     nearbyCities: ['columbus', 'chicago', 'cincinnati', 'louisville'],
   },
@@ -1156,7 +1156,7 @@ export const cities: CityData[] = [
     ],
     metaTitle: 'Tinder Profile Help in Charlotte',
     metaDescription:
-      'Get more Tinder matches in Charlotte NC. Professional profile optimization for photos, bio, and prompts tailored to the Charlotte dating scene. One-time $29.',
+      'Get more Tinder matches in Charlotte NC. Professional profile optimization for photos, bio, and prompts tailored to the Charlotte dating scene. One-time $19.',
     h1: 'Get More Tinder Matches in Charlotte',
     nearbyCities: ['raleigh', 'atlanta', 'nashville', 'virginia-beach'],
   },
@@ -1227,7 +1227,7 @@ export const cities: CityData[] = [
     ],
     metaTitle: 'Tinder Profile Help in Seattle',
     metaDescription:
-      'Get more Tinder matches in Seattle. Professional profile optimization for photos, bio, and prompts tailored to the Seattle dating scene. One-time $29.',
+      'Get more Tinder matches in Seattle. Professional profile optimization for photos, bio, and prompts tailored to the Seattle dating scene. One-time $19.',
     h1: 'Get More Tinder Matches in Seattle',
     nearbyCities: ['portland', 'san-francisco', 'san-jose'],
   },
@@ -1298,7 +1298,7 @@ export const cities: CityData[] = [
     ],
     metaTitle: 'Tinder Profile Help in Denver',
     metaDescription:
-      'Get more Tinder matches in Denver. Professional profile optimization for photos, bio, and prompts tailored to the Mile High City dating scene. One-time $29.',
+      'Get more Tinder matches in Denver. Professional profile optimization for photos, bio, and prompts tailored to the Mile High City dating scene. One-time $19.',
     h1: 'Get More Tinder Matches in Denver',
     nearbyCities: [
       'colorado-springs',
@@ -1374,7 +1374,7 @@ export const cities: CityData[] = [
     ],
     metaTitle: 'Tinder Profile Help in Washington DC',
     metaDescription:
-      'Get more Tinder matches in Washington DC. Professional profile optimization for photos, bio, and prompts tailored to the DC dating scene. One-time $29.',
+      'Get more Tinder matches in Washington DC. Professional profile optimization for photos, bio, and prompts tailored to the DC dating scene. One-time $19.',
     h1: 'Get More Tinder Matches in Washington DC',
     nearbyCities: ['baltimore', 'philadelphia', 'virginia-beach', 'raleigh'],
   },
@@ -1445,7 +1445,7 @@ export const cities: CityData[] = [
     ],
     metaTitle: 'Tinder Profile Help in Nashville',
     metaDescription:
-      'Get more Tinder matches in Nashville. Professional profile optimization for photos, bio, and prompts tailored to the Music City dating scene. One-time $29.',
+      'Get more Tinder matches in Nashville. Professional profile optimization for photos, bio, and prompts tailored to the Music City dating scene. One-time $19.',
     h1: 'Get More Tinder Matches in Nashville',
     nearbyCities: ['atlanta', 'charlotte', 'louisville', 'memphis'],
   },
@@ -1516,7 +1516,7 @@ export const cities: CityData[] = [
     ],
     metaTitle: 'Tinder Profile Help in Boston',
     metaDescription:
-      'Get more Tinder matches in Boston. Professional profile optimization for photos, bio, and prompts tailored to the Boston dating scene. One-time $29.',
+      'Get more Tinder matches in Boston. Professional profile optimization for photos, bio, and prompts tailored to the Boston dating scene. One-time $19.',
     h1: 'Get More Tinder Matches in Boston',
     nearbyCities: ['new-york', 'philadelphia', 'washington-dc'],
   },
@@ -1587,7 +1587,7 @@ export const cities: CityData[] = [
     ],
     metaTitle: 'Tinder Profile Help in Portland',
     metaDescription:
-      'Get more Tinder matches in Portland. Professional profile optimization for photos, bio, and prompts tailored to the Portland dating scene. One-time $29.',
+      'Get more Tinder matches in Portland. Professional profile optimization for photos, bio, and prompts tailored to the Portland dating scene. One-time $19.',
     h1: 'Get More Tinder Matches in Portland',
     nearbyCities: ['seattle', 'san-francisco', 'sacramento'],
   },
@@ -1658,7 +1658,7 @@ export const cities: CityData[] = [
     ],
     metaTitle: 'Tinder Profile Help in Las Vegas',
     metaDescription:
-      'Get more Tinder matches in Las Vegas. Professional profile optimization for photos, bio, and prompts tailored to the Vegas local dating scene. One-time $29.',
+      'Get more Tinder matches in Las Vegas. Professional profile optimization for photos, bio, and prompts tailored to the Vegas local dating scene. One-time $19.',
     h1: 'Get More Tinder Matches in Las Vegas',
     nearbyCities: ['phoenix', 'los-angeles', 'salt-lake-city'],
   },
@@ -1729,7 +1729,7 @@ export const cities: CityData[] = [
     ],
     metaTitle: 'Tinder Profile Help in Memphis',
     metaDescription:
-      'Get more Tinder matches in Memphis. Professional profile optimization for photos, bio, and prompts tailored to the Memphis dating scene. One-time $29.',
+      'Get more Tinder matches in Memphis. Professional profile optimization for photos, bio, and prompts tailored to the Memphis dating scene. One-time $19.',
     h1: 'Get More Tinder Matches in Memphis',
     nearbyCities: ['nashville', 'atlanta', 'st-louis', 'louisville'],
   },
@@ -1800,7 +1800,7 @@ export const cities: CityData[] = [
     ],
     metaTitle: 'Tinder Profile Help in Louisville',
     metaDescription:
-      'Get more Tinder matches in Louisville. Professional profile optimization for photos, bio, and prompts tailored to the Louisville dating scene. One-time $29.',
+      'Get more Tinder matches in Louisville. Professional profile optimization for photos, bio, and prompts tailored to the Louisville dating scene. One-time $19.',
     h1: 'Get More Tinder Matches in Louisville',
     nearbyCities: ['indianapolis', 'cincinnati', 'nashville', 'columbus'],
   },
@@ -1871,7 +1871,7 @@ export const cities: CityData[] = [
     ],
     metaTitle: 'Tinder Profile Help in Baltimore',
     metaDescription:
-      'Get more Tinder matches in Baltimore. Professional profile optimization for photos, bio, and prompts tailored to the Baltimore dating scene. One-time $29.',
+      'Get more Tinder matches in Baltimore. Professional profile optimization for photos, bio, and prompts tailored to the Baltimore dating scene. One-time $19.',
     h1: 'Get More Tinder Matches in Baltimore',
     nearbyCities: ['washington-dc', 'philadelphia', 'virginia-beach'],
   },
@@ -1942,7 +1942,7 @@ export const cities: CityData[] = [
     ],
     metaTitle: 'Tinder Profile Help in Milwaukee',
     metaDescription:
-      'Get more Tinder matches in Milwaukee. Professional profile optimization for photos, bio, and prompts tailored to the Milwaukee dating scene. One-time $29.',
+      'Get more Tinder matches in Milwaukee. Professional profile optimization for photos, bio, and prompts tailored to the Milwaukee dating scene. One-time $19.',
     h1: 'Get More Tinder Matches in Milwaukee',
     nearbyCities: ['chicago', 'minneapolis', 'indianapolis'],
   },
@@ -2013,7 +2013,7 @@ export const cities: CityData[] = [
     ],
     metaTitle: 'Tinder Profile Help in Albuquerque',
     metaDescription:
-      'Get more Tinder matches in Albuquerque. Professional profile optimization for photos, bio, and prompts tailored to the ABQ dating scene. One-time $29.',
+      'Get more Tinder matches in Albuquerque. Professional profile optimization for photos, bio, and prompts tailored to the ABQ dating scene. One-time $19.',
     h1: 'Get More Tinder Matches in Albuquerque',
     nearbyCities: ['phoenix', 'denver', 'colorado-springs', 'tucson'],
   },
@@ -2084,7 +2084,7 @@ export const cities: CityData[] = [
     ],
     metaTitle: 'Tinder Profile Help in Tucson',
     metaDescription:
-      'Get more Tinder matches in Tucson. Professional profile optimization for photos, bio, and prompts tailored to the Tucson dating scene. One-time $29.',
+      'Get more Tinder matches in Tucson. Professional profile optimization for photos, bio, and prompts tailored to the Tucson dating scene. One-time $19.',
     h1: 'Get More Tinder Matches in Tucson',
     nearbyCities: ['phoenix', 'mesa', 'albuquerque'],
   },
@@ -2155,7 +2155,7 @@ export const cities: CityData[] = [
     ],
     metaTitle: 'Tinder Profile Help in Fresno',
     metaDescription:
-      'Get more Tinder matches in Fresno. Professional profile optimization for photos, bio, and prompts tailored to the Fresno dating scene. One-time $29.',
+      'Get more Tinder matches in Fresno. Professional profile optimization for photos, bio, and prompts tailored to the Fresno dating scene. One-time $19.',
     h1: 'Get More Tinder Matches in Fresno',
     nearbyCities: ['sacramento', 'san-jose', 'los-angeles', 'las-vegas'],
   },
@@ -2226,7 +2226,7 @@ export const cities: CityData[] = [
     ],
     metaTitle: 'Tinder Profile Help in Sacramento',
     metaDescription:
-      'Get more Tinder matches in Sacramento. Professional profile optimization for photos, bio, and prompts tailored to the Sacramento dating scene. One-time $29.',
+      'Get more Tinder matches in Sacramento. Professional profile optimization for photos, bio, and prompts tailored to the Sacramento dating scene. One-time $19.',
     h1: 'Get More Tinder Matches in Sacramento',
     nearbyCities: ['san-francisco', 'san-jose', 'fresno', 'portland'],
   },
@@ -2297,7 +2297,7 @@ export const cities: CityData[] = [
     ],
     metaTitle: 'Tinder Profile Help in Mesa',
     metaDescription:
-      'Get more Tinder matches in Mesa AZ. Professional profile optimization for photos, bio, and prompts tailored to the East Valley dating scene. One-time $29.',
+      'Get more Tinder matches in Mesa AZ. Professional profile optimization for photos, bio, and prompts tailored to the East Valley dating scene. One-time $19.',
     h1: 'Get More Tinder Matches in Mesa',
     nearbyCities: ['phoenix', 'tucson', 'albuquerque'],
   },
@@ -2368,7 +2368,7 @@ export const cities: CityData[] = [
     ],
     metaTitle: 'Tinder Profile Help in Kansas City',
     metaDescription:
-      'Get more Tinder matches in Kansas City. Professional profile optimization for photos, bio, and prompts tailored to the KC dating scene. One-time $29.',
+      'Get more Tinder matches in Kansas City. Professional profile optimization for photos, bio, and prompts tailored to the KC dating scene. One-time $19.',
     h1: 'Get More Tinder Matches in Kansas City',
     nearbyCities: ['st-louis', 'omaha', 'denver', 'oklahoma-city'],
   },
@@ -2439,7 +2439,7 @@ export const cities: CityData[] = [
     ],
     metaTitle: 'Tinder Profile Help in Atlanta',
     metaDescription:
-      'Get more Tinder matches in Atlanta. Professional profile optimization for photos, bio, and prompts tailored to the ATL dating scene. One-time $29.',
+      'Get more Tinder matches in Atlanta. Professional profile optimization for photos, bio, and prompts tailored to the ATL dating scene. One-time $19.',
     h1: 'Get More Tinder Matches in Atlanta',
     nearbyCities: ['charlotte', 'nashville', 'jacksonville', 'raleigh'],
   },
@@ -2510,7 +2510,7 @@ export const cities: CityData[] = [
     ],
     metaTitle: 'Tinder Profile Help in Omaha',
     metaDescription:
-      'Get more Tinder matches in Omaha. Professional profile optimization for photos, bio, and prompts tailored to the Omaha dating scene. One-time $29.',
+      'Get more Tinder matches in Omaha. Professional profile optimization for photos, bio, and prompts tailored to the Omaha dating scene. One-time $19.',
     h1: 'Get More Tinder Matches in Omaha',
     nearbyCities: ['kansas-city', 'denver', 'minneapolis', 'st-louis'],
   },
@@ -2581,7 +2581,7 @@ export const cities: CityData[] = [
     ],
     metaTitle: 'Tinder Profile Help in Colorado Springs',
     metaDescription:
-      'Get more Tinder matches in Colorado Springs. Professional profile optimization for photos, bio, and prompts tailored to the Springs dating scene. One-time $29.',
+      'Get more Tinder matches in Colorado Springs. Professional profile optimization for photos, bio, and prompts tailored to the Springs dating scene. One-time $19.',
     h1: 'Get More Tinder Matches in Colorado Springs',
     nearbyCities: ['denver', 'albuquerque', 'salt-lake-city'],
   },
@@ -2652,7 +2652,7 @@ export const cities: CityData[] = [
     ],
     metaTitle: 'Tinder Profile Help in Raleigh',
     metaDescription:
-      'Get more Tinder matches in Raleigh. Professional profile optimization for photos, bio, and prompts tailored to the Triangle dating scene. One-time $29.',
+      'Get more Tinder matches in Raleigh. Professional profile optimization for photos, bio, and prompts tailored to the Triangle dating scene. One-time $19.',
     h1: 'Get More Tinder Matches in Raleigh',
     nearbyCities: ['charlotte', 'virginia-beach', 'washington-dc', 'atlanta'],
   },
@@ -2723,7 +2723,7 @@ export const cities: CityData[] = [
     ],
     metaTitle: 'Tinder Profile Help in Long Beach',
     metaDescription:
-      'Get more Tinder matches in Long Beach. Professional profile optimization for photos, bio, and prompts tailored to the Long Beach dating scene. One-time $29.',
+      'Get more Tinder matches in Long Beach. Professional profile optimization for photos, bio, and prompts tailored to the Long Beach dating scene. One-time $19.',
     h1: 'Get More Tinder Matches in Long Beach',
     nearbyCities: ['los-angeles', 'san-diego', 'san-jose'],
   },
@@ -2794,7 +2794,7 @@ export const cities: CityData[] = [
     ],
     metaTitle: 'Tinder Profile Help in Virginia Beach',
     metaDescription:
-      'Get more Tinder matches in Virginia Beach. Professional profile optimization for photos, bio, and prompts tailored to the VB dating scene. One-time $29.',
+      'Get more Tinder matches in Virginia Beach. Professional profile optimization for photos, bio, and prompts tailored to the VB dating scene. One-time $19.',
     h1: 'Get More Tinder Matches in Virginia Beach',
     nearbyCities: ['washington-dc', 'raleigh', 'baltimore', 'charlotte'],
   },
@@ -2865,7 +2865,7 @@ export const cities: CityData[] = [
     ],
     metaTitle: 'Tinder Profile Help in Minneapolis',
     metaDescription:
-      'Get more Tinder matches in Minneapolis. Professional profile optimization for photos, bio, and prompts tailored to the Minneapolis dating scene. One-time $29.',
+      'Get more Tinder matches in Minneapolis. Professional profile optimization for photos, bio, and prompts tailored to the Minneapolis dating scene. One-time $19.',
     h1: 'Get More Tinder Matches in Minneapolis',
     nearbyCities: ['milwaukee', 'chicago', 'omaha'],
   },
@@ -2936,7 +2936,7 @@ export const cities: CityData[] = [
     ],
     metaTitle: 'Tinder Profile Help in Tampa',
     metaDescription:
-      'Get more Tinder matches in Tampa. Professional profile optimization for photos, bio, and prompts tailored to the Tampa Bay dating scene. One-time $29.',
+      'Get more Tinder matches in Tampa. Professional profile optimization for photos, bio, and prompts tailored to the Tampa Bay dating scene. One-time $19.',
     h1: 'Get More Tinder Matches in Tampa',
     nearbyCities: ['orlando', 'miami', 'jacksonville'],
   },
@@ -3007,7 +3007,7 @@ export const cities: CityData[] = [
     ],
     metaTitle: 'Tinder Profile Help in Miami',
     metaDescription:
-      'Get more Tinder matches in Miami. Professional profile optimization for photos, bio, and prompts tailored to the Miami dating scene. One-time $29.',
+      'Get more Tinder matches in Miami. Professional profile optimization for photos, bio, and prompts tailored to the Miami dating scene. One-time $19.',
     h1: 'Get More Tinder Matches in Miami',
     nearbyCities: ['tampa', 'orlando', 'jacksonville'],
   },
@@ -3078,7 +3078,7 @@ export const cities: CityData[] = [
     ],
     metaTitle: 'Tinder Profile Help in Orlando',
     metaDescription:
-      'Get more Tinder matches in Orlando. Professional profile optimization for photos, bio, and prompts tailored to the Orlando local dating scene. One-time $29.',
+      'Get more Tinder matches in Orlando. Professional profile optimization for photos, bio, and prompts tailored to the Orlando local dating scene. One-time $19.',
     h1: 'Get More Tinder Matches in Orlando',
     nearbyCities: ['tampa', 'jacksonville', 'miami'],
   },
@@ -3149,7 +3149,7 @@ export const cities: CityData[] = [
     ],
     metaTitle: 'Tinder Profile Help in New Orleans',
     metaDescription:
-      'Get more Tinder matches in New Orleans. Professional profile optimization for photos, bio, and prompts tailored to the NOLA dating scene. One-time $29.',
+      'Get more Tinder matches in New Orleans. Professional profile optimization for photos, bio, and prompts tailored to the NOLA dating scene. One-time $19.',
     h1: 'Get More Tinder Matches in New Orleans',
     nearbyCities: ['houston', 'memphis', 'atlanta', 'nashville'],
   },
@@ -3220,7 +3220,7 @@ export const cities: CityData[] = [
     ],
     metaTitle: 'Tinder Profile Help in Pittsburgh',
     metaDescription:
-      'Get more Tinder matches in Pittsburgh. Professional profile optimization for photos, bio, and prompts tailored to the Pittsburgh dating scene. One-time $29.',
+      'Get more Tinder matches in Pittsburgh. Professional profile optimization for photos, bio, and prompts tailored to the Pittsburgh dating scene. One-time $19.',
     h1: 'Get More Tinder Matches in Pittsburgh',
     nearbyCities: ['cleveland', 'columbus', 'philadelphia', 'cincinnati'],
   },
@@ -3291,7 +3291,7 @@ export const cities: CityData[] = [
     ],
     metaTitle: 'Tinder Profile Help in Cincinnati',
     metaDescription:
-      'Get more Tinder matches in Cincinnati. Professional profile optimization for photos, bio, and prompts tailored to the Cincinnati dating scene. One-time $29.',
+      'Get more Tinder matches in Cincinnati. Professional profile optimization for photos, bio, and prompts tailored to the Cincinnati dating scene. One-time $19.',
     h1: 'Get More Tinder Matches in Cincinnati',
     nearbyCities: ['columbus', 'indianapolis', 'louisville', 'pittsburgh'],
   },
@@ -3362,7 +3362,7 @@ export const cities: CityData[] = [
     ],
     metaTitle: 'Tinder Profile Help in St. Louis',
     metaDescription:
-      'Get more Tinder matches in St. Louis. Professional profile optimization for photos, bio, and prompts tailored to the STL dating scene. One-time $29.',
+      'Get more Tinder matches in St. Louis. Professional profile optimization for photos, bio, and prompts tailored to the STL dating scene. One-time $19.',
     h1: 'Get More Tinder Matches in St. Louis',
     nearbyCities: ['kansas-city', 'chicago', 'indianapolis', 'memphis'],
   },
@@ -3433,7 +3433,7 @@ export const cities: CityData[] = [
     ],
     metaTitle: 'Tinder Profile Help in Cleveland',
     metaDescription:
-      'Get more Tinder matches in Cleveland. Professional profile optimization for photos, bio, and prompts tailored to the Cleveland dating scene. One-time $29.',
+      'Get more Tinder matches in Cleveland. Professional profile optimization for photos, bio, and prompts tailored to the Cleveland dating scene. One-time $19.',
     h1: 'Get More Tinder Matches in Cleveland',
     nearbyCities: ['columbus', 'pittsburgh', 'cincinnati'],
   },
@@ -3504,7 +3504,7 @@ export const cities: CityData[] = [
     ],
     metaTitle: 'Tinder Profile Help in Salt Lake City',
     metaDescription:
-      'Get more Tinder matches in Salt Lake City. Professional profile optimization for photos, bio, and prompts tailored to the SLC dating scene. One-time $29.',
+      'Get more Tinder matches in Salt Lake City. Professional profile optimization for photos, bio, and prompts tailored to the SLC dating scene. One-time $19.',
     h1: 'Get More Tinder Matches in Salt Lake City',
     nearbyCities: ['denver', 'las-vegas', 'colorado-springs'],
   },
@@ -3575,7 +3575,7 @@ export const cities: CityData[] = [
     ],
     metaTitle: 'Tinder Profile Help in Oklahoma City',
     metaDescription:
-      'Get more Tinder matches in Oklahoma City. Professional profile optimization for photos, bio, and prompts tailored to the OKC dating scene. One-time $29.',
+      'Get more Tinder matches in Oklahoma City. Professional profile optimization for photos, bio, and prompts tailored to the OKC dating scene. One-time $19.',
     h1: 'Get More Tinder Matches in Oklahoma City',
     nearbyCities: ['dallas', 'kansas-city', 'denver', 'san-antonio'],
   },
