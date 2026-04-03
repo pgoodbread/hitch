@@ -280,18 +280,18 @@ export default async function CityPage({
             </div>
             <div className="mx-auto mt-16 max-w-md">
               <div className="rounded-3xl bg-blue-600 px-6 py-8 sm:px-8">
+                <p className="mb-3 text-center text-sm font-semibold tracking-wider text-emerald-300 uppercase">
+                  Spring Sale — Get ready for summer
+                </p>
                 <div className="flex items-baseline justify-center gap-x-2">
-                  <span className="font-display text-2xl font-light tracking-tight text-red-500 line-through">
-                    $49
+                  <span className="font-display text-2xl font-light tracking-tight text-red-400 line-through">
+                    $29
                   </span>
                   <span className="font-display text-5xl font-light tracking-tight text-white">
-                    $29
+                    $19
                   </span>
                   <span className="text-lg text-blue-200">one-time</span>
                 </div>
-                <p className="mt-4 text-center text-sm text-blue-200">
-                  Early access · Limited spots
-                </p>
                 <ul
                   role="list"
                   className="mt-8 flex flex-col gap-y-3 text-sm text-white"

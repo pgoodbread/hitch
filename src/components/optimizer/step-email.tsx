@@ -88,7 +88,7 @@ export function StepEmail({
               Processing...
             </span>
           ) : (
-            'Complete & Pay $29'
+            'Complete & Pay $19'
           )}
         </button>
       </div>
