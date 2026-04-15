@@ -344,9 +344,11 @@ export default function Home() {
                 href="/optimize?utm_source=lp&utm_content=upsell"
                 onClick={() => handleCtaClick('upsell', '/optimize')}
                 color="white"
+                className="text-lg"
               >
                 Get Full Analysis —{' '}
-                <span className="text-slate-400 line-through">$29</span> $19
+                <span className="px-2 text-slate-400 line-through">$29</span>
+                <span className="font-bold text-red-500">$19</span>
               </Button>
             </div>
             <p className="mt-6 text-center text-sm text-slate-500">
