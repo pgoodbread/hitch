@@ -84,6 +84,13 @@ const carouselTestimonials = [
       'Honestly skeptical at first, I thought my profile was pretty good. But boy was I wrong! Photo ranking alone was worth it, but what I loved most is the step-by-step action plan!',
     image: '/images/testimonials/phil.JPG',
   },
+  {
+    name: 'Leon',
+    age: 29,
+    quote:
+      'The photo ranking surprised me \u2014 turns out my best pic was buried at the end. Swapped it to the front and the difference was immediate.',
+    image: '/images/testimonials/leon.jpg',
+  },
 ]
 
 const exampleScores = [
