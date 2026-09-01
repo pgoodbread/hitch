@@ -48,6 +48,9 @@ export function Footer() {
               Optimizer. All rights reserved.
             </p>
             <div className="mt-2 flex gap-x-4 text-sm text-slate-500">
+              <Link href="/blog" className="hover:text-slate-700">
+                Blog
+              </Link>
               <Link href="/imprint" className="hover:text-slate-700">
                 Imprint
               </Link>

@@ -35,3 +35,6 @@ next-env.d.ts
 
 # Google Search Console
 .gsc-credentials.json
+
+# autoseo
+.autoseo/cache/
