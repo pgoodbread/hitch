@@ -1,0 +1,78 @@
+site:
+  name: hitch
+  domain: tinderprofileoptimizer.com
+
+content:
+  # Default destination for new articles.
+  blog_dir: src/content/blog
+  writer_skill: blog
+  default_post_type: guide
+  # The city pages (/tinder-profile-help/[city]) are generated from a single
+  # data file (src/data/cities.ts), not content files, so they can't be
+  # indexed here. Keep city-level keywords out via exclusions if they start
+  # colliding.
+  index_dirs:
+    - path: src/content/blog
+      url_prefix: /blog
+      description: practical Tinder profile advice — photos, bios, prompts, match strategy
+
+ahrefs:
+  competitors:
+    - roast.dating
+    - textgod.com
+    - vidaselect.com
+    - rizz.app
+  seed_keywords:
+    - tinder profile tips
+    - how to get more matches on tinder
+  filters:
+    min_volume: 100
+    max_kd: 20
+  exclusions:
+    - regex: '(?i)bumble'
+    - regex: '(?i)hinge'
+    - regex: '(?i)okcupid'
+    - regex: '(?i)match\.com'
+  refresh_interval_days: 7
+  country: us
+  per_competitor_limit: 500
+
+gsc:
+  property: "sc-domain:tinderprofileoptimizer.com"
+  credentials_path: .gsc-credentials.json
+  ranking_position_threshold: 20
+
+posthog:
+  host: https://eu.posthog.com
+  conversion_events:
+    - optimizer_payment_completed
+  top_converters_limit: 5
+
+publisher:
+  base_branch: main
+  branch_prefix: autoseo/
+  pr:
+    draft: false
+    title_prefix: "[autoseo] "
+    labels:
+      - autoseo
+
+quality_gates:
+  frontmatter:
+    required: true
+  code_compile:
+    # Dating content has no TypeScript code blocks to type-check.
+    required: false
+    max_retries: 0
+    tsconfig_path: tsconfig.json
+  link_check:
+    required: true
+  length:
+    warn_outside: [1200, 1800]
+  headline_seo:
+    warn: true
+
+audit:
+  log_path: .autoseo/articles.jsonl
+  briefs_dir: .autoseo/briefs
+  candidates_cache: .autoseo/cache/candidates.json

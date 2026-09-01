@@ -1,5 +1,6 @@
 import type { MetadataRoute } from 'next'
 import { getAllCitySlugs } from '@/data/cities'
+import { getAllPosts } from '@/lib/content'
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL!
@@ -32,5 +33,21 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.8,
   }))
 
-  return [...routes, ...cityRoutes]
+  const posts = getAllPosts()
+  const blogRoutes: MetadataRoute.Sitemap = [
+    {
+      url: `${baseUrl}/blog`,
+      lastModified: new Date(),
+      changeFrequency: 'weekly',
+      priority: 0.7,
+    },
+    ...posts.map((post) => ({
+      url: `${baseUrl}/blog/${post.slug}`,
+      lastModified: new Date(post.updatedAt ?? post.date),
+      changeFrequency: 'monthly' as const,
+      priority: 0.6,
+    })),
+  ]
+
+  return [...routes, ...cityRoutes, ...blogRoutes]
 }
