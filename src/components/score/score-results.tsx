@@ -229,7 +229,9 @@ export function ScoreResults({ scores, email, photoUrls }: ScoreResultsProps) {
             onClick={handleCtaClick}
             className="w-full rounded-full bg-blue-600 py-3.5 text-sm font-semibold text-white shadow-lg transition-colors hover:bg-blue-500"
           >
-            Unlock Full Analysis — $29
+            Unlock Full Analysis —{' '}
+            <span className="px-1 text-white/60 line-through">$29</span>
+            <span className="font-bold">$19</span>
           </button>
         </div>
       </div>
@@ -241,7 +243,9 @@ export function ScoreResults({ scores, email, photoUrls }: ScoreResultsProps) {
             onClick={handleCtaClick}
             className="mx-auto w-full rounded-full bg-blue-600 py-3.5 text-sm font-semibold text-white shadow-lg transition-colors hover:bg-blue-500 md:max-w-xs"
           >
-            Unlock Full Analysis — $29
+            Unlock Full Analysis —{' '}
+            <span className="px-1 text-white/60 line-through">$29</span>
+            <span className="font-bold">$19</span>
           </button>
         </div>
       </div>
