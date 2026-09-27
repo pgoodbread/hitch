@@ -1,0 +1,189 @@
+# autoseo merge — lands the nightly autoseo PRs without a human, once everything
+# the site asks for is green. Copy to <site>/.github/workflows/autoseo-merge.yml
+# and set the `env` block. Contract: autoseo/PRD-daily-cron.md, revision 2026-09-27.
+#
+# A PR qualifies only when it carries the `autoseo` label, sits on an
+# `autoseo/*` branch and was opened by the repo owner (the bot's gh login).
+# Other bot PRs (errorpage, challenge) are untouched.
+#
+# Green means, on the PR's head SHA:
+#   - no check run or commit status is still pending, none failed;
+#   - every name in REQUIRED_CHECKS has succeeded (check-run name or status
+#     context — e.g. the CI job name, "Vercel");
+#   - with REQUIRE_REVIEW_VERDICT=true, the latest claude[bot] comment says
+#     LGTM and is newer than the head commit (a stale LGTM from before a
+#     prfeedback push does not count). Do not list the review's check run in
+#     REQUIRED_CHECKS: a re-review asked for by comment runs against the
+#     default branch, so its check run never appears on the PR head.
+# Anything else leaves the PR open. A failed check or a merge conflict adds the
+# `autoseo-blocked` label and sends one Telegram line; the label comes off (and
+# the merge goes through) as soon as the PR is green again.
+#
+# Squash + delete branch. Undo: `bin/autoseo-revert.sh <job> <slug>` in the
+# claude-bot repo (runs `autoseo revert` in the bot's clone).
+#
+# Secrets: TELEGRAM_BOT_TOKEN, TELEGRAM_CHAT_ID (silent delivery; the
+# workflow still merges when they are missing, it just cannot tell you).
+name: autoseo merge
+
+on:
+  pull_request:
+    types: [opened, reopened, synchronize, labeled, ready_for_review]
+  workflow_run:
+    workflows: ["CI"]
+    types: [completed]
+  check_suite:
+    types: [completed]
+  status: {}
+  issue_comment:
+    types: [created, edited]
+  schedule:
+    - cron: "0 * * * *"   # sweep in case an event was missed
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: "Evaluate and log only; merge nothing, label nothing"
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+  pull-requests: write
+  issues: write
+  checks: read
+  statuses: read
+  actions: read
+
+concurrency:
+  group: autoseo-merge
+  cancel-in-progress: false
+
+env:
+  AUTOSEO_LABEL: autoseo
+  BLOCKED_LABEL: autoseo-blocked
+  BRANCH_PREFIX: autoseo/
+  REQUIRED_CHECKS: "quality,Vercel"
+  REQUIRE_REVIEW_VERDICT: "false"
+  REVIEW_BOT: "claude[bot]"
+  # claude-bot job that owns this site — names the revert command in Telegram.
+  BOT_JOB: autoseo-hitch
+  BOT_EMOJI: "💘"
+
+jobs:
+  autoseo-merge:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Merge green autoseo PRs
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          OWNER: ${{ github.repository_owner }}
+          SELF_JOB: ${{ github.job }}
+          DRY_RUN: ${{ inputs.dry_run == true && 'true' || '' }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: |
+          set -euo pipefail
+
+          tg() {
+            [ -n "$TELEGRAM_BOT_TOKEN" ] && [ -n "$TELEGRAM_CHAT_ID" ] || { echo "telegram not configured; would send:"; printf '%s\n' "$1"; return 0; }
+            curl -sS --max-time 30 -o /dev/null -X POST \
+              "https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage" \
+              --data-urlencode "chat_id=${TELEGRAM_CHAT_ID}" \
+              --data-urlencode "disable_notification=true" \
+              --data-urlencode "text=$1" || echo "telegram delivery failed"
+          }
+
+          has_label() { jq -e --arg l "$2" '.labels | map(.name) | index($l) != null' <<<"$1" >/dev/null; }
+
+          block() {  # $1 pr json, $2 reason — label once, tell once
+            local pr="$1" reason="$2" n
+            n="$(jq -r .number <<<"$pr")"
+            if has_label "$pr" "$BLOCKED_LABEL"; then echo "#$n: still blocked ($reason)"; return; fi
+            if [ -n "$DRY_RUN" ]; then echo "#$n: DRY_RUN — would block: $reason"; return; fi
+            gh label create "$BLOCKED_LABEL" --color D93F0B --description 'autoseo merge could not land this PR' --force >/dev/null 2>&1 || true
+            gh pr edit "$n" --add-label "$BLOCKED_LABEL" >/dev/null
+            echo "#$n: blocked — $reason"
+            tg "${BOT_EMOJI} ${BOT_JOB} — ⛔ not merged: $(jq -r .title <<<"$pr" | sed 's/^\[autoseo\] //')
+          ${reason}
+          $(jq -r .url <<<"$pr")"
+          }
+
+          unblock() {
+            local pr="$1" n
+            n="$(jq -r .number <<<"$pr")"
+            [ -z "$DRY_RUN" ] || return 0
+            has_label "$pr" "$BLOCKED_LABEL" && gh pr edit "$n" --remove-label "$BLOCKED_LABEL" >/dev/null || true
+          }
+
+          prs="$(gh pr list --label "$AUTOSEO_LABEL" --state open --limit 50 \
+                  --json number,title,url,body,headRefName,headRefOid,author,isDraft,mergeable,labels)"
+          count="$(jq length <<<"$prs")"
+          echo "open ${AUTOSEO_LABEL} PRs: $count (event: ${GITHUB_EVENT_NAME})"
+
+          while IFS= read -r -u 3 pr; do
+            [ -n "$pr" ] || continue
+            n="$(jq -r .number <<<"$pr")"
+            branch="$(jq -r .headRefName <<<"$pr")"
+            sha="$(jq -r .headRefOid <<<"$pr")"
+            author="$(jq -r .author.login <<<"$pr")"
+            title="$(jq -r .title <<<"$pr")"
+
+            case "$branch" in "$BRANCH_PREFIX"*) ;; *) echo "#$n: branch $branch is not ${BRANCH_PREFIX}* — skip"; continue;; esac
+            [ "$author" = "$OWNER" ] || { echo "#$n: opened by $author, not $OWNER — skip"; continue; }
+            [ "$(jq -r .isDraft <<<"$pr")" = "false" ] || { echo "#$n: draft — skip"; continue; }
+
+            case "$(jq -r .mergeable <<<"$pr")" in
+              MERGEABLE) ;;
+              CONFLICTING) block "$pr" "merge conflict with $(gh repo view --json defaultBranchRef --jq .defaultBranchRef.name)"; continue ;;
+              *) echo "#$n: mergeability unknown yet — retry later"; continue ;;
+            esac
+
+            # Every check run + commit status on the head SHA, minus this workflow's own job.
+            runs="$(gh api "repos/${GH_REPO}/commits/${sha}/check-runs?per_page=100" \
+                     --jq '[.check_runs[] | {name, status, conclusion}]')"
+            statuses="$(gh api "repos/${GH_REPO}/commits/${sha}/status" \
+                     --jq '[.statuses[] | {name: .context, status: (if .state == "pending" then "in_progress" else "completed" end), conclusion: .state}]')"
+            all="$(jq -n --argjson a "$runs" --argjson b "$statuses" --arg self "$SELF_JOB" '($a + $b) | map(select(.name != $self))')"
+
+            pending="$(jq -r '[.[] | select(.status != "completed") | .name] | unique | join(", ")' <<<"$all")"
+            failed="$(jq -r '[.[] | select(.status == "completed" and ((.conclusion | IN("success","neutral","skipped")) | not)) | .name] | unique | join(", ")' <<<"$all")"
+            missing=""
+            IFS=',' read -ra required <<<"$REQUIRED_CHECKS"
+            for name in "${required[@]}"; do
+              name="$(echo "$name" | xargs)"; [ -n "$name" ] || continue
+              jq -e --arg n "$name" '[.[] | select(.name == $n and .status == "completed" and .conclusion == "success")] | length > 0' <<<"$all" >/dev/null \
+                || missing="${missing:+$missing, }$name"
+            done
+
+            if [ -n "$failed" ]; then block "$pr" "failed: $failed"; continue; fi
+            if [ -n "$pending" ]; then echo "#$n: waiting for $pending"; continue; fi
+            if [ -n "$missing" ]; then echo "#$n: required check(s) not reported yet: $missing"; continue; fi
+
+            if [ "$REQUIRE_REVIEW_VERDICT" = "true" ]; then
+              head_date="$(gh api "repos/${GH_REPO}/commits/${sha}" --jq '.commit.committer.date')"
+              verdict="$(gh api "repos/${GH_REPO}/issues/${n}/comments?per_page=100" \
+                          | jq -c --arg bot "$REVIEW_BOT" '[.[] | select(.user.login == $bot)] | last // empty | {updated_at, body}')"
+              if [ -z "$verdict" ]; then echo "#$n: no review comment yet"; continue; fi
+              v_date="$(jq -r .updated_at <<<"$verdict")"
+              if [[ "$v_date" < "$head_date" ]]; then echo "#$n: review comment ($v_date) predates head ($head_date) — waiting for re-review"; continue; fi
+              if ! jq -e '.body | test("LGTM") and (test("Changes requested|Issues Found") | not)' <<<"$verdict" >/dev/null; then
+                echo "#$n: review verdict is not LGTM — prfeedback's turn"; continue
+              fi
+            fi
+
+            unblock "$pr"
+            if [ -n "$DRY_RUN" ]; then echo "#$n: green — DRY_RUN, would merge"; continue; fi
+            echo "#$n: green — merging"
+            if ! gh pr merge "$n" --squash --delete-branch --match-head-commit "$sha"; then
+              block "$pr" "gh pr merge failed (see the autoseo merge workflow log)"; continue
+            fi
+
+            slug="${branch#"$BRANCH_PREFIX"}"
+            live="$(jq -r .body <<<"$pr" | grep -oE 'Live URL \(after merge\):\*\* [^ ]+' | head -1 | awk '{print $NF}' || true)"
+            tg "${BOT_EMOJI} ${BOT_JOB} — ✅ merged: ${title#\[autoseo\] }
+          ${live:+$live
+          }$(jq -r .url <<<"$pr")
+
+          revert: bin/autoseo-revert.sh ${BOT_JOB} ${slug}"
+          done 3< <(jq -c '.[]' <<<"$prs")
