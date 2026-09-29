@@ -1,10 +1,12 @@
-# autoseo merge — lands the nightly autoseo PRs without a human, once everything
+# autoseo merge — lands the nightly bot PRs without a human, once everything
 # the site asks for is green. Copy to <site>/.github/workflows/autoseo-merge.yml
-# and set the `env` block. Contract: autoseo/PRD-daily-cron.md, revision 2026-09-27.
+# and set the `env` block. Contract: autoseo/PRD-daily-cron.md, revisions
+# 2026-09-27 (auto-merge) and 2026-09-29 (lanes: errorpage, challenge).
 #
-# A PR qualifies only when it carries the `autoseo` label, sits on an
-# `autoseo/*` branch and was opened by the repo owner (the bot's gh login).
-# Other bot PRs (errorpage, challenge) are untouched.
+# A PR qualifies only when it matches one of the LANES: it carries the lane's
+# label, sits on the lane's branch prefix and was opened by the repo owner
+# (the bot's gh login). Every lane goes through the same gates below. Bot PRs
+# outside every lane are untouched.
 #
 # Green means, on the PR's head SHA:
 #   - no check run or commit status is still pending, none failed;
@@ -19,8 +21,10 @@
 # `autoseo-blocked` label and sends one Telegram line; the label comes off (and
 # the merge goes through) as soon as the PR is green again.
 #
-# Squash + delete branch. Undo: `bin/autoseo-revert.sh <job> <slug>` in the
-# claude-bot repo (runs `autoseo revert` in the bot's clone).
+# Squash + delete branch. Undo: the lane's script in the claude-bot repo,
+# `bin/<undo> <job> <slug>` — autoseo-revert.sh runs `autoseo revert` in the
+# bot's clone (audit row; the keyword stays blocked), pr-revert.sh a plain
+# `git revert` of the squash commit for jobs without an audit log.
 #
 # Secrets: TELEGRAM_BOT_TOKEN, TELEGRAM_CHAT_ID (silent delivery; the
 # workflow still merges when they are missing, it just cannot tell you).
@@ -59,21 +63,20 @@ concurrency:
   cancel-in-progress: false
 
 env:
-  AUTOSEO_LABEL: autoseo
+  # One lane per claude-bot job whose PRs merge here, whitespace-separated:
+  #   <label> <branch prefix> <claude-bot job> <emoji> <undo script in claude-bot/bin/>
+  LANES: |
+    autoseo  autoseo/  autoseo-hitch  💘  autoseo-revert.sh
   BLOCKED_LABEL: autoseo-blocked
-  BRANCH_PREFIX: autoseo/
   REQUIRED_CHECKS: "quality,Vercel"
   REQUIRE_REVIEW_VERDICT: "false"
   REVIEW_BOT: "claude[bot]"
-  # claude-bot job that owns this site — names the revert command in Telegram.
-  BOT_JOB: autoseo-hitch
-  BOT_EMOJI: "💘"
 
 jobs:
   autoseo-merge:
     runs-on: ubuntu-latest
     steps:
-      - name: Merge green autoseo PRs
+      - name: Merge green bot PRs
         env:
           GH_TOKEN: ${{ github.token }}
           GH_REPO: ${{ github.repository }}
@@ -95,8 +98,9 @@ jobs:
           }
 
           has_label() { jq -e --arg l "$2" '.labels | map(.name) | index($l) != null' <<<"$1" >/dev/null; }
+          bare_title() { sed -E 's/^\[[a-z-]+\] //' <<<"$1"; }   # "[errorpage] Fix TS…" → "Fix TS…"
 
-          block() {  # $1 pr json, $2 reason — label once, tell once
+          block() {  # $1 pr json, $2 reason — label once, tell once (lane vars: job, emoji)
             local pr="$1" reason="$2" n
             n="$(jq -r .number <<<"$pr")"
             if has_label "$pr" "$BLOCKED_LABEL"; then echo "#$n: still blocked ($reason)"; return; fi
@@ -104,7 +108,7 @@ jobs:
             gh label create "$BLOCKED_LABEL" --color D93F0B --description 'autoseo merge could not land this PR' --force >/dev/null 2>&1 || true
             gh pr edit "$n" --add-label "$BLOCKED_LABEL" >/dev/null
             echo "#$n: blocked — $reason"
-            tg "${BOT_EMOJI} ${BOT_JOB} — ⛔ not merged: $(jq -r .title <<<"$pr" | sed 's/^\[autoseo\] //')
+            tg "${emoji} ${job} — ⛔ not merged: $(bare_title "$(jq -r .title <<<"$pr")")
           ${reason}
           $(jq -r .url <<<"$pr")"
           }
@@ -116,74 +120,79 @@ jobs:
             has_label "$pr" "$BLOCKED_LABEL" && gh pr edit "$n" --remove-label "$BLOCKED_LABEL" >/dev/null || true
           }
 
-          prs="$(gh pr list --label "$AUTOSEO_LABEL" --state open --limit 50 \
-                  --json number,title,url,body,headRefName,headRefOid,author,isDraft,mergeable,labels)"
-          count="$(jq length <<<"$prs")"
-          echo "open ${AUTOSEO_LABEL} PRs: $count (event: ${GITHUB_EVENT_NAME})"
+          echo "event: ${GITHUB_EVENT_NAME}"
+          while read -r -u 4 label prefix job emoji undo; do
+            [ -n "$label" ] || continue
+            [ -n "$undo" ] || { echo "::error::LANES line '$label $prefix $job $emoji' needs 5 fields"; exit 1; }
 
-          while IFS= read -r -u 3 pr; do
-            [ -n "$pr" ] || continue
-            n="$(jq -r .number <<<"$pr")"
-            branch="$(jq -r .headRefName <<<"$pr")"
-            sha="$(jq -r .headRefOid <<<"$pr")"
-            author="$(jq -r .author.login <<<"$pr")"
-            title="$(jq -r .title <<<"$pr")"
+            prs="$(gh pr list --label "$label" --state open --limit 50 \
+                    --json number,title,url,body,headRefName,headRefOid,author,isDraft,mergeable,labels)"
+            echo "lane ${label}: $(jq length <<<"$prs") open PR(s)"
 
-            case "$branch" in "$BRANCH_PREFIX"*) ;; *) echo "#$n: branch $branch is not ${BRANCH_PREFIX}* — skip"; continue;; esac
-            [ "$author" = "$OWNER" ] || { echo "#$n: opened by $author, not $OWNER — skip"; continue; }
-            [ "$(jq -r .isDraft <<<"$pr")" = "false" ] || { echo "#$n: draft — skip"; continue; }
+            while IFS= read -r -u 3 pr; do
+              [ -n "$pr" ] || continue
+              n="$(jq -r .number <<<"$pr")"
+              branch="$(jq -r .headRefName <<<"$pr")"
+              sha="$(jq -r .headRefOid <<<"$pr")"
+              author="$(jq -r .author.login <<<"$pr")"
+              title="$(jq -r .title <<<"$pr")"
 
-            case "$(jq -r .mergeable <<<"$pr")" in
-              MERGEABLE) ;;
-              CONFLICTING) block "$pr" "merge conflict with $(gh repo view --json defaultBranchRef --jq .defaultBranchRef.name)"; continue ;;
-              *) echo "#$n: mergeability unknown yet — retry later"; continue ;;
-            esac
+              case "$branch" in "$prefix"*) ;; *) echo "#$n: branch $branch is not ${prefix}* — skip"; continue;; esac
+              [ "$author" = "$OWNER" ] || { echo "#$n: opened by $author, not $OWNER — skip"; continue; }
+              [ "$(jq -r .isDraft <<<"$pr")" = "false" ] || { echo "#$n: draft — skip"; continue; }
 
-            # Every check run + commit status on the head SHA, minus this workflow's own job.
-            runs="$(gh api "repos/${GH_REPO}/commits/${sha}/check-runs?per_page=100" \
-                     --jq '[.check_runs[] | {name, status, conclusion}]')"
-            statuses="$(gh api "repos/${GH_REPO}/commits/${sha}/status" \
-                     --jq '[.statuses[] | {name: .context, status: (if .state == "pending" then "in_progress" else "completed" end), conclusion: .state}]')"
-            all="$(jq -n --argjson a "$runs" --argjson b "$statuses" --arg self "$SELF_JOB" '($a + $b) | map(select(.name != $self))')"
+              case "$(jq -r .mergeable <<<"$pr")" in
+                MERGEABLE) ;;
+                CONFLICTING) block "$pr" "merge conflict with $(gh repo view --json defaultBranchRef --jq .defaultBranchRef.name)"; continue ;;
+                *) echo "#$n: mergeability unknown yet — retry later"; continue ;;
+              esac
 
-            pending="$(jq -r '[.[] | select(.status != "completed") | .name] | unique | join(", ")' <<<"$all")"
-            failed="$(jq -r '[.[] | select(.status == "completed" and ((.conclusion | IN("success","neutral","skipped")) | not)) | .name] | unique | join(", ")' <<<"$all")"
-            missing=""
-            IFS=',' read -ra required <<<"$REQUIRED_CHECKS"
-            for name in "${required[@]}"; do
-              name="$(echo "$name" | xargs)"; [ -n "$name" ] || continue
-              jq -e --arg n "$name" '[.[] | select(.name == $n and .status == "completed" and .conclusion == "success")] | length > 0' <<<"$all" >/dev/null \
-                || missing="${missing:+$missing, }$name"
-            done
+              # Every check run + commit status on the head SHA, minus this workflow's own job.
+              runs="$(gh api "repos/${GH_REPO}/commits/${sha}/check-runs?per_page=100" \
+                       --jq '[.check_runs[] | {name, status, conclusion}]')"
+              statuses="$(gh api "repos/${GH_REPO}/commits/${sha}/status" \
+                       --jq '[.statuses[] | {name: .context, status: (if .state == "pending" then "in_progress" else "completed" end), conclusion: .state}]')"
+              all="$(jq -n --argjson a "$runs" --argjson b "$statuses" --arg self "$SELF_JOB" '($a + $b) | map(select(.name != $self))')"
 
-            if [ -n "$failed" ]; then block "$pr" "failed: $failed"; continue; fi
-            if [ -n "$pending" ]; then echo "#$n: waiting for $pending"; continue; fi
-            if [ -n "$missing" ]; then echo "#$n: required check(s) not reported yet: $missing"; continue; fi
+              pending="$(jq -r '[.[] | select(.status != "completed") | .name] | unique | join(", ")' <<<"$all")"
+              failed="$(jq -r '[.[] | select(.status == "completed" and ((.conclusion | IN("success","neutral","skipped")) | not)) | .name] | unique | join(", ")' <<<"$all")"
+              missing=""
+              IFS=',' read -ra required <<<"$REQUIRED_CHECKS"
+              for name in "${required[@]}"; do
+                name="$(echo "$name" | xargs)"; [ -n "$name" ] || continue
+                jq -e --arg n "$name" '[.[] | select(.name == $n and .status == "completed" and .conclusion == "success")] | length > 0' <<<"$all" >/dev/null \
+                  || missing="${missing:+$missing, }$name"
+              done
 
-            if [ "$REQUIRE_REVIEW_VERDICT" = "true" ]; then
-              head_date="$(gh api "repos/${GH_REPO}/commits/${sha}" --jq '.commit.committer.date')"
-              verdict="$(gh api "repos/${GH_REPO}/issues/${n}/comments?per_page=100" \
-                          | jq -c --arg bot "$REVIEW_BOT" '[.[] | select(.user.login == $bot)] | last // empty | {updated_at, body}')"
-              if [ -z "$verdict" ]; then echo "#$n: no review comment yet"; continue; fi
-              v_date="$(jq -r .updated_at <<<"$verdict")"
-              if [[ "$v_date" < "$head_date" ]]; then echo "#$n: review comment ($v_date) predates head ($head_date) — waiting for re-review"; continue; fi
-              if ! jq -e '.body | test("LGTM") and (test("Changes requested|Issues Found") | not)' <<<"$verdict" >/dev/null; then
-                echo "#$n: review verdict is not LGTM — prfeedback's turn"; continue
+              if [ -n "$failed" ]; then block "$pr" "failed: $failed"; continue; fi
+              if [ -n "$pending" ]; then echo "#$n: waiting for $pending"; continue; fi
+              if [ -n "$missing" ]; then echo "#$n: required check(s) not reported yet: $missing"; continue; fi
+
+              if [ "$REQUIRE_REVIEW_VERDICT" = "true" ]; then
+                head_date="$(gh api "repos/${GH_REPO}/commits/${sha}" --jq '.commit.committer.date')"
+                verdict="$(gh api "repos/${GH_REPO}/issues/${n}/comments?per_page=100" \
+                            | jq -c --arg bot "$REVIEW_BOT" '[.[] | select(.user.login == $bot)] | last // empty | {updated_at, body}')"
+                if [ -z "$verdict" ]; then echo "#$n: no review comment yet"; continue; fi
+                v_date="$(jq -r .updated_at <<<"$verdict")"
+                if [[ "$v_date" < "$head_date" ]]; then echo "#$n: review comment ($v_date) predates head ($head_date) — waiting for re-review"; continue; fi
+                if ! jq -e '.body | test("LGTM") and (test("Changes requested|Issues Found") | not)' <<<"$verdict" >/dev/null; then
+                  echo "#$n: review verdict is not LGTM — prfeedback's turn"; continue
+                fi
               fi
-            fi
 
-            unblock "$pr"
-            if [ -n "$DRY_RUN" ]; then echo "#$n: green — DRY_RUN, would merge"; continue; fi
-            echo "#$n: green — merging"
-            if ! gh pr merge "$n" --squash --delete-branch --match-head-commit "$sha"; then
-              block "$pr" "gh pr merge failed (see the autoseo merge workflow log)"; continue
-            fi
+              unblock "$pr"
+              if [ -n "$DRY_RUN" ]; then echo "#$n: green — DRY_RUN, would merge"; continue; fi
+              echo "#$n: green — merging"
+              if ! gh pr merge "$n" --squash --delete-branch --match-head-commit "$sha"; then
+                block "$pr" "gh pr merge failed (see the autoseo merge workflow log)"; continue
+              fi
 
-            slug="${branch#"$BRANCH_PREFIX"}"
-            live="$(jq -r .body <<<"$pr" | grep -oE 'Live URL \(after merge\):\*\* [^ ]+' | head -1 | awk '{print $NF}' || true)"
-            tg "${BOT_EMOJI} ${BOT_JOB} — ✅ merged: ${title#\[autoseo\] }
+              slug="${branch#"$prefix"}"
+              live="$(jq -r .body <<<"$pr" | grep -oE 'Live URL \(after merge\):\*\* [^ ]+' | head -1 | awk '{print $NF}' || true)"
+              tg "${emoji} ${job} — ✅ merged: $(bare_title "$title")
           ${live:+$live
           }$(jq -r .url <<<"$pr")
 
-          revert: bin/autoseo-revert.sh ${BOT_JOB} ${slug}"
-          done 3< <(jq -c '.[]' <<<"$prs")
+          revert: bin/${undo} ${job} ${slug}"
+            done 3< <(jq -c '.[]' <<<"$prs")
+          done 4<<<"$LANES"
