@@ -19,7 +19,8 @@
 #     default branch, so its check run never appears on the PR head.
 # Anything else leaves the PR open. A failed check or a merge conflict adds the
 # `autoseo-blocked` label and sends one Telegram line; the label comes off (and
-# the merge goes through) as soon as the PR is green again.
+# the merge goes through) as soon as the PR is green again. A merge itself is
+# silent on Telegram (since 2026-10-05) — only trouble messages.
 #
 # Squash + delete branch. Undo: the lane's script in the claude-bot repo,
 # `bin/<undo> <job> <slug>` — autoseo-revert.sh runs `autoseo revert` in the
@@ -135,7 +136,6 @@ jobs:
               branch="$(jq -r .headRefName <<<"$pr")"
               sha="$(jq -r .headRefOid <<<"$pr")"
               author="$(jq -r .author.login <<<"$pr")"
-              title="$(jq -r .title <<<"$pr")"
 
               case "$branch" in "$prefix"*) ;; *) echo "#$n: branch $branch is not ${prefix}* — skip"; continue;; esac
               [ "$author" = "$OWNER" ] || { echo "#$n: opened by $author, not $OWNER — skip"; continue; }
@@ -187,12 +187,7 @@ jobs:
                 block "$pr" "gh pr merge failed (see the autoseo merge workflow log)"; continue
               fi
 
-              slug="${branch#"$prefix"}"
-              live="$(jq -r .body <<<"$pr" | grep -oE 'Live URL \(after merge\):\*\* [^ ]+' | head -1 | awk '{print $NF}' || true)"
-              tg "${emoji} ${job} — ✅ merged: $(bare_title "$title")
-          ${live:+$live
-          }$(jq -r .url <<<"$pr")
-
-          revert: bin/${undo} ${job} ${slug}"
+              # Merges are silent on Telegram — only blocked PRs message. The undo goes to the log.
+              echo "#$n: merged — undo: bin/${undo} ${job} ${branch#"$prefix"}"
             done 3< <(jq -c '.[]' <<<"$prs")
           done 4<<<"$LANES"
