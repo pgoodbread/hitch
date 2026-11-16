@@ -11,8 +11,8 @@
 
 ## Why this topic
 
-Master Matchmakers is a high-touch, human matchmaking service (Tammy Shaklee / Joann Ward-style
-concierge matchmaking, four-figure retainers). People searching it are already willing to pay
+Master Matchmakers is a high-touch, human matchmaking service (founded by JoAnn Ward, run by her son
+Steve Ward, both ex-VH1 _Tough Love_; Premium packages quoted at $3,500–$35,000). People searching it are already willing to pay
 someone to fix their dating life — the same buyer as this site's $29 profile optimizer, one tier up
 in price. The site already owns a review cluster (VIDA Select, Roast Dating, PhotoEval, Tinder
 Insights, Hily, Zoosk, Coffee Meets Bagel, The League, Upward); this is the missing entry at the
