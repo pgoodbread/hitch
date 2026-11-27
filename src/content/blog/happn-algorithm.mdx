@@ -1,0 +1,166 @@
+---
+title: 'Happn Algorithm: How It Decides Who Sees You'
+date: '2026-11-27'
+description: 'How the happn algorithm decides who sees your profile, what crossing paths actually means, and the profile changes that move your Crush rate.'
+tags: ['basics', 'tinder']
+author: 'Mathew'
+---
+
+Happn sells a simple promise: the people in your feed are people you
+actually walked past. That's a nice story, and it's roughly true. It's
+also why the happn algorithm confuses people more than Tinder's does —
+when your feed goes quiet, you can't tell whether your profile is the
+problem or your commute is.
+
+Both are possible. Here's what the system is actually doing with your
+location and your profile, how much of it is confirmed versus guessed
+at, and which of it you can change.
+
+## What the happn algorithm actually does
+
+Happn's core mechanic is proximity over time. When your location is on,
+the app records the points where you came near another member, and
+those people turn up in your timeline. Happn's own support pages
+describe this as the concept of the app, and third-party teardowns put
+the crossing threshold at roughly 250 metres.
+
+That changes what your feed is. On Tinder you're being ranked inside a
+deck of everyone nearby. On Happn you're being ranked inside a much
+smaller pool — the people whose physical path overlapped yours. The
+pool is pre-filtered by your life before any software opinion about
+your photos gets applied.
+
+One detail matters here, because it breaks the clean version of the
+story: Happn's help centre says it also shows you people you haven't
+crossed paths with but might. So the feed isn't purely a log of real
+encounters. It's a mix of actual crossings and predicted ones, and
+Happn doesn't publish the ratio.
+
+A like that gets liked back is a Crush, and a Crush is what opens the
+chat. Happn's app-store copy states the principle plainly — you won't
+get a message from someone you didn't show interest in. Free accounts
+can send likes, chat with Crushes, and play CrushTime, the grid game
+that asks you to guess which of four profiles already liked you.
+
+## What counts as crossing paths
+
+Three things decide how many people land in your timeline, and only one
+of them is about you being attractive.
+
+- **How much you move.** Someone commuting through a city centre
+  crosses thousands of people a week. Someone working from home in a
+  quiet suburb crosses dozens. Same profile, wildly different feed.
+- **Where you move.** Density does the heavy lifting. Rush-hour
+  stations, universities, gyms and nightlife areas put you in range of
+  far more members than a retail park.
+- **Whether location is actually on.** Background location permission
+  is the whole engine. Restrict it and the app stops recording
+  crossings, which looks identical to nobody being interested in you.
+
+If your timeline is near-empty, check that third point before you start
+rewriting your bio. On Happn, a permissions setting can be the entire
+explanation.
+
+The privacy side is better than the premise sounds, for what it's
+worth. Happn doesn't hand anyone your live position — a crossing shows
+the other person roughly where the overlap happened, not where you are
+now or where you live. That's a deliberate design choice, and it's also
+why the app can't tell you anything more precise than "somewhere around
+here, at some point."
+
+## The signals that seem to matter
+
+Nobody outside the company has the ranking code, and any article giving
+you an exact formula is making it up. What's reasonable to infer from
+Happn's own descriptions and from how the app behaves:
+
+- **Your crossing points.** The base layer. No overlap, no appearance.
+- **Your stated preferences.** Age range, distance, who you're looking
+  for — these cut the pool before anything else runs.
+- **Your profile completeness.** More photos and a filled-out profile
+  give viewers fewer reasons to swipe past, which is the number any
+  ranking system ultimately reads.
+- **Your activity.** This one is genuinely contested. Some of Happn's
+  own material says matches are based on the other person's location
+  rather than their activity; other descriptions say app activity feeds
+  into what you're shown. Treat it as unsettled.
+
+That last bullet is worth sitting with, because it's the honest state
+of the evidence. Mozilla's review of the app noted it couldn't confirm
+Happn's claims about AI-driven matching either. A lot of what circulates
+as fact about the happn algorithm is marketing copy that got repeated
+until it sounded like documentation.
+
+## What Happn has never confirmed
+
+Useful to know what isn't established, so you stop optimising for
+ghosts:
+
+- There's no published desirability score, no tier system, and no
+  public evidence of one.
+- There's no confirmed penalty for liking too many people, and no
+  confirmed reward for being selective. People assume Happn works like
+  [Tinder's ranking](/blog/tinder-algorithm) here. It might. Nobody
+  outside the company knows.
+- Deleting and reinstalling isn't a documented reset. It mostly costs
+  you your Crushes and your chat history.
+
+Paid tiers exist and they buy you reach and extra likes rather than a
+different algorithm. Same logic as [Tinder Boost](/blog/tinder-boost):
+you're multiplying however well your profile already converts, so it's
+money well spent only after the profile works.
+
+## Why you have no Crushes
+
+Work through it in order, because the order saves you effort.
+
+First, volume. If your timeline shows a handful of new people a day,
+the problem is geography and permissions, not aesthetics. No photo
+fixes a pool of twelve.
+
+Second, conversion. If plenty of people are crossing your path and
+nothing comes back, your profile is the bottleneck — and this is the
+same failure mode as [getting no matches on
+Tinder](/blog/why-am-i-not-getting-matches-on-tinder). The fix
+transfers across apps because the judgement being made is identical:
+someone looks at your first photo for a second and decides.
+
+Third, the app itself. Happn is much smaller than the big swipe apps in
+most cities, and in a small town the honest answer is that there aren't
+enough members for the mechanic to work. That's worth checking against
+[what other dating apps are good at](/blog/popular-dating-apps) before
+you spend another month on it.
+
+## What actually moves your numbers
+
+The controllable half is the profile, and it's the same short list
+everywhere.
+
+Your first photo does most of the work.
+[A clear, well-lit shot of your face](/blog/profile-pictures), no
+sunglasses, no group, no cap pulled low. Every app shows that image
+first and most people decide on it alone. If you change one thing this
+week, change that.
+
+After that, fill the profile out properly.
+[A bio that gives someone something to react to](/blog/dating-profile-bio)
+beats a list of adjectives, and an empty profile reads as a low-effort
+account regardless of what the ranking does.
+
+Then be consistent about where you are. Happn rewards being out in the
+world in a way other apps don't — the same walk to work every day
+builds a bigger crossing history than an app session on the sofa. It's
+the one case where "just use the app more" is genuinely bad advice and
+"leave the house" is the real lever.
+
+## The short version
+
+The happn algorithm filters by where you've physically been, then
+shows you a mix of real and predicted crossings, then ranks what's left
+by preferences and profile quality. Much of the detail is unpublished,
+and people fill that gap with confident nonsense.
+
+Which leaves two things that are definitely yours to control: how much
+ground you cover with location switched on, and whether your first
+photo and bio are good enough to convert the people who do see you.
+Fix the second one and it pays off on every other app you use too.
